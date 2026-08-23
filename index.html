@@ -86,7 +86,7 @@
     <h2>LifeOS Guardian</h2>
     <div class="subtitle">₹100 से करोड़ों का सफर • नो भटकाव</div>
 
-    <!-- स्टेप 1: प्रोफाइल और गोल सेटअप -->
+    <!-- सेटअप प्रोफाइल -->
     <div class="section" id="setupSection">
         <h3 style="margin-top:0; font-size:16px; color:#f8fafc; font-weight:800;">🚀 नई शुरुआत (Setup Profile)</h3>
         <label>आपकी मुख्य स्किल (Skill):</label>
@@ -104,7 +104,7 @@
         <button onclick="lockSystem()">🔒 बिजनेस लॉक करें और मिशन शुरू करें</button>
     </div>
 
-    <!-- स्टेप 2: डैशबोर्ड -->
+    <!-- डैशबोर्ड -->
     <div class="section" id="dashboardSection" style="display: none;">
         <h3 style="margin-top:0; font-size:16px; color:#f8fafc; font-weight:800;">📊 फाइनेंशियल कमांड सेंटर</h3>
         
@@ -113,7 +113,7 @@
             <p>कुल कैपिटल: <span class="highlight-val">₹<span id="displayCapital">0</span></span></p>
             <p>टारगेट गोल: <span style="color: #f43f5e; font-weight: 800;">₹<span id="displayGoal">0</span></span></p>
             <p>वर्तमान दिन: <span id="displayDay" style="color: #38bdf8; font-weight: 800;">Day 1</span></p>
-            <p>एक्टिव मॉडल: <span id="displayModelStatus" style="color: #4ade80; font-weight: 800;">Grok-2 (Standard)</span></p>
+            <p>एक्टिव मॉडल: <span id="displayModelStatus" style="color: #4ade80; font-weight: 800;">Grok API Ready</span></p>
         </div>
 
         <!-- इनकम और एक्सपेंस पैनल -->
@@ -148,7 +148,7 @@
     <div class="modal-content">
         <h3 style="margin-top:0; font-weight:800; color:#38bdf8;">⚙️ Grok API Settings</h3>
         <label>अपनी Grok API Key दर्ज करें:</label>
-        <input type="password" id="grokApiKeyInput" placeholder="xai-...">
+        <input type="password" id="grokApiKeyInput" placeholder="API Key डालें...">
         <button onclick="saveGrokKey()">सेव और ऑटो-फेच करें</button>
         <button onclick="closeSettings()" style="background: #374151; margin-top: 10px;">बंद करें</button>
         <p id="settingsStatus" style="font-size: 13px; margin-top: 10px; font-weight: 700;"></p>
@@ -162,15 +162,16 @@
     function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
 
     function saveGrokKey() {
-        let key = document.getElementById('grokApiKeyInput').value;
+        let key = document.getElementById('grokApiKeyInput').value.trim();
         let status = document.getElementById('settingsStatus');
-        if(key.startsWith("xai-")) {
+        
+        if(key.length > 5) {
             appData.grokKey = key;
-            status.innerHTML = "✅ Grok API Key सेव! मॉडल ऑटो-फेच: <strong>grok-2</strong> सक्रिय।";
-            document.getElementById('displayModelStatus').innerText = "Grok-2 (API Connected)";
+            status.innerHTML = "✅ Grok API Key सफलतापूर्वक सेव! मॉडल ऑटो-फेच: <strong>Grok API</strong> सक्रिय।";
+            document.getElementById('displayModelStatus').innerText = "Grok API (Connected)";
             setTimeout(closeSettings, 1500);
         } else {
-            status.innerHTML = "❌ गलत की! 'xai-' से शुरू होने वाली Grok API Key डालें।";
+            status.innerHTML = "❌ कृपया वैध Grok API Key दर्ज करें!";
         }
     }
 
@@ -196,7 +197,6 @@
     }
 
     function addIncome() {
-        let source = document.getElementById('incomeSource').value;
         let amount = parseFloat(document.getElementById('incomeAmount').value) || 0;
         let msg = document.getElementById('incomeLogMsg');
         if(amount <= 0) return;
