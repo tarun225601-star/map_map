@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Business Hub | AI Co-Founder v3.0</title>
+    <title>Indian Business Hub | AI Co-Founder v4.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -38,6 +38,7 @@
             align-items: center;
             height: 50px;
             flex-shrink: 0;
+            z-index: 10;
         }
         h2 { color: #38bdf8; margin: 0; font-weight: 800; font-size: 14px; }
         .subtitle { font-size: 9px; color: #94a3b8; font-weight: 700; }
@@ -63,97 +64,77 @@
             border-radius: 6px;
         }
 
-        /* Navigation Tabs */
-        .nav-tabs {
-            display: flex;
-            background: #090d16;
-            border-bottom: 1px solid #1e293b;
-            height: 40px;
-            flex-shrink: 0;
-        }
-        .tab-btn {
-            flex: 1;
-            padding: 10px;
-            background: none;
-            border: none;
-            color: #64748b;
-            font-weight: 800;
-            font-size: 11px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .tab-btn.active {
-            color: #38bdf8;
-            border-bottom: 2px solid #38bdf8;
-            background: rgba(56, 189, 248, 0.05);
-        }
-
-        /* Content Panes */
-        .pane {
+        /* Main Workspace: Split View (Top Dashboard, Bottom Chat) */
+        .workspace {
             position: absolute;
-            top: 90px;
+            top: 50px;
             bottom: 0;
             left: 0;
             right: 0;
-            padding: 12px;
-            display: none;
-            background: #0b0f19;
-            overflow-y: auto;
-        }
-        .pane.active { display: block; }
-
-        /* Package Cards */
-        .biz-card {
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 10px;
-            padding: 10px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            margin-bottom: 8px;
+            background: #0b0f19;
         }
-        .biz-title { font-size: 12px; font-weight: 800; color: #f8fafc; display: flex; justify-content: space-between; align-items: center; }
-        .biz-meta { font-size: 10px; color: #94a3b8; font-weight: 700; display: flex; gap: 10px; }
-        .biz-desc { font-size: 10px; color: #cbd5e1; line-height: 1.3; }
-        .unlock-btn {
-            background: #0284c7;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 6px;
-            font-weight: 800;
-            font-size: 10px;
-            cursor: pointer;
-            align-self: flex-start;
-        }
-        .unlock-btn.unlocked { background: #16a34a; }
 
-        /* Chat Pane Specific Layout */
-        #pane-chat {
-            display: none;
-            flex-direction: column;
-            padding: 0;
+        /* Top Section: Business List (Collapsible / Compact) */
+        .dashboard-section {
+            height: 150px;
+            border-bottom: 1px solid #1e293b;
+            padding: 8px 10px;
+            overflow-y: auto;
+            flex-shrink: 0;
+            background: #0f172a;
         }
-        #pane-chat.active { display: flex; }
+        .section-title { font-size: 10px; color: #38bdf8; font-weight: 800; margin-bottom: 6px; text-transform: uppercase; }
+        
+        .biz-chips {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+        .biz-chip {
+            background: #111827;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 6px 10px;
+            min-width: 130px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .biz-chip.active {
+            border-color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+        }
+        .biz-chip-name { font-size: 11px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .biz-chip-cap { font-size: 9px; color: #94a3b8; font-weight: 700; margin-top: 2px; }
+
+        /* Bottom Section: Dedicated Chat Box (Gemini Style) */
+        .chat-section {
+            flex: 1;
+            position: relative;
+            background: #0b0f19;
+            display: flex;
+            flex-direction: column;
+        }
 
         .chat-box { 
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
-            bottom: 65px; /* इनपुट बॉक्स के लिए जगह छोड़ी */
+            bottom: 60px;
             overflow-y: auto; 
-            padding: 12px;
+            padding: 10px;
             display: flex; 
             flex-direction: column; 
-            gap: 10px; 
+            gap: 8px; 
         }
-        .message { max-width: 88%; padding: 10px 12px; border-radius: 10px; font-size: 12px; font-weight: 700; line-height: 1.4; word-break: break-word; }
+        .message { max-width: 88%; padding: 9px 11px; border-radius: 10px; font-size: 11px; font-weight: 700; line-height: 1.4; word-break: break-word; }
         .user-msg { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
         .bot-msg { background: #1f2937; color: #f1f5f9; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #374151; }
 
-        /* 100% Fixed Bottom Input Box */
+        /* Fixed Bottom Input Bar */
         .chat-input-wrapper {
             position: absolute;
             bottom: 0;
@@ -161,16 +142,16 @@
             right: 0;
             background: #0f172a;
             border-top: 1px solid #1e293b;
-            padding: 8px 10px;
+            padding: 6px 10px;
             display: flex;
             flex-direction: column;
             gap: 4px;
             z-index: 10;
         }
         #imagePreviewContainer { display: none; align-items: center; gap: 8px; background: #1e293b; padding: 4px 8px; border-radius: 6px; width: fit-content; }
-        #imagePreviewContainer img { width: 25px; height: 25px; object-fit: cover; border-radius: 4px; }
-        #imagePreviewContainer span { font-size: 10px; color: #38bdf8; font-weight: 700; }
-        .remove-img { background: none; border: none; color: #ef4444; font-weight: 800; cursor: pointer; font-size: 12px; }
+        #imagePreviewContainer img { width: 22px; height: 22px; object-fit: cover; border-radius: 4px; }
+        #imagePreviewContainer span { font-size: 9px; color: #38bdf8; font-weight: 700; }
+        .remove-img { background: none; border: none; color: #ef4444; font-weight: 800; cursor: pointer; font-size: 11px; }
 
         .chat-input-row {
             display: flex;
@@ -201,7 +182,7 @@
             border: none; 
             background: transparent; 
             color: #fff; 
-            font-size: 12px; 
+            font-size: 11px; 
             font-weight: 700; 
             outline: none;
         }
@@ -209,15 +190,15 @@
             background: #0284c7; 
             border: none; 
             color: white; 
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%; 
             font-weight: 800; 
             cursor: pointer; 
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 11px;
             flex-shrink: 0;
         }
 
@@ -238,8 +219,8 @@
 <div class="container">
     <div class="header">
         <div>
-            <h2>🇮🇳 Indian Business Hub <span style="font-size:10px; color:#38bdf8;">v3.0</span></h2>
-            <div class="subtitle">AI बिजनेस को-फाउंडर</div>
+            <h2>🇮🇳 Indian Business Hub <span style="font-size:10px; color:#38bdf8;">v4.0</span></h2>
+            <div class="subtitle">AI को-फाउंडर सिस्टम</div>
         </div>
         <div class="header-btns">
             <div class="token-badge" onclick="addTokens()" title="टोकन जोड़ों">🪙 <span id="tokenCount">20</span> Tokens</div>
@@ -247,37 +228,34 @@
         </div>
     </div>
 
-    <!-- Navigation Tabs -->
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('packages')">📦 बिजनेस पैकेज</button>
-        <button class="tab-btn" onclick="switchTab('chat')">💬 चैट को-फाउंडर</button>
-    </div>
+    <!-- Single Integrated Workspace -->
+    <div class="workspace">
+        <!-- Top Horizontal Business Selector -->
+        <div class="dashboard-section">
+            <div class="section-title">⚡ एक्टिव बिजनेस चुनें (क्लिक करें):</div>
+            <div class="biz-chips" id="bizChipsContainer"></div>
+        </div>
 
-    <!-- Pane 1: Package Dashboard -->
-    <div id="pane-packages" class="pane active">
-        <div style="font-size: 11px; color: #94a3b8; font-weight: 700; margin-bottom: 8px;">कोई भी बिजनेस सेलेक्ट करें, सीधे चैट में प्लान शुरू होगा:</div>
-        <div id="fullPackageDashboard" style="display: flex; flex-direction: column; gap: 8px;"></div>
-    </div>
-
-    <!-- Pane 2: Gemini Like Chat Box (Fixed & Absolute Bottom) -->
-    <div id="pane-chat" class="pane">
-        <div class="chat-box" id="chatBox"></div>
-        
-        <div class="chat-input-wrapper">
-            <div id="imagePreviewContainer">
-                <img id="previewImg" src="" alt="preview">
-                <span>फोटो जुड़ गई</span>
-                <button class="remove-img" onclick="removeImage()">×</button>
-            </div>
-            <div class="chat-input-row">
-                <button class="tool-icon-btn" onclick="document.getElementById('imageInput').click()" title="स्क्रीनशॉट या फोटो जोड़ें">📎</button>
-                <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
-                
-                <button class="tool-icon-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="बोलकर टाइप करें">🎙️</button>
-                
-                <input type="text" id="userInput" placeholder="भाई, धंधे की बात कर..." onkeypress="handleKeyPress(event)">
-                
-                <button class="send-btn" onclick="sendMessage()">➔</button>
+        <!-- Bottom Permanent Chat Interface -->
+        <div class="chat-section">
+            <div class="chat-box" id="chatBox"></div>
+            
+            <div class="chat-input-wrapper">
+                <div id="imagePreviewContainer">
+                    <img id="previewImg" src="" alt="preview">
+                    <span>फोटो जुड़ गई</span>
+                    <button class="remove-img" onclick="removeImage()">×</button>
+                </div>
+                <div class="chat-input-row">
+                    <button class="tool-icon-btn" onclick="document.getElementById('imageInput').click()" title="फोटो जोड़ें">📎</button>
+                    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                    
+                    <button class="tool-icon-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="बोलकर टाइप करें">🎙️</button>
+                    
+                    <input type="text" id="userInput" placeholder="भाई, धंधे की बात कर..." onkeypress="handleKeyPress(event)">
+                    
+                    <button class="send-btn" onclick="sendMessage()">➔</button>
+                </div>
             </div>
         </div>
     </div>
@@ -299,7 +277,7 @@
 </div>
 
 <script>
-    const APP_VERSION = "3.0_fixed_bottom";
+    const APP_VERSION = "4.0_single_screen_chat";
     if(localStorage.getItem('ib_hub_version') !== APP_VERSION) {
         localStorage.removeItem('indian_biz_hub_data');
         localStorage.setItem('ib_hub_version', APP_VERSION);
@@ -307,28 +285,28 @@
 
     const categories = ['फूड & रिटेल', 'ऑटोमोटिव केयर', 'डीप क्लीनिंग', 'मोबाइल ऐप', 'ई-कॉमर्स', 'केमिकल्स & मैन्युफैक्चरिंग', 'एग्री-टेक', 'डिजिटल एजेंसी'];
     const bizTemplates = [
-        {name: "फ्रूट स्टॉल एक्सप्रेस", cap: 11000, target: 10000000, cat: "फूड & रिटेल", desc: "फास्ट मूविंग फ्रूट्स और कट-फ्रूट सैलेड से डेली कैश फ्लो।"},
-        {name: "जेट Black पॉलिश फॉर्मूला", cap: 15000, target: 10000000, cat: "केमिकल्स & मैन्युफैक्चरिंग", desc: "गाड़ियों के टायर और डैशबोर्ड पॉलिश की खुद की मैन्युफैक्चरिंग।"},
-        {name: "Elight डीप क्लीनिंग वेंचर", cap: 20000, target: 10000000, cat: "डीप क्लीनिंग", desc: "सोफा और घर की प्रोफेशनल डीप क्लीनिंग सर्विस।"},
-        {name: "CyberGuard Pro ऐप", cap: 10000, target: 10000000, cat: "मोबाइल ऐप", desc: "फ्रॉड लिंक और मैसेज डिटेक्ट करने वाला मोबाइल सिक्योरिटी ऐप।"}
+        {name: "फ्रूट स्टॉल एक्सप्रेस", cap: 11000, target: 10000000, cat: "फूड & रिटेल", desc: "फास्ट मूविंग फ्रूट्स और कट-फ्रूट सैलेड।"},
+        {name: "जेट Black पॉलिश", cap: 15000, target: 10000000, cat: "केमिकल्स", desc: "टायर और डैशबोर्ड पॉलिश मैन्युफैक्चरिंग।"},
+        {name: "Elight डीप क्लीनिंग", cap: 20000, target: 10000000, cat: "डीप क्लीनिंग", desc: "प्रोफेशनल सोफा और होम क्लीनिंग।"},
+        {name: "CyberGuard Pro", cap: 10000, target: 10000000, cat: "मोबाइल ऐप", desc: "फ्रॉड लिंक और मैसेज डिटेक्टर ऐप।"}
     ];
 
     let allBusinesses = [...bizTemplates];
-    for(let i = 5; i <= 50; i++) {
+    for(let i = 5; i <= 30; i++) {
         let cat = categories[i % categories.length];
         allBusinesses.push({
-            name: `स्मार्ट वेंचर मॉडल #${i}`,
-            cap: 10000 + (i * 400),
+            name: `स्मार्ट वेंचर #${i}`,
+            cap: 10000 + (i * 500),
             target: 10000000,
             cat: cat,
-            desc: `${cat} सेक्टर का हाई-प्रॉफिटेबल ऑटोमेटेड बिजनेस ब्लूप्रिंट।`
+            desc: `${cat} सेक्टर का ऑटोमेटेड बिजनेस मॉडल।`
         });
     }
 
     let db = JSON.parse(localStorage.getItem('indian_biz_hub_data')) || {
         grokKey: "",
         tokens: 20,
-        unlocked: [0, 1],
+        unlocked: [0, 1, 2, 3],
         activeBizIndex: 0,
         autoModel: "openai/gpt-oss-120b"
     };
@@ -337,55 +315,38 @@
 
     window.onload = function() {
         document.getElementById('tokenCount').innerText = db.tokens;
-        renderDashboard();
+        renderBizChips();
         let activeB = allBusinesses[db.activeBizIndex];
-        appendMessage(`💪 राम-राम भाई! '${activeB.name}' (कैपिटल: ₹${activeB.cap.toLocaleString()}) सेट है। बता, आगे क्या प्लान है?`, 'bot-msg');
+        appendMessage(`💪 राम-राम भाई! '${activeB.name}' (कैपिटल: ₹${activeB.cap.toLocaleString()}) एक्टिव है। बता, आगे क्या प्लान है?`, 'bot-msg');
         
         if(db.grokKey) {
             fetchBestModel(db.grokKey);
         }
     };
 
-    function switchTab(tab) {
-        document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        if(tab === 'packages') {
-            document.getElementById('pane-packages').classList.add('active');
-            document.querySelectorAll('.tab-btn')[0].classList.add('active');
-        } else {
-            document.getElementById('pane-chat').classList.add('active');
-            document.querySelectorAll('.tab-btn')[1].classList.add('active');
-            let chatBox = document.getElementById('chatBox');
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
-    }
-
-    function renderDashboard() {
-        let fullDash = document.getElementById('fullPackageDashboard');
-        fullDash.innerHTML = '';
+    function renderBizChips() {
+        let container = document.getElementById('bizChipsContainer');
+        container.innerHTML = '';
 
         allBusinesses.forEach((b, idx) => {
-            let isUnlocked = db.unlocked.includes(idx);
             let isActive = db.activeBizIndex === idx;
-
-            let cardHTML = `
-                <div class="biz-card" style="border-color: ${isActive ? '#38bdf8' : '#1f2937'}">
-                    <div class="biz-title">
-                        <span>${idx + 1}. ${b.name} ${isActive ? '⭐ [एक्टिव]' : ''}</span>
-                        <span style="font-size: 9px; color: #38bdf8; background: rgba(56,189,248,0.1); padding: 2px 5px; border-radius: 4px;">${b.cat}</span>
-                    </div>
-                    <div class="biz-meta">
-                        <span>कैपिटल: ₹${b.cap.toLocaleString()}</span>
-                        <span>टार्गेट: ₹1 Crore</span>
-                    </div>
-                    <div class="biz-desc">${b.desc}</div>
-                    <button class="unlock-btn ${isUnlocked ? 'unlocked' : ''}" onclick="selectAndSwitchToChat(${idx})">
-                        ${isUnlocked ? (isActive ? '🟢 चैट में एक्टिव है' : '👉 सेलेक्ट करके चैट पर जाएं') : '🪙 1 टोकन देकर खरीदें'}
-                    </button>
+            let chipHTML = `
+                <div class="biz-chip ${isActive ? 'active' : ''}" onclick="switchActiveBiz(${idx})">
+                    <div class="biz-chip-name">${idx + 1}. ${b.name}</div>
+                    <div class="biz-chip-cap">₹${b.cap.toLocaleString()} | ${b.cat}</div>
                 </div>
             `;
-            fullDash.innerHTML += cardHTML;
+            container.innerHTML += chipHTML;
         });
+    }
+
+    function switchActiveBiz(idx) {
+        db.activeBizIndex = idx;
+        localStorage.setItem('indian_biz_hub_data', JSON.stringify(db));
+        renderBizChips();
+
+        let b = allBusinesses[idx];
+        appendMessage(`⚡ बिजनेस बदलकर '${b.name}' कर दिया है। अब इसी पर बात होगी!`, 'bot-msg');
     }
 
     function addTokens() {
@@ -393,27 +354,6 @@
         localStorage.setItem('indian_biz_hub_data', JSON.stringify(db));
         document.getElementById('tokenCount').innerText = db.tokens;
         alert("🎉 5 फ्री टोकन्स आपके वॉलेट में जुड़ गए!");
-    }
-
-    function selectAndSwitchToChat(idx) {
-        let b = allBusinesses[idx];
-        if(!db.unlocked.includes(idx)) {
-            if(db.tokens >= 1) {
-                db.tokens -= 1;
-                db.unlocked.push(idx);
-            } else {
-                alert("❌ टोकन खत्म हो गए हैं! ऊपर 🪙 टोकन बटन से फ्री टोकन लें।");
-                return;
-            }
-        }
-        
-        db.activeBizIndex = idx;
-        localStorage.setItem('indian_biz_hub_data', JSON.stringify(db));
-        renderDashboard();
-
-        switchTab('chat');
-        appendMessage(`भाई, हमने '${b.name}' (कैपिटल: ₹${b.cap.toLocaleString()}) पैकेज चुन लिया है। अब इसी का मास्टर प्लान बना!`, 'user-msg');
-        triggerAIResponse(`भाई, हमने सिर्फ '${b.name}' (कैपिटल: ₹${b.cap.toLocaleString()}) बिजनेस सेलेक्ट किया है। इसके ₹1 करोड़ के टारगेट को पाने के लिए पहले हफ्ते की फुल-प्रूफ स्ट्रैटेजी बता।`);
     }
 
     function handleImageUpload(event) {
@@ -437,7 +377,7 @@
     function toggleSpeechRecognition() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if(!SpeechRecognition) {
-            alert("⚠️ आपका ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता है।");
+            alert("⚠️ ब्राउज़र वॉइस सपोर्ट नहीं करता।");
             return;
         }
         let recognition = new SpeechRecognition();
@@ -474,10 +414,10 @@
         let success = await fetchBestModel(key);
         if(success) {
             localStorage.setItem('indian_biz_hub_data', JSON.stringify(db));
-            alert("✅ API Key सेव हो गई और नया मॉडल लॉक हो गया!");
+            alert("✅ API Key सेव हो गई!");
             closeSettings();
         } else {
-            alert("❌ API Key गलत है या नेटवर्क में दिक्कत है।");
+            alert("❌ API Key गलत है।");
         }
     }
 
@@ -492,13 +432,10 @@
                 let chatModels = data.data.filter(m => 
                     m.active !== false &&
                     (m.id.includes('gpt-oss') || m.id.includes('qwen') || m.id.includes('llama')) &&
-                    !m.id.includes('guard') && !m.id.includes('embed') && !m.id.includes('whisper')
+                    !m.id.includes('guard') && !m.id.includes('embed')
                 );
-
                 if(chatModels.length > 0) {
-                    let selected = chatModels.find(m => m.id.includes('gpt-oss-120b')) || 
-                                   chatModels.find(m => m.id.includes('gpt-oss-20b')) || 
-                                   chatModels[0];
+                    let selected = chatModels.find(m => m.id.includes('gpt-oss-120b')) || chatModels[0];
                     db.autoModel = selected.id;
                 } else {
                     db.autoModel = "openai/gpt-oss-120b";
@@ -506,9 +443,7 @@
                 localStorage.setItem('indian_biz_hub_data', JSON.stringify(db));
                 return true;
             }
-        } catch(e) {
-            console.error(e);
-        }
+        } catch(e) { console.error(e); }
         if(!db.autoModel) db.autoModel = "openai/gpt-oss-120b";
         return true;
     }
@@ -571,7 +506,7 @@
                 body: JSON.stringify({
                     model: db.autoModel || "openai/gpt-oss-120b",
                     messages: [
-                        { role: "system", content: `तू 'Indian Business Hub' ऐप का खूंखार और शार्प बिजनेस को-फाउंडर है। यूजर ने केवल और केवल यह एक्टिव बिजनेस चुना है: '${b.name}', कैपिटल: ₹${b.cap} और टारगेट: ₹1 Crore. तुझे सिर्फ इसी बिजनेस के बारे में सटीक, सॉलिड और टू-द-पॉइंट सलाह देनी है। किसी दूसरे बिजनेस का जिक्र मत कर। हमेशा 'हम' बोलकर हिंग्लिश में बात कर।` },
+                        { role: "system", content: `तू 'Indian Business Hub' ऐप का शार्प बिजनेस को-फाउंडर है। यूजर का एक्टिव बिजनेस है: '${b.name}', कैपिटल: ₹${b.cap} और टारगेट: ₹1 Crore. सिर्फ इसी बिजनेस पर फोकस कर। हमेशा 'हम' बोलकर हिंग्लिश में बात कर।` },
                         { role: "user", content: query }
                     ],
                     temperature: 0.7
@@ -586,12 +521,11 @@
                 appendMessage(reply.replace(/\n/g, '<br>'), 'bot-msg');
             } else {
                 let errorMsg = data.error ? data.error.message : "अनजान एरर";
-                db.autoModel = "openai/gpt-oss-120b";
-                appendMessage(`⚠️ API एरर: ${errorMsg}. मॉडल को रीसेट कर दिया है, दोबारा भेजें।`, 'bot-msg');
+                appendMessage(`⚠️ API एरर: ${errorMsg}`, 'bot-msg');
             }
         } catch(e) {
             if(document.getElementById('loadingMsg')) chatBox.removeChild(document.getElementById('loadingMsg'));
-            appendMessage("⚠️ कनेक्शन फेल हो गया। इंटरनेट या API Key की जांच करें।", 'bot-msg');
+            appendMessage("⚠️ कनेक्शन फेल हो गया।", 'bot-msg');
         }
     }
 </script>
