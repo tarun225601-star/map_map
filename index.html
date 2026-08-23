@@ -113,6 +113,7 @@
             <p>कुल कैपिटल: <span class="highlight-val">₹<span id="displayCapital">0</span></span></p>
             <p>टारगेट गोल: <span style="color: #f43f5e; font-weight: 800;">₹<span id="displayGoal">0</span></span></p>
             <p>वर्तमान दिन: <span id="displayDay" style="color: #38bdf8; font-weight: 800;">Day 1</span></p>
+            <p>एक्टिव मॉडल: <span id="displayModelStatus" style="color: #4ade80; font-weight: 800;">Grok-2 (Standard)</span></p>
         </div>
 
         <!-- इनकम और एक्सपेंस पैनल -->
@@ -162,12 +163,14 @@
 
     function saveGrokKey() {
         let key = document.getElementById('grokApiKeyInput').value;
+        let status = document.getElementById('settingsStatus');
         if(key.startsWith("xai-")) {
             appData.grokKey = key;
-            document.getElementById('settingsStatusinnerHTML = "✅ Grok API Key सेव! मॉडल ऑटो-फेच: <strong>grok-2</strong> सक्रिय।";
+            status.innerHTML = "✅ Grok API Key सेव! मॉडल ऑटो-फेच: <strong>grok-2</strong> सक्रिय।";
+            document.getElementById('displayModelStatus').innerText = "Grok-2 (API Connected)";
             setTimeout(closeSettings, 1500);
         } else {
-            document.getElementById('settingsStatus').innerHTML = "❌ गलत की! 'xai-' से शुरू होने वाली Grok API Key डालें।";
+            status.innerHTML = "❌ गलत की! 'xai-' से शुरू होने वाली Grok API Key डालें।";
         }
     }
 
@@ -224,7 +227,7 @@
         let planHtml = "";
         document.getElementById('displayDay').innerText = `Day ${appData.currentDay}`;
         if (appData.currentDay === 1) {
-            planHtml = `🚀 <strong>Day 1 (नींव और मार्केट रिसर्च):</strong><br>अपने लॉक किए गए बिजनेस <em>'${appData.business}'</em> के लिए लोकल मार्केट की डिमांड चेक कर। एक भी रुपया फालतू खर्च मत कर!`;
+            planHtml = `🚀 <strong>Day 1 (नींव और मार्केट रिसर्च):</strong><br>अपने लॉक किए गए बिजनेस <em>'${appData.business}'</em> के लिए लोकल मार्केट डिमांड चेक कर। एक भी रुपया फालतू खर्च मत कर!`;
         } else if (appData.currentDay === 2) {
             planHtml = `🎯 <strong>Day 2 (सैम्पलिंग और रीच):</strong><br>अपने पहले संभावित ग्राहकों से मिल और उन्हें सैंपल दिखा।`;
         } else {
