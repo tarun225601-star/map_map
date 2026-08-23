@@ -3,29 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Business Hub | AI Co-Founder v5.0</title>
+    <title>Indian Business Hub | AI Co-Founder v6.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
-        body { 
+        html, body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background: #060913; 
             color: #f1f5f9; 
             margin: 0; 
             padding: 0; 
-            height: 100vh;
+            height: 100%;
             overflow: hidden;
         }
         .container { 
             width: 100%; 
             max-width: 480px; 
-            height: 100vh;
+            height: 100%;
             background: #0f172a; 
             display: flex;
             flex-direction: column;
             margin: 0 auto;
-            position: relative;
-            overflow: hidden;
             border-left: 1px solid #1e293b;
             border-right: 1px solid #1e293b;
         }
@@ -38,7 +36,6 @@
             align-items: center;
             height: 50px;
             flex-shrink: 0;
-            z-index: 10;
         }
         h2 { color: #38bdf8; margin: 0; font-weight: 800; font-size: 14px; }
         .subtitle { font-size: 9px; color: #94a3b8; font-weight: 700; }
@@ -64,29 +61,26 @@
             border-radius: 6px;
         }
 
-        /* Workspace Layout */
+        /* Main Workspace using Pure Flexbox (No absolute hiding) */
         .workspace {
-            position: absolute;
-            top: 50px;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            flex: 1;
             display: flex;
             flex-direction: column;
             background: #0b0f19;
+            overflow: hidden;
+            position: relative;
         }
 
         /* Top Business Selector Chips */
         .dashboard-section {
-            height: 75px;
+            padding: 8px 10px;
             border-bottom: 1px solid #1e293b;
-            padding: 6px 10px;
-            overflow-x: auto;
-            flex-shrink: 0;
             background: #0f172a;
             display: flex;
-            align-items: center;
             gap: 6px;
+            overflow-x: auto;
+            flex-shrink: 0;
+            white-space: nowrap;
         }
         .biz-chip {
             background: #111827;
@@ -94,35 +88,20 @@
             border-radius: 8px;
             padding: 6px 10px;
             min-width: 120px;
-            height: 55px;
             flex-shrink: 0;
             cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            display: inline-block;
         }
         .biz-chip.active {
             border-color: #38bdf8;
             background: rgba(56, 189, 248, 0.15);
         }
-        .biz-chip-name { font-size: 11px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .biz-chip-name { font-size: 11px; font-weight: 800; color: #fff; }
         .biz-chip-cap { font-size: 9px; color: #38bdf8; font-weight: 700; margin-top: 2px; }
 
-        /* Permanent Chat Box Section */
-        .chat-section {
-            flex: 1;
-            position: relative;
-            background: #0b0f19;
-            display: flex;
-            flex-direction: column;
-        }
-
+        /* Chat Messages Container */
         .chat-box { 
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 60px;
+            flex: 1;
             overflow-y: auto; 
             padding: 12px;
             display: flex; 
@@ -133,19 +112,15 @@
         .user-msg { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
         .bot-msg { background: #1f2937; color: #f1f5f9; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #374151; }
 
-        /* Fixed Bottom Input Bar */
+        /* Fixed Bottom Input Bar inside Flex */
         .chat-input-wrapper {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
             background: #0f172a;
             border-top: 1px solid #1e293b;
-            padding: 6px 10px;
+            padding: 8px 10px;
             display: flex;
             flex-direction: column;
             gap: 4px;
-            z-index: 10;
+            flex-shrink: 0;
         }
         #imagePreviewContainer { display: none; align-items: center; gap: 8px; background: #1e293b; padding: 4px 8px; border-radius: 6px; width: fit-content; }
         #imagePreviewContainer img { width: 22px; height: 22px; object-fit: cover; border-radius: 4px; }
@@ -218,7 +193,7 @@
 <div class="container">
     <div class="header">
         <div>
-            <h2>🇮🇳 Indian Business Hub <span style="font-size:10px; color:#38bdf8;">v5.0</span></h2>
+            <h2>🇮🇳 Indian Business Hub <span style="font-size:10px; color:#38bdf8;">v6.0</span></h2>
             <div class="subtitle">AI को-फाउंडर चैट सिस्टम</div>
         </div>
         <div class="header-btns">
@@ -231,26 +206,25 @@
         <!-- Top Horizontal Scrolling Business Bar -->
         <div class="dashboard-section" id="bizChipsContainer"></div>
 
-        <!-- Bottom Permanent Chat UI -->
-        <div class="chat-section">
-            <div class="chat-box" id="chatBox"></div>
-            
-            <div class="chat-input-wrapper">
-                <div id="imagePreviewContainer">
-                    <img id="previewImg" src="" alt="preview">
-                    <span>फोटो जुड़ गई</span>
-                    <button class="remove-img" onclick="removeImage()">×</button>
-                </div>
-                <div class="chat-input-row">
-                    <button class="tool-icon-btn" onclick="document.getElementById('imageInput').click()" title="फोटो जोड़ें">📎</button>
-                    <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
-                    
-                    <button class="tool-icon-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="बोलकर टाइप करें">🎙️</button>
-                    
-                    <input type="text" id="userInput" placeholder="भाई, धंधे की बात कर..." onkeypress="handleKeyPress(event)">
-                    
-                    <button class="send-btn" onclick="sendMessage()">➔</button>
-                </div>
+        <!-- Chat Messages Box -->
+        <div class="chat-box" id="chatBox"></div>
+        
+        <!-- Permanent Bottom Input Bar -->
+        <div class="chat-input-wrapper">
+            <div id="imagePreviewContainer">
+                <img id="previewImg" src="" alt="preview">
+                <span>फोटो जुड़ गई</span>
+                <button class="remove-img" onclick="removeImage()">×</button>
+            </div>
+            <div class="chat-input-row">
+                <button class="tool-icon-btn" onclick="document.getElementById('imageInput').click()" title="फोटो जोड़ें">📎</button>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                
+                <button class="tool-icon-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="बोलकर टाइप करें">🎙️</button>
+                
+                <input type="text" id="userInput" placeholder="भाई, धंधे की बात कर..." onkeypress="handleKeyPress(event)">
+                
+                <button class="send-btn" onclick="sendMessage()">➔</button>
             </div>
         </div>
     </div>
@@ -272,8 +246,7 @@
 </div>
 
 <script>
-    // Force Cache Clean on Version Change
-    const APP_VERSION = "5.0_fresh_chat_ui";
+    const APP_VERSION = "6.0_fixed_flex_chat";
     if(localStorage.getItem('ib_hub_version') !== APP_VERSION) {
         localStorage.clear();
         localStorage.setItem('ib_hub_version', APP_VERSION);
@@ -281,10 +254,10 @@
 
     const categories = ['फूड & रिटेल', 'ऑटोमोटिव केयर', 'डीप क्लीनिंग', 'मोबाइल ऐप', 'ई-कॉमर्स', 'केमिकल्स & मैन्युफैक्चरिंग', 'एग्री-टेक', 'डिजिटल एजेंसी'];
     const bizTemplates = [
-        {name: "फ्रूट स्टॉल एक्सप्रेस", cap: 11000, target: 10000000, cat: "फूड & रिटेल", desc: "फास्ट मूविंग फ्रूट्स और कट-फ्रूट सैलेड।"},
-        {name: "जेट Black पॉलिश", cap: 15000, target: 10000000, cat: "केमिकल्स", desc: "टायर और डैशबोर्ड पॉलिश मैन्युफैक्चरिंग।"},
-        {name: "Elight डीप क्लीनिंग", cap: 20000, target: 10000000, cat: "डीप क्लीनिंग", desc: "प्रोफेशनल सोफा और होम क्लीनिंग।"},
-        {name: "CyberGuard Pro", cap: 10000, target: 10000000, cat: "मोबाइल ऐप", desc: "फ्रॉड लिंक और मैसेज डिटेक्टर ऐप।"}
+        {name: "फ्रूट स्टॉल एक्सप्रेस", cap: 11000, target: 10000000, cat: "फूड & रिटेल"},
+        {name: "जेट Black पॉलिश", cap: 15000, target: 10000000, cat: "केमिकल्स"},
+        {name: "Elight डीप क्लीनिंग", cap: 20000, target: 10000000, cat: "डीप क्लीनिंग"},
+        {name: "CyberGuard Pro", cap: 10000, target: 10000000, cat: "मोबाइल ऐप"}
     ];
 
     let allBusinesses = [...bizTemplates];
@@ -294,8 +267,7 @@
             name: `स्मार्ट वेंचर #${i}`,
             cap: 10000 + (i * 500),
             target: 10000000,
-            cat: cat,
-            desc: `${cat} सेक्टर का ऑटोमेटेड बिजनेस मॉडल।`
+            cat: cat
         });
     }
 
