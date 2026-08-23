@@ -368,7 +368,7 @@
         }
     }
 
-    // 100% असली ऑटो-फेच: सीधे Groq से पूछेगा कि इस समय कौन सा मॉडल जिंदा और चालू है
+    // ऑटो-फेच: सही एक्टिव मॉडल ढूंढने के लिए
     async function getActiveGroqModel(apiKey) {
         try {
             let res = await fetch("https://api.groq.com/openai/v1/models", {
@@ -377,7 +377,6 @@
             });
             let data = await res.json();
             if(data && data.data && data.data.length > 0) {
-                // सिर्फ उन्हीं मॉडल को उठाएगा जो चैटिंग के लिए बने हैं और एक्टिव हैं
                 let validModels = data.data.filter(m => {
                     let id = m.id.toLowerCase();
                     return (id.includes('llama') || id.includes('mixtral') || id.includes('gemma') || id.includes('qwen') || id.includes('deepseek')) && 
@@ -389,14 +388,13 @@
                 });
 
                 if(validModels.length > 0) {
-                    console.log("Auto-detected active model:", validModels[0].id);
-                    return validModels[0].id; // जो सबसे ऊपर एक्टिव मॉडल मिलेगा, वो चुन लेगा
+                    return validModels[0].id;
                 }
             }
         } catch(e) {
-            console.warn("Auto-fetch model failed, using default fallback");
+            console.warn("Auto-fetch failed, using fallback");
         }
-        return "llama-3.3-70b-versatile"; // सबसे भरोसेमंद और स्टैंडर्ड बैकअप
+        return "llama-3.3-70b-versatile";
     }
 
     async function fetchAutoModelResponse(userQuery) {
@@ -406,9 +404,10 @@
         हमारा बिजनेस है: '${db.bizName}', हमारी कैपिटल है: ₹${db.capital} और हमारा सबसे बड़ा और मुख्य टारगेट है: ₹${db.goal} कमाना।
         
         महत्वपूर्ण नियम: 
-        1. तू कभी भी कोई रटा-रटाया या डमी जवाब नहीं देगा। हर बार यूजर के सवाल के हिसाब से एकदम नया, प्रैक्टिकल और दमदार जवाब सोचकर देगा।
-        2. तू हर जवाब में इस बात का खास ध्यान रखेगा और जिक्र करेगा कि हमें अपने ₹${db.goal} के टारगेट को कैसे भी करके हासिल करना है। 
-        3. हमेशा 'हम', 'हमारा बिजनेस' और 'हमारा टारगेट' बोलकर बात कर, जैसे दो पक्के भाई मिलकर धंधा संभाल रहे हों।`;
+        1. तू अपने मन में या स्टेप-बाय-स्टेप सोचकर अपनी अंग्रेजी वाली 'Thinking Process' कभी भी फाइनल जवाब में प्रिंट नहीं करेगा। यूजर को सिर्फ और सिर्फ सीधी हिंदी/हिंग्लिश की बातचीत दिखनी चाहिए।
+        2. तू कभी भी कोई रटा-रटाया या डमी जवाब नहीं देगा। हर बार यूजर के सवाल के हिसाब से एकदम नया, प्रैक्टिकल और दमदार जवाब सोचकर देगा।
+        3. तू हर जवाब में इस बात का खास ध्यान रखेगा और जिक्र करेगा कि हमें अपने ₹${db.goal} के टारगेट को कैसे भी करके हासिल करना है। 
+        4. हमेशा 'हम', 'हमारा बिजनेस' और 'हमारा टारगेट' बोलकर बात कर, जैसे दो पक्के भाई मिलकर धंधा संभाल रहे हों।`;
 
         let res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
@@ -428,7 +427,13 @@
 
         let data = await res.json();
         if(res.ok && data.choices && data.choices.length > 0) {
-            return data.choices[0].message.content.replace(/\n/g, '<br>');
+            let rawContent = data.choices[0].message.content;
+
+            // फिक्स: अगर मॉडल ने <think> टैग या थिंकिंग प्रोसेस दी है, तो उसे पूरी तरह से साफ कर देगा
+            let cleanContent = rawContent.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            // अगर इसके अलावा भी कोई अंग्रेजी थिंकिंग ब्लॉक आ जाए तो उसे हटाने के लिए पहला हिंदी पैराग्राफ या पूरा साफ टेक्स्ट उठाएंगे
+            
+            return cleanContent.replace(/\n/g, '<br>');
         } else {
             throw new Error(data.error ? data.error.message : "API connection failed");
         }
