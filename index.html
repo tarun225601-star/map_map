@@ -3,42 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Faridabad Gaming Map - Free Fire Style</title>
+    <title>3D Faridabad Game - Town Park Special</title>
     
-    <!-- Mapbox GL JS CSS -->
-    <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet" />
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
     <style>
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; }
         #map { width: 100vw; height: 100vh; background: #111; }
 
-        /* गेमिंग स्टाइल सर्च और कंट्रोल बॉक्स */
-        .game-ui {
+        /* गेमिंग HUD */
+        .game-hud {
             position: absolute;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 10;
+            z-index: 1000;
             background: rgba(0, 0, 0, 0.85);
-            padding: 12px 20px;
+            padding: 10px 18px;
             border-radius: 30px;
-            box-shadow: 0 10px 30px rgba(0,255,255,0.3);
+            box-shadow: 0 0 20px rgba(0,255,255,0.4);
             display: flex;
-            gap: 12px;
+            gap: 10px;
             border: 2px solid #00ffcc;
         }
-        .game-ui input {
-            padding: 8px 14px;
-            width: 220px;
-            background: #222;
+        .game-hud input {
+            padding: 8px 12px;
+            width: 200px;
+            background: #111;
             color: #fff;
             border: 1px solid #444;
             border-radius: 20px;
             outline: none;
             font-size: 14px;
         }
-        .game-ui button {
-            padding: 8px 18px;
+        .game-hud button {
+            padding: 8px 16px;
             background: #00ffcc;
             color: #000;
             border: none;
@@ -46,118 +46,124 @@
             cursor: pointer;
             font-weight: bold;
             font-size: 14px;
-            box-shadow: 0 0 10px rgba(0,255,255,0.5);
         }
-        .game-ui button:hover {
-            background: #fff;
+        
+        /* स्पीडोमीटर */
+        .speedometer {
+            position: absolute;
+            bottom: 40px;
+            right: 20px;
+            background: rgba(0,0,0,0.85);
+            color: #00ffcc;
+            padding: 10px 18px;
+            border-radius: 15px;
+            border: 2px solid #00ffcc;
+            font-weight: bold;
+            font-size: 16px;
+            z-index: 1000;
+        }
+
+        /* टाउन पार्क स्पेशल नेमप्लेट */
+        .park-label {
+            background: rgba(0, 128, 0, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-weight: bold;
+            border: 2px solid #fff;
+            box-shadow: 0 0 10px #00ff00;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-    <!-- गेमिंग यूआई सर्च बार -->
-    <div class="game-ui">
-        <input type="text" id="destInput" placeholder="डिस्टिनेशन लिखें (जैसे: Neelam Chowk)" value="Neelam Chowk, Faridabad">
-        <button onclick="flyToDestination()">मिशन शुरू 🚀</button>
+    <div class="game-hud">
+        <input type="text" id="destInput" placeholder="स्थान खोजें..." value="Town Park, Sector 12, Faridabad">
+        <button onclick="startRide()">राइड शुरू 🏍️</button>
     </div>
+
+    <div class="speedometer" id="speedText">स्पीड: 0 km/h</div>
 
     <div id="map"></div>
 
-    <!-- Mapbox GL JS Library -->
-    <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
+    <!-- Leaflet JS Library -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        // यहाँ अपनी फ्री Mapbox Public Token डालनी होगी (Mapbox की साइट पर फ्री अकाउंट बनाकर 2 मिनट में मिलती है)
-        mapboxgl.accessToken = 'pk.eyJ1IjoidGFydW4yMjU2MDEiLCJhIjoiY2x5ZXhhbXBsZXRva2VuMDAxIn0.placeholder_token_replace_it'; 
-        // नोट: परमानेंट इस्तेमाल के लिए mapbox.com से अपनी फ्री पब्लिक टोकन यहां डाल देना भाई।
+        // 1. मैप सेटअप (फरीदाबाद, सेक्टर 12 - टाउन पार्क सेंटर)
+        const map = L.map('map', { zoomControl: false }).setView([28.4089, 77.3178], 16);
 
-        // 1. फरीदाबाद का 3D गेमिंग मैप सेटअप
-        const map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/dark-v11', // एकदम कूल डार्क गेमिंग थीम (या light-v11 भी रख सकता है)
-            center: [77.3178, 28.4089], // फरीदाबाद कोऑर्डिनेट्स
-            zoom: 15.5,                // नज़दीकी गेमिंग व्यू
-            pitch: 60,                 // कैमरे को तिरछा (Tilt) किया ताकि 3D गहराई दिखे
-            bearing: -17               // गेम जैसा एंगल
+        // डार्क गेमिंग थीम टायल्स (CartoDB Dark Matter - बिना किसी टोकन के फ्री)
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 19,
+            subdomains: 'abcd'
+        }).addTo(map);
+
+        let bikeMarker = null;
+
+        // बाइक आइकॉन
+        const bikeIcon = L.divIcon({
+            html: '<div style="font-size: 30px; text-shadow: 0 0 10px rgba(0,255,255,0.8);">🏍️</div>',
+            className: 'custom-bike-icon',
+            iconSize: [30, 30]
         });
 
-        // 2. मैप लोड होते ही फरीदाबाद की बिल्डिंगों को 3D में ऊपर उठाना (Extrusion Magic)
-        map.on('load', () => {
-            // इंसर्ट लेयर जो ओपनस्ट्रीट/मैपबॉक्स के डेटा से 3D बिल्डिंग्स खड़ी कर देगी
-            const layers = map.getStyle().layers;
-            let labelLayerId;
-            for (let i = 0; i < layers.length; i++) {
-                if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
-                    labelLayerId = layers[i].id;
-                    break;
-                }
+        // 🌳 टाउन पार्क, सेक्टर 12 का स्पेशल लैंडमार्क (Free Fire स्टाइल)
+        const townParkCoords = [28.4120, 77.3210];
+        const parkIcon = L.divIcon({
+            html: '<div class="park-label">🌳 टाउन पार्क</div>',
+            className: '',
+            iconSize: [100, 40]
+        });
+        L.marker(townParkCoords, { icon: parkIcon }).addTo(map);
+
+        // 2. लाइव GPS ट्रैकिंग
+        function startLiveTracking() {
+            if (navigator.geolocation) {
+                navigator.geolocation.watchPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lng = position.coords.longitude;
+                        const speed = position.coords.speed ? (position.coords.speed * 3.6).toFixed(0) : 0;
+
+                        document.getElementById('speedText').innerHTML = `स्पीड: ${speed} km/h`;
+                        const currentLatLng = [lat, lng];
+
+                        if (!bikeMarker) {
+                            bikeMarker = L.marker(currentLatLng, { icon: bikeIcon }).addTo(map);
+                        } else {
+                            bikeMarker.setLatLng(currentLatLng);
+                        }
+
+                        // कैमरा बाइक को फॉलो करेगा
+                        map.setView(currentLatLng, 17, { animate: true });
+                    },
+                    (error) => { console.log("GPS Error: " + error.message); },
+                    { enableHighAccuracy: true }
+                );
             }
+        }
 
-            // 3D बिल्डिंग लेयर जोड़ना
-            map.addLayer(
-                {
-                    'id': '3d-buildings',
-                    'source': 'composite',
-                    'source-layer': 'building',
-                    'filter': ['==', 'extrude', 'true'],
-                    'type': 'fill-extrusion',
-                    'minzoom': 13,
-                    'paint': {
-                        'fill-extrusion-color': '#aaa', // बिल्डिंग का रंग
-                        // डेटा के हिसाब से बिल्डिंग की असली ऊंचाई (Height) 3D में उठेगी
-                        'fill-extrusion-height': [
-                            'interpolate',
-                            ['linear'],
-                            ['zoom'],
-                            13,
-                            0,
-                            15.05,
-                            ['get', 'height']
-                        ],
-                        'fill-extrusion-base': [
-                            'interpolate',
-                            ['linear'],
-                            ['zoom'],
-                            13,
-                            0,
-                            15.05,
-                            ['get', 'min_height']
-                        ],
-                        'fill-extrusion-opacity': 0.85
-                    }
-                },
-                labelLayerId
-            );
-        });
+        startLiveTracking();
 
-        // 3. सर्च करके गेम की तरह कैमरा उड़ाकर डेस्टिनेशन पर जाने का फंक्शन
-        function flyToDestination() {
-            const query = document.getElementById('destInput').value;
-            if(!query) return;
+        // 3. डेस्टिनेशन सर्च (Nominatim फ्री सर्च इंजन)
+        function startRide() {
+            const dest = document.getElementById('destInput').value;
+            if(!dest) return;
 
-            // Mapbox की Geocoding API से जगह ढूंढना
-            fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}&country=in&bbox=77.1,28.2,77.5,28.6`)
-                .then(response => response.json())
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(dest + ', Faridabad')}`)
+                .then(res => res.json())
                 .then(data => {
-                    if(data.features && data.features.length > 0) {
-                        const coords = data.features[0].center;
-                        
-                        // गेम के कैमरे की तरह एनीमेशन के साथ डेस्टिनेशन पर उड़कर जाना (FlyTo)
-                        map.flyTo({
-                            center: coords,
-                            zoom: 17,
-                            pitch: 65,
-                            bearing: 30,
-                            speed: 1.5, // उड़ने की रफ्तार
-                            curve: 1.4,
-                            essential: true
-                        });
-
+                    if(data && data.length > 0) {
+                        const destCoords = [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+                        L.marker(destCoords).addTo(map).bindPopup("<b>मंजिल:</b> " + dest).openPopup();
+                        map.setView(destCoords, 17);
+                        alert("मंजिल सेट हो गई है! चलिए बाइक लेकर 🏍️");
                     } else {
-                        alert("भाई, यह जगह फरीदाबाद के आसपास नहीं मिली!");
+                        alert("जगह नहीं मिली!");
                     }
-                })
-                .catch(err => console.log(err));
+                });
         }
     </script>
 </body>
