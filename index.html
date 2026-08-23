@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartoon Gaming Nav - Faridabad</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+
+    <style>
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        
+        /* एकदम साफ सफेद पन्ने जैसा बैकग्राउंड */
+        #map { width: 100vw; height: 100vh; background: #ffffff; }
+
+        /* सर्च बॉक्स - एकदम मॉडर्न और क्लीन */
+        .search-box {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 20px;
+            border-radius: 30px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            display: flex;
+            gap: 12px;
+            border: 2px solid #000;
+        }
+        .search-box input {
+            padding: 8px 12px;
+            width: 240px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            outline: none;
+            font-size: 14px;
+        }
+        .search-box button {
+            padding: 8px 18px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* लीफलेट के डिफ़ॉल्ट रूटिंग बॉक्स को छिपाना ताकि स्क्रीन साफ दिखे */
+        .leaflet-routing-container { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <div class="search-box">
+        <input type="text" id="destinationInput" placeholder="कहाँ जाना है? (जैसे: Neelam Chowk)" value="Neelam Chowk, Faridabad">
+        <button onclick="startNavigation()">ड्राइव शुरू 🚗</button>
+    </div>
+
+    <div id="map"></div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
+    <script>
+        // 1. मैप को फरीदाबाद पर सेट किया
+        const map = L.map('map', {
+            zoomControl: false // स्क्रीन साफ रखने के लिए ज़ूम बटन हटाए
+        }).setView([28.4089, 77.3178], 14);
+
+        // 2. कार्टोडर (CartoDB Positron) टाइल्स का इस्तेमाल - जो मैप को एकदम साफ, सफेद पन्ने और काली/ग्रे क्लीन सड़कों जैसा दिखाता है!
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors & CartoDB'
+        }).addTo(map);
+
+        let userLatLng = null;
+        let routingControl = null;
+        let carMarker = null;
+
+        // कार्टून या गेम वाली कार का कस्टम आइकॉन (Emoji या Car Icon)
+        const cartoonCarIcon = L.divIcon({
+            html: '<div style="font-size: 28px; background: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 2px solid #000;">🏎️</div>',
+            className: 'custom-car-icon',
+            iconSize: [40, 40],
+            iconAnchor: [20, 20]
+        });
+
+        // 3. लाइव GPS लोकेशन ट्रैक करना
+        if (navigator.geolocation) {
+            navigator.geolocation.watchPosition(
+                (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+                    userLatLng = L.latLng(lat, lng);
+
+                    // अगर गाड़ी का आइकॉन पहले से नहीं है, तो सफेद पन्ने पर गाड़ी खड़ी करो
+                    if (!carMarker) {
+                        carMarker = L.marker(userLatLng, { icon: cartoonCarIcon }).addTo(map)
+                            .bindPopup("<b>आप यहाँ हैं - रेडी टू ड्राइव!</b>");
+                    } else {
+                        // जैसे-जैसे GPS बदलेगा, कार्टून गाड़ी सड़क पर आगे बढ़ेगी!
+                        carMarker.setLatLng(userLatLng);
+                    }
+                    
+                    map.setView(userLatLng, 15);
+                },
+                (error) => {
+                    userLatLng = L.latLng(28.4089, 77.3178); // डिफ़ॉल्ट फरीदाबाद
+                },
+                { enableHighAccuracy: true }
+            );
+        }
+
+        // 4. नेविगेशन और रूट चालू करने का फंक्शन
+        function startNavigation() {
+            const destName = document.getElementById('destinationInput').value;
+            if (!destName || !userLatLng) {
+                alert("लोकेशन या डेस्टिनेशन चेक करें!");
+                return;
+            }
+
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(destName)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const destLatLng = L.latLng(parseFloat(data[0].lat), parseFloat(data[0].lon));
+
+                        if (routingControl) {
+                            map.removeControl(routingControl);
+                        }
+
+                        // एकदम बोल्ड और साफ़ काली/डार्क ब्लू लाइन जो रास्ता दिखाएगी
+                        routingControl = L.Routing.control({
+                            waypoints: [userLatLng, destLatLng],
+                            routeWhileDragging: false,
+                            lineOptions: {
+                                styles: [{ color: '#000000', weight: 7, opacity: 0.8 }] // एकदम गहरी काली सड़क जैसी लाइन!
+                            },
+                            addWaypoints: false,
+                            draggableWaypoints: false,
+                            fitSelectedRoutes: true
+                        }).addTo(map);
+
+                    } else {
+                        alert("यह जगह नहीं मिली!");
+                    }
+                });
+        }
+    </script>
+</body>
+</html>
