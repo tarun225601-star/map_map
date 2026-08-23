@@ -67,7 +67,7 @@
             border-radius: 8px;
         }
 
-        /* Clean Navigation Tabs */
+        /* Navigation Tabs */
         .nav-tabs {
             display: flex;
             background: #090d16;
@@ -130,41 +130,82 @@
         }
         .unlock-btn.unlocked { background: #16a34a; }
 
-        /* Chat UI Clean Box (No Clutter, Proper Spacing) */
+        /* Chat UI Box */
         .chat-box { 
             flex: 1; 
             overflow-y: auto; 
             display: flex; 
             flex-direction: column; 
             gap: 10px; 
-            padding-bottom: 10px; 
+            padding-bottom: 15px; 
         }
-        .message { max-width: 88%; padding: 10px 12px; border-radius: 10px; font-size: 12px; font-weight: 700; line-height: 1.4; word-break: break-word; }
+        .message { max-width: 88%; padding: 10px 14px; border-radius: 12px; font-size: 12px; font-weight: 700; line-height: 1.5; word-break: break-word; }
         .user-msg { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
         .bot-msg { background: #1f2937; color: #f1f5f9; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #374151; }
 
-        /* Raised Input Area to prevent overlapping */
-        .chat-input-area {
-            padding: 10px 12px;
+        /* Gemini Like Input Box (Fixed at Bottom, Raised & Clean) */
+        .chat-input-wrapper {
             background: #0f172a;
             border-top: 1px solid #1e293b;
-            display: flex;
-            gap: 8px;
+            padding: 10px 12px;
             flex-shrink: 0;
-            margin-bottom: 4px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
-        input { 
+        #imagePreviewContainer { display: none; align-items: center; gap: 8px; background: #1e293b; padding: 6px 10px; border-radius: 8px; width: fit-content; }
+        #imagePreviewContainer img { width: 35px; height: 35px; object-fit: cover; border-radius: 4px; }
+        #imagePreviewContainer span { font-size: 11px; color: #38bdf8; font-weight: 700; }
+        .remove-img { background: none; border: none; color: #ef4444; font-weight: 800; cursor: pointer; font-size: 14px; }
+
+        .chat-input-row {
+            display: flex;
+            align-items: center;
+            background: #111827;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            padding: 6px 10px;
+            gap: 8px;
+        }
+        .tool-icon-btn {
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .tool-icon-btn:hover { color: #38bdf8; }
+        .tool-icon-btn.listening { color: #ef4444; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+        input[type="text"] { 
             flex: 1; 
-            padding: 10px; 
-            border-radius: 8px; 
-            border: 1px solid #4b5563; 
-            background: #0b0f19; 
+            padding: 8px; 
+            border: none; 
+            background: transparent; 
             color: #fff; 
             font-size: 12px; 
             font-weight: 700; 
             outline: none;
         }
-        .send-btn { background: #0284c7; border: none; color: white; padding: 0 12px; border-radius: 8px; font-weight: 800; cursor: pointer; font-size: 12px; }
+        .send-btn { 
+            background: #0284c7; 
+            border: none; 
+            color: white; 
+            width: 32px;
+            height: 32px;
+            border-radius: 50%; 
+            font-weight: 800; 
+            cursor: pointer; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
 
         /* Modal */
         .modal { 
@@ -192,24 +233,43 @@
         </div>
     </div>
 
-    <!-- Clean Navigation Tabs -->
+    <!-- Navigation Tabs -->
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('packages')">📦 बिजनेस पैकेज डैशबोर्ड</button>
         <button class="tab-btn" onclick="switchTab('chat')">💬 चैट को-फाउंडर</button>
     </div>
 
-    <!-- Pane 1: Clean Package Dashboard -->
+    <!-- Pane 1: Package Dashboard -->
     <div id="pane-packages" class="pane active">
         <div style="font-size: 11px; color: #94a3b8; font-weight: 700; margin-bottom: 8px;">कोई भी बिजनेस सेलेक्ट करें, सीधे चैट में प्लान शुरू होगा:</div>
         <div id="fullPackageDashboard" style="display: flex; flex-direction: column; gap: 8px;"></div>
     </div>
 
-    <!-- Pane 2: Ultra Clean Chat Box (No banners, strictly bound to active business) -->
+    <!-- Pane 2: Gemini Like Chat Box -->
     <div id="pane-chat" class="pane">
         <div class="chat-box" id="chatBox"></div>
-        <div class="chat-input-area">
-            <input type="text" id="userInput" placeholder="भाई, धंधे की बात कर..." onkeypress="handleKeyPress(event)">
-            <button class="send-btn" onclick="sendMessage()">भेजें</button>
+        
+        <!-- Gemini Style Bottom Input Area -->
+        <div class="chat-input-wrapper">
+            <div id="imagePreviewContainer">
+                <img id="previewImg" src="" alt="preview">
+                <span>फोटो जुड़ गई</span>
+                <button class="remove-img" onclick="removeImage()">×</button>
+            </div>
+            <div class="chat-input-row">
+                <!-- Image Upload Button (Screenshot / Photo) -->
+                <button class="tool-icon-btn" onclick="document.getElementById('imageInput').click()" title="स्क्रीनशॉट या फोटो जोड़ें">📎</button>
+                <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
+                
+                <!-- Voice Input Button (Speech to Text) -->
+                <button class="tool-icon-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="बोलकर टाइप करें">🎙️</button>
+                
+                <!-- Text Input -->
+                <input type="text" id="userInput" placeholder="भाई, धंधे की बात कर..." onkeypress="handleKeyPress(event)">
+                
+                <!-- Send Button -->
+                <button class="send-btn" onclick="sendMessage()">➔</button>
+            </div>
         </div>
     </div>
 </div>
@@ -257,6 +317,8 @@
         activeBizIndex: 0,
         autoModel: "openai/gpt-oss-120b"
     };
+
+    let attachedImageBase64 = null;
 
     window.onload = function() {
         document.getElementById('tokenCount').innerText = db.tokens;
@@ -337,6 +399,57 @@
         triggerAIResponse(`भाई, हमने सिर्फ '${b.name}' (कैपिटल: ₹${b.cap.toLocaleString()}) बिजनेस सेलेक्ट किया है। इसके ₹1 करोड़ के टारगेट को पाने के लिए पहले हफ्ते की फुल-प्रूफ स्ट्रैटेजी बता।`);
     }
 
+    // Image Upload Handler
+    function handleImageUpload(event) {
+        let file = event.target.files[0];
+        if(!file) return;
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            attachedImageBase64 = e.target.result;
+            document.getElementById('previewImg').src = attachedImageBase64;
+            document.getElementById('imagePreviewContainer').style.display = 'flex';
+        }
+        reader.readAsDataURL(file);
+    }
+
+    function removeImage() {
+        attachedImageBase64 = null;
+        document.getElementById('imageInput').value = "";
+        document.getElementById('imagePreviewContainer').style.display = 'none';
+    }
+
+    // Speech to Text (Mic Voice Input)
+    function toggleSpeechRecognition() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if(!SpeechRecognition) {
+            alert("⚠️ आपका ब्राउज़र वॉइस इनपुट सपोर्ट नहीं करता है।");
+            return;
+        }
+        let recognition = new SpeechRecognition();
+        recognition.lang = 'hi-IN';
+        let micBtn = document.getElementById('micBtn');
+
+        recognition.onstart = function() {
+            micBtn.classList.add('listening');
+        };
+
+        recognition.onresult = function(event) {
+            let speechText = event.results[0][0].transcript;
+            document.getElementById('userInput').value = speechText;
+            micBtn.classList.remove('listening');
+        };
+
+        recognition.onerror = function() {
+            micBtn.classList.remove('listening');
+        };
+
+        recognition.onend = function() {
+            micBtn.classList.remove('listening');
+        };
+
+        recognition.start();
+    }
+
     function openSettings() {
         document.getElementById('grokKey').value = db.grokKey;
         document.getElementById('modelStatus').innerText = db.autoModel ? `एक्टिव मॉडल: ${db.autoModel}` : "मॉडल सेट हो रहा है...";
@@ -364,7 +477,6 @@
         }
     }
 
-    // ऑटो-फेच और स्मार्ट फ़िल्टर
     async function fetchBestModel(apiKey) {
         try {
             let res = await fetch("https://api.groq.com/openai/v1/models", {
@@ -402,10 +514,24 @@
     async function sendMessage() {
         let inputField = document.getElementById('userInput');
         let text = inputField.value.trim();
-        if(!text) return;
-        appendMessage(text, 'user-msg');
+        if(!text && !attachedImageBase64) return;
+
+        let displayHTML = text.replace(/\n/g, '<br>');
+        if(attachedImageBase64) {
+            displayHTML += `<br><img src="${attachedImageBase64}" style="max-width:100%; border-radius:8px; margin-top:6px;">`;
+        }
+
+        appendMessage(displayHTML, 'user-msg');
+        
+        let queryToSend = text;
+        if(attachedImageBase64) {
+            queryToSend += " [उज़र ने एक स्क्रीनशॉट/फोटो अटैच की है]";
+        }
+
         inputField.value = "";
-        await triggerAIResponse(text);
+        removeImage();
+
+        await triggerAIResponse(queryToSend);
     }
 
     function appendMessage(text, className) {
