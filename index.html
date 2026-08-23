@@ -368,32 +368,35 @@
         }
     }
 
-    // फिक्स: सिर्फ चैट वाले मॉडल छांटने के लिए सख्त फिल्टर लगा दिया है
+    // 100% असली ऑटो-फेच: सीधे Groq से पूछेगा कि इस समय कौन सा मॉडल जिंदा और चालू है
     async function getActiveGroqModel(apiKey) {
         try {
-            let res = andFetch = await fetch("https://api.groq.com/openai/v1/models", {
+            let res = await fetch("https://api.groq.com/openai/v1/models", {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${apiKey}` }
             });
             let data = await res.json();
             if(data && data.data && data.data.length > 0) {
-                // ऐसे मॉडल ढूंढो जो चैटिंग के लिए बने हों और क्लासिफिकेशन वाले न हों
+                // सिर्फ उन्हीं मॉडल को उठाएगा जो चैटिंग के लिए बने हैं और एक्टिव हैं
                 let validModels = data.data.filter(m => {
                     let id = m.id.toLowerCase();
-                    return (id.includes('llama') || id.includes('mixtral') || id.includes('gemma')) && 
+                    return (id.includes('llama') || id.includes('mixtral') || id.includes('gemma') || id.includes('qwen') || id.includes('deepseek')) && 
                            !id.includes('guard') && 
                            !id.includes('embed') && 
-                           !id.includes('whisper');
+                           !id.includes('whisper') &&
+                           !id.includes('tool') &&
+                           !id.includes('vision');
                 });
 
                 if(validModels.length > 0) {
-                    return validModels[0].id;
+                    console.log("Auto-detected active model:", validModels[0].id);
+                    return validModels[0].id; // जो सबसे ऊपर एक्टिव मॉडल मिलेगा, वो चुन लेगा
                 }
             }
         } catch(e) {
-            console.warn("Auto-fetch model failed, using fallback");
+            console.warn("Auto-fetch model failed, using default fallback");
         }
-        return "llama-3.1-8b-instant"; // सेफ और पक्का बैकअप मॉडल
+        return "llama-3.3-70b-versatile"; // सबसे भरोसेमंद और स्टैंडर्ड बैकअप
     }
 
     async function fetchAutoModelResponse(userQuery) {
