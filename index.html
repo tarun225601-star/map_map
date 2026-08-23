@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeOS Guardian | The Ultimate Business Partner</title>
+    <title>LifeOS Guardian | Real AI Business Co-Founder</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -52,7 +52,7 @@
         }
         .gear-btn:hover { background: #374151; }
 
-        /* चैट एरिया - एकदम क्लीन जेमिनी जैसा */
+        /* चैट एरिया */
         .chat-container {
             flex: 1;
             padding: 16px;
@@ -84,6 +84,24 @@
             border: 1px solid #374151;
         }
 
+        /* बोलकर सुनने वाला स्पीकर बटन */
+        .speak-btn {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 6px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: 0.2s;
+        }
+        .speak-btn:hover { background: rgba(56, 189, 248, 0.2); }
+
         /* चैट इनपुट बॉक्स */
         .chat-input-area {
             padding: 12px;
@@ -113,6 +131,7 @@
             font-weight: 800;
             cursor: pointer;
         }
+        .send-btn:disabled { background: #374151; cursor: not-allowed; }
 
         /* सेटिंग्स मोडल */
         #settingsModal { 
@@ -146,61 +165,45 @@
     <div class="header">
         <div>
             <h2>LifeOS Guardian</h2>
-            <div class="subtitle">हमारा बिजनेस • हमारा टारगेट • पक्का सफर</div>
+            <div class="subtitle">हमारा बिजनेस • हमारा बड़ा टारगेट</div>
         </div>
         <button class="gear-btn" onclick="openSettings()">⚙️</button>
     </div>
 
-    <!-- चैट स्क्रीन - एकदम साफ और लाइव -->
+    <!-- चैट स्क्रीन -->
     <div class="chat-container" id="chatBox"></div>
 
     <!-- चैट इनपुट -->
     <div class="chat-input-area">
         <input type="text" id="userInput" placeholder="भाई, बता आज मार्केट में क्या सीन है..." onkeypress="handleKeyPress(event)">
-        <button class="send-btn" onclick="sendMessage()">भेजें</button>
+        <button class="send-btn" id="sendBtn" onclick="sendMessage()">भेजें</button>
     </div>
 </div>
 
 <!-- सेटिंग्स मोडल -->
 <div id="settingsModal">
     <div class="modal-content">
-        <h3>⚙️ हमारे बिजनेस की सेटिंग्स</h3>
+        <h3>⚙️ बिजनेस और टारगेट सेटिंग्स</h3>
         
-        <label>Grok / AI API Key (वैकल्पिक):</label>
-        <input type="password" id="grokKey" placeholder="API Key डालें...">
+        <label>Groq API Key:</label>
+        <input type="password" id="grokKey" placeholder="اپنی API key यहां डालें...">
 
         <label>हमारा बिजनेस नाम:</label>
-        <input type="text" id="bizName" placeholder="जैसे: Fruit Stall / Jet Black">
+        <input type="text" id="bizName" placeholder="जैसे: Fruit Stall">
 
-        <label>हमारी कुल कैपिटल (₹):</label>
+        <label>हमारी कैपिटल (₹):</label>
         <input type="number" id="bizCapital" placeholder="11000">
 
         <label>हमारा बड़ा टारगेट (₹):</label>
         <input type="number" id="targetGoal" placeholder="10000000">
 
-        <hr style="border-color: #374151; margin: 15px 0;">
-
-        <h3>💰 कमाई / खर्चा जोड़ें</h3>
-        <label>ट्रांजैक्शन प्रकार:</label>
-        <select id="transType">
-            <option value="income">📥 आमदनी (Income)</option>
-            <option value="expense">📤 खर्चा (Expense)</option>
-        </select>
-
-        <label>विवरण:</label>
-        <input type="text" id="transDesc" placeholder="जैसे: माल बिका / जरूरी सामान">
-
-        <label>रुपये (₹):</label>
-        <input type="number" id="transAmount" placeholder="500">
-
-        <button class="modal-btn" onclick="saveAllSettings()">💾 डेटा सेव करें</button>
+        <button class="modal-btn" onclick="saveAllSettings()">💾 सेव करें</button>
         <button class="modal-btn close-btn" onclick="closeSettings()">बंद करें</button>
         <div id="saveStatus" class="success"></div>
     </div>
 </div>
 
 <script>
-    // लोकल स्टोरेज से डेटा लोड करना
     let db = JSON.parse(localStorage.getItem('lifeOS_data')) || {
         grokKey: "",
         bizName: "Fruit Stall",
@@ -210,7 +213,11 @@
     };
 
     window.onload = function() {
-        // स्क्रीन क्लीन रहेगी, यूजर बातचीत शुरू करेगा
+        if(!db.grokKey) {
+            appendMessage("🔥 भाई, लाइव AI और टारगेट पर बात करने के लिए ऊपर ⚙️ (गेयर) बटन दबाकर अपनी **Groq API Key** डाल दे!", 'bot-msg');
+        } else {
+            appendMessage(`💪 राम-राम भाई! हमारा बिजनेस <strong>'${db.bizName}'</strong> चालू है और हमारा बड़ा टारगेट **₹${db.goal.toLocaleString()}** का है। बता, आज इसे हासिल करने के लिए क्या मैदान में उतरना है?`, 'bot-msg');
+        }
     };
 
     function openSettings() {
@@ -227,29 +234,12 @@
 
     function saveAllSettings() {
         db.grokKey = document.getElementById('grokKey').value.trim();
-        db.bizName = document.getElementById('bizName').value.trim() || "हमारा बिजनेस";
+        db.bizName = document.getElementById('bizName').value.trim() || "मेरा बिजनेस";
         db.capital = parseFloat(document.getElementById('bizCapital').value) || 100;
         db.goal = parseFloat(document.getElementById('targetGoal').value) || 10000000;
 
-        let tType = document.getElementById('transType').value;
-        let tDesc = document.getElementById('transDesc').value.trim();
-        let tAmount = parseFloat(document.getElementById('transAmount').value) || 0;
-
-        if(tAmount > 0 && tDesc) {
-            if(tType === 'income') {
-                db.capital += tAmount;
-                db.transactions.push({type: 'आमदनी', desc: tDesc, amount: tAmount, date: new Date().toLocaleDateString()});
-            } else {
-                db.capital -= tAmount;
-                db.transactions.push({type: 'खर्चा', desc: tDesc, amount: tAmount, date: new Date().toLocaleDateString()});
-            }
-            document.getElementById('transDesc').value = "";
-            document.getElementById('transAmount').value = "";
-        }
-
-        localStorage.getItem('lifeOS_data', JSON.stringify(db));
         localStorage.setItem('lifeOS_data', JSON.stringify(db));
-        document.getElementById('saveStatus').innerText = "✅ डेटा अपडेट हो गया!";
+        document.getElementById('saveStatus').innerText = "✅ टारगेट और सेटिंग्स अपडेट हो गई!";
         setTimeout(() => {
             document.getElementById('saveStatus').innerText = "";
             closeSettings();
@@ -260,18 +250,39 @@
         if(e.key === 'Enter') sendMessage();
     }
 
-    function sendMessage() {
+    async function sendMessage() {
         let inputField = document.getElementById('userInput');
+        let sendBtn = document.getElementById('sendBtn');
         let text = inputField.value.trim();
         if(!text) return;
 
+        if(!db.grokKey) {
+            alert("भाई, पहले ⚙️ सेटिंग में जाकर अपनी Groq API Key डाल!");
+            openSettings();
+            return;
+        }
+
         appendMessage(text, 'user-msg');
         inputField.value = "";
+        sendBtn.disabled = true;
 
-        setTimeout(() => {
-            let reply = getCoFounderResponse(text);
-            appendMessageWithTypingEffect(reply, 'bot-msg');
-        }, 400);
+        let chatBox = document.getElementById('chatBox');
+        let loadingDiv = document.createElement('div');
+        loadingDiv.className = 'message bot-msg';
+        loadingDiv.innerText = "सोच रहा हूँ...";
+        chatBox.appendChild(loadingDiv);
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        try {
+            let aiReply = await fetchRealAIResponse(text);
+            chatBox.removeChild(loadingDiv);
+            appendMessageWithTypingEffect(aiReply, 'bot-msg');
+        } catch (error) {
+            chatBox.removeChild(loadingDiv);
+            appendMessage("⚠️ भाई, API Key गलत है या इंटरनेट में दिक्कत है। सही की (Key) चेक कर.", 'bot-msg');
+        } finally {
+            sendBtn.disabled = false;
+        }
     }
 
     function appendMessage(text, className) {
@@ -283,7 +294,7 @@
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // टाइपराइटर इफेक्ट (मशीन की तरह एक-एक अक्षर छपेगा)
+    // टाइपराइटर इफ़ेक्ट और 'बोलकर सुनने वाला' बटन
     function appendMessageWithTypingEffect(htmlText, className) {
         let chatBox = document.getElementById('chatBox');
         let div = document.createElement('div');
@@ -291,7 +302,8 @@
         chatBox.appendChild(div);
 
         let i = 0;
-        let speed = 12; // टाइपिंग स्पीड
+        let speed = 10; 
+        let rawTextForSpeech = htmlText.replace(/<[^>]*>?/gm, '');
         
         function typeWriter() {
             if (i < htmlText.length) {
@@ -310,42 +322,61 @@
                 }
                 chatBox.scrollTop = chatBox.scrollHeight;
                 setTimeout(typeWriter, speed);
+            } else {
+                let speakBtn = document.createElement('button');
+                speakBtn.className = 'speak-btn';
+                speakBtn.innerHTML = '🔊 बोलकर सुनें';
+                speakBtn.onclick = () => speakText(rawTextForSpeech);
+                div.appendChild(speakBtn);
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
         }
         typeWriter();
     }
 
-    // असली को-फाउंडर / पार्टनर लॉजिक (जो हर टारगेट को अपना मानता है)
-    function getCoFounderResponse(query) {
-        let q = query.toLowerCase();
-        let name = db.bizName.toLowerCase();
+    function speakText(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'hi-IN';
+            utterance.rate = 1.0;
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("भाई, इस डिवाइस में वॉइस सपोर्ट काम नहीं कर रहा।");
+        }
+    }
 
-        if(q.includes('mahnga') || q.includes('mehnga') || q.includes('manda') || q.includes('chals nahi') || q.includes('bacchad kam') || q.includes('bacht')) {
-            if(name.includes('fruit') || name.includes('ফল') || name.includes('फल')) {
-                return `🔥 <strong>भाई, तू बिल्कुल सही कह रहा है, ये माल महंगा पड़ने वाला झंझट हमें मिलकर निपटाना पड़ेगा!</strong><br><br>` +
-                       `देख, <strong>'${db.bizName}'</strong> में अगर माल महंगा मिल रहा है और मार्जिन निचोड़ रहा है, तो हमारा ₹${db.goal.toLocaleString()} का टारगेट कैसे पूरा होगा? सुन हमारी नई रणनीति:<br>` +
-                       `1. कल सुबह मैं और तू सीधे बड़े आढ़तिए या डायरेक्ट किसान के पास चलेंगे, बिचौलियों का कमीशन खत्म करना है!<br>` +
-                       `2. जो फल थोड़ा दब रहा है या बच रहा है, उसे फेंकने की बिल्कुल जरूरत नहीं है—हम उसका फ्रूट शेक और जूस बनाएंगे, जिसमें लागत कम और मुनाफा सीधा डबल है!<br>` +
-                       `3. बता, कल सुबह कितने बजे चल रहा है मंडी में माल उठाने? तू बता, मैं पूरी तरह तेरे साथ खड़ा हूँ!`;
-            } else {
-                return `🔥 <strong>सुन भाई, अगर धंधा मंदा है तो ये हम दोनों की टेंशन है!</strong><br><br>` +
-                       `देख, <strong>'${db.bizName}'</strong> को उठाने के लिए हमें जमीन पर उतरकर मेहनत करनी होगी। लागत कम करनी है और क्वालिटी ऐसी देनी है कि कस्टमर भागकर हमारे पास आए। बता, आज का क्या प्लान है तेरा?`;
-            }
-        } 
-        else if(q.includes('roadmap') || q.includes('रोडमैप') || q.includes('plan') || q.includes('kya karein') || q.includes('kya karna')) {
-            return `🎯 <strong>ये ले भाई, हमारे ${db.bizName} का आज का पक्का एक्शन प्लान:</strong><br><br>` +
-                   `1. आज अपनी दुकान की डिस्प्ले और साफ-सफाई एकदम फर्स्ट-क्लास रखनी है ताकि दूर से चमक आए。<br>` +
-                   `2. एक भी रुपया फालतू खर्च नहीं होने देना, हर एक चवनी हमारे कैपिटल और टारगेट में जुड़ेगी।<br>` +
-                   `3. बता भाई, इस प्लान में से कौन सा काम सबसे पहले हाथ में लें?`;
-        }
-        else if(q.includes('paisa') || q.includes('capital') || q.includes('balance') || q.includes('पैसे')) {
-            let totalIncome = db.transactions.filter(t => t.type === 'आमदनी').reduce((sum, t) => sum + t.amount, 0);
-            let totalExpense = db.transactions.filter(t => t.type === 'खर्चा').reduce((sum, t) => sum + t.amount, 0);
-            return `💰 <strong>देख भाई, ये रहा हमारे बिजनेस का कच्चा चिट्ठा:</strong><br>• बिजनेस: ${db.bizName}<br>• कुल कैपिटल: ₹${db.capital.toLocaleString()}<br>• कुल कमाई: ₹${totalIncome.toLocaleString()}<br>• कुल खर्चा: ₹${totalExpense.toLocaleString()}<br>• हमारा बड़ा टारगेट: ₹${db.goal.toLocaleString()}<br><br>हिساب एकदम साफ है, अब हमें मिलकर रेवेन्यू और बढ़ाना है!`;
-        }
-        else {
-            return `💪 <strong>भाई, बात को घुमा मत!</strong><br>` +
-                   `हम दोनों का एक ही सपना है—<strong>'${db.bizName}'</strong> को फर्श से उठाकर आसमान तक ले जाना और उस ₹${db.goal.toLocaleString()} के टारगेट को फोड़ना। बता, आज बिक्री बढ़ाने के लिए जमीन पर क्या एक्शन ले रहे हैं हम?`;
+    // AI प्रॉम्प्ट जिसमें टारगेट हमेशा दिमाग में रहेगा
+    async function fetchRealAIResponse(userQuery) {
+        let systemPrompt = `तू एक खूंखार, शार्प और जमीनी बिजनेस को-फाउंडर (उस्ताद) है। 
+        हमारा बिजनेस है: '${db.bizName}', हमारी कैपिटल है: ₹${db.capital} और हमारा सबसे बड़ा और मुख्य टारगेट है: ₹${db.goal} कमाना।
+        
+        महत्वपूर्ण नियम: 
+        1. तू कभी भी कोई रटा-रटाया या डमी जवाब नहीं देगा। हर बार यूजर के सवाल के हिसाब से एकदम नया, प्रैक्टिकल और दमदार जवाब सोचकर देगा।
+        2. तू हर जवाब में इस बात का खास ध्यान रखेगा और जिक्र करेगा कि हमें अपने ₹${db.goal} के टारगेट को कैसे भी करके हासिल करना है। 
+        3. हमेशा 'हम', 'हमारा बिजनेस' और 'हमारा टारगेट' बोलकर बात कर, जैसे दो पक्के भाई मिलकर धंधा संभाल रहे हों।`;
+
+        let response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${db.grokKey}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    { role: "system", content: systemPrompt },
+                    { role: "user", content: userQuery }
+                ],
+                temperature: 0.8
+            })
+        });
+
+        let data = await response.json();
+        if(data.choices && data.choices.length > 0) {
+            return data.choices[0].message.content.replace(/\n/g, '<br>');
+        } else {
+            throw new Error("AI response failed");
         }
     }
 </script>
