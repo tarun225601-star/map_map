@@ -166,7 +166,6 @@
             <div class="subtitle">ऑटो-वॉइस • हमारा बड़ा टारगेट</div>
         </div>
         <div class="header-btns">
-            <!-- बोलकर सुनाने वाला मास्टर टॉगल बटन -->
             <button id="voiceToggleBtn" class="action-btn active" onclick="toggleVoiceOutput()" title="ऑटो-स्पीच चालू/बंद करें">🔊</button>
             <button class="action-btn" onclick="openSettings()">⚙️</button>
         </div>
@@ -211,7 +210,7 @@
         transactions: []
     };
 
-    let isVoiceEnabled = true; // ऑटो-वॉइस बाय डिफ़ॉल्ट चालू रहेगी
+    let isVoiceEnabled = true;
 
     window.onload = function() {
         if(!db.grokKey) {
@@ -234,7 +233,7 @@
         } else {
             btn.classList.remove('active');
             btn.innerHTML = '🔇';
-            window.speechSynthesis.cancel(); // अगर कुछ बोल रहा है तो तुरंत चुप करा दें
+            window.speechSynthesis.cancel();
         }
     }
 
@@ -343,7 +342,6 @@
                 chatBox.scrollTop = chatBox.scrollHeight;
                 setTimeout(typeWriter, speed);
             } else {
-                // टाइपिंग पूरी होने पर मैन्युअल बटन भी रख दिया है
                 let speakBtn = document.createElement('button');
                 speakBtn.className = 'speak-btn';
                 speakBtn.innerHTML = '🔊 दोबारा सुनें';
@@ -351,7 +349,6 @@
                 div.appendChild(speakBtn);
                 chatBox.scrollTop = chatBox.scrollHeight;
 
-                // जैसे ही मैसेज पूरा टाइप हो, ऑटोमैटिक बोलकर सुनाना चालू कर दे
                 if(isVoiceEnabled) {
                     speakText(rawTextForSpeech);
                 }
@@ -363,29 +360,40 @@
     function speakText(text) {
         if (!isVoiceEnabled) return;
         if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel(); // पिछली आवाज रोककर नई शुरू करेगा
+            window.speechSynthesis.cancel();
             let utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'hi-IN'; // हिंदी आवाज
-            utterance.rate = 1.0;     // बोलने की स्पीड
+            utterance.lang = 'hi-IN';
+            utterance.rate = 1.0;
             window.speechSynthesis.speak(utterance);
         }
     }
 
+    // फिक्स: सिर्फ चैट वाले मॉडल छांटने के लिए सख्त फिल्टर लगा दिया है
     async function getActiveGroqModel(apiKey) {
         try {
-            let res = await fetch("https://api.groq.com/openai/v1/models", {
+            let res = andFetch = await fetch("https://api.groq.com/openai/v1/models", {
                 method: "GET",
                 headers: { "Authorization": `Bearer ${apiKey}` }
             });
             let data = await res.json();
             if(data && data.data && data.data.length > 0) {
-                let chatModel = data.data.find(m => m.id.includes('llama') || m.id.includes('mixtral')) || data.data[0];
-                return chatModel.id;
+                // ऐसे मॉडल ढूंढो जो चैटिंग के लिए बने हों और क्लासिफिकेशन वाले न हों
+                let validModels = data.data.filter(m => {
+                    let id = m.id.toLowerCase();
+                    return (id.includes('llama') || id.includes('mixtral') || id.includes('gemma')) && 
+                           !id.includes('guard') && 
+                           !id.includes('embed') && 
+                           !id.includes('whisper');
+                });
+
+                if(validModels.length > 0) {
+                    return validModels[0].id;
+                }
             }
         } catch(e) {
             console.warn("Auto-fetch model failed, using fallback");
         }
-        return "llama-3.1-8b-instant";
+        return "llama-3.1-8b-instant"; // सेफ और पक्का बैकअप मॉडल
     }
 
     async function fetchAutoModelResponse(userQuery) {
