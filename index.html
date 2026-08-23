@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Business Hub | AI Co-Founder</title>
+    <title>Indian Business Hub | AI Co-Founder v2.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -142,7 +142,7 @@
         .user-msg { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
         .bot-msg { background: #1f2937; color: #f1f5f9; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #374151; }
 
-        /* Gemini Like Fixed Bottom Input Box */
+        /* Fixed Bottom Input Box */
         .chat-input-wrapper {
             background: #0f172a;
             border-top: 1px solid #1e293b;
@@ -223,11 +223,11 @@
 <div class="container">
     <div class="header">
         <div>
-            <h2>🇮🇳 Indian Business Hub</h2>
-            <div class="subtitle">AI बिजनेस को-फाउंडर</div>
+            <h2>🇮🇳 Indian Business Hub <span style="font-size:10px; color:#38bdf8;">v2.0</span></h2>
+            <div class="subtitle">AI बिजनेस को-फाउंडर (फिक्सड चैट बॉक्स)</div>
         </div>
         <div class="header-btns">
-            <div class="token-badge" onclick="addTokens()" title="टोकन जोड़ों">🪙 <span id="tokenCount">15</span> Tokens</div>
+            <div class="token-badge" onclick="addTokens()" title="टोकन जोड़ों">🪙 <span id="tokenCount">20</span> Tokens</div>
             <button class="action-btn" onclick="openSettings()" title="सेटिंग्स">⚙️</button>
         </div>
     </div>
@@ -244,7 +244,7 @@
         <div id="fullPackageDashboard" style="display: flex; flex-direction: column; gap: 8px;"></div>
     </div>
 
-    <!-- Pane 2: Gemini Like Chat Box (Fixed visibility) -->
+    <!-- Pane 2: Gemini Like Chat Box -->
     <div id="pane-chat" class="pane">
         <div class="chat-box" id="chatBox"></div>
         
@@ -285,6 +285,15 @@
 </div>
 
 <script>
+    const APP_VERSION = "2.0_cache_clear";
+    let storedVersion = localStorage.getItem('ib_hub_version');
+    
+    // अगर नया वर्जन है तो पुराना कैचे/डेटा साफ़ करके फ्रेश स्टार्ट करो
+    if(storedVersion !== APP_VERSION) {
+        localStorage.removeItem('indian_biz_hub_data');
+        localStorage.setItem('ib_hub_version', APP_VERSION);
+    }
+
     const categories = ['फूड & रिटेल', 'ऑटोमोटिव केयर', 'डीप क्लीनिंग', 'मोबाइल ऐप', 'ई-कॉमर्स', 'केमिकल्स & मैन्युफैक्चरिंग', 'एग्री-टेक', 'डिजिटल एजेंसी'];
     const bizTemplates = [
         {name: "फ्रूट स्टॉल एक्सप्रेस", cap: 11000, target: 10000000, cat: "फूड & रिटेल", desc: "फास्ट मूविंग फ्रूट्स और कट-फ्रूट सैलेड से डेली कैश फ्लो।"},
@@ -307,7 +316,7 @@
 
     let db = JSON.parse(localStorage.getItem('indian_biz_hub_data')) || {
         grokKey: "",
-        tokens: 15,
+        tokens: 20,
         unlocked: [0, 1],
         activeBizIndex: 0,
         autoModel: "openai/gpt-oss-120b"
@@ -335,7 +344,6 @@
         } else {
             document.getElementById('pane-chat').classList.add('active');
             document.querySelectorAll('.tab-btn')[1].classList.add('active');
-            // स्क्रॉल चैट टू बॉटम
             let chatBox = document.getElementById('chatBox');
             chatBox.scrollTop = chatBox.scrollHeight;
         }
