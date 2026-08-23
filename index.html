@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeOS Guardian | Pro Business Mentor</title>
+    <title>LifeOS Guardian | The Ultimate Business Partner</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -52,7 +52,7 @@
         }
         .gear-btn:hover { background: #374151; }
 
-        /* चैट एरिया */
+        /* चैट एरिया - एकदम क्लीन जेमिनी जैसा */
         .chat-container {
             flex: 1;
             padding: 16px;
@@ -82,7 +82,6 @@
             align-self: flex-start;
             border-bottom-left-radius: 2px;
             border: 1px solid #374151;
-            border-left: 4px solid #38bdf8;
         }
 
         /* चैट इनपुट बॉक्स */
@@ -147,49 +146,49 @@
     <div class="header">
         <div>
             <h2>LifeOS Guardian</h2>
-            <div class="subtitle">₹100 से करोड़ों का सफर • प्रोफेशनल एजेंट</div>
+            <div class="subtitle">हमारा बिजनेस • हमारा टारगेट • पक्का सफर</div>
         </div>
         <button class="gear-btn" onclick="openSettings()">⚙️</button>
     </div>
 
-    <!-- चैट स्क्रीन जहाँ उस्ताद जमीनी रोडमैप रखेगा -->
+    <!-- चैट स्क्रीन - एकदम साफ और लाइव -->
     <div class="chat-container" id="chatBox"></div>
 
     <!-- चैट इनपुट -->
     <div class="chat-input-area">
-        <input type="text" id="userInput" placeholder="रोडमैप या सवाल पूछें..." onkeypress="handleKeyPress(event)">
+        <input type="text" id="userInput" placeholder="भाई, बता आज मार्केट में क्या सीन है..." onkeypress="handleKeyPress(event)">
         <button class="send-btn" onclick="sendMessage()">भेजें</button>
     </div>
 </div>
 
-<!-- सेटिंग्स और डेटा मैनेजमेंट मोडल -->
+<!-- सेटिंग्स मोडल -->
 <div id="settingsModal">
     <div class="modal-content">
-        <h3>⚙️ बिजनेस सेटिंग्स और गोल</h3>
+        <h3>⚙️ हमारे बिजनेस की सेटिंग्स</h3>
         
-        <label>Grok API Key:</label>
+        <label>Grok / AI API Key (वैकल्पिक):</label>
         <input type="password" id="grokKey" placeholder="API Key डालें...">
 
-        <label>बिजनेस का नाम:</label>
+        <label>हमारा बिजनेस नाम:</label>
         <input type="text" id="bizName" placeholder="जैसे: Fruit Stall / Jet Black">
 
-        <label>कुल कैपिटल (₹):</label>
-        <input type="number" id="bizCapital" placeholder="10000">
+        <label>हमारी कुल कैपिटल (₹):</label>
+        <input type="number" id="bizCapital" placeholder="11000">
 
-        <label>टारगेट गोल (₹):</label>
+        <label>हमारा बड़ा टारगेट (₹):</label>
         <input type="number" id="targetGoal" placeholder="10000000">
 
         <hr style="border-color: #374151; margin: 15px 0;">
 
-        <h3>💰 आमदनी / खर्चा जोड़ें</h3>
+        <h3>💰 कमाई / खर्चा जोड़ें</h3>
         <label>ट्रांजैक्शन प्रकार:</label>
         <select id="transType">
             <option value="income">📥 आमदनी (Income)</option>
             <option value="expense">📤 खर्चा (Expense)</option>
         </select>
 
-        <label>विवरण (कहाँ से आए / कहाँ गए?):</label>
-        <input type="text" id="transDesc" placeholder="जैसे: माल बिका / फालतू खर्चा">
+        <label>विवरण:</label>
+        <input type="text" id="transDesc" placeholder="जैसे: माल बिका / जरूरी सामान">
 
         <label>रुपये (₹):</label>
         <input type="number" id="transAmount" placeholder="500">
@@ -205,13 +204,13 @@
     let db = JSON.parse(localStorage.getItem('lifeOS_data')) || {
         grokKey: "",
         bizName: "Fruit Stall",
-        capital: 10000,
+        capital: 11000,
         goal: 10000000,
         transactions: []
     };
 
     window.onload = function() {
-        triggerProRoadmapMessage();
+        // स्क्रीन क्लीन रहेगी, यूजर बातचीत शुरू करेगा
     };
 
     function openSettings() {
@@ -228,7 +227,7 @@
 
     function saveAllSettings() {
         db.grokKey = document.getElementById('grokKey').value.trim();
-        db.bizName = document.getElementById('bizName').value.trim() || "मेरा बिजनेस";
+        db.bizName = document.getElementById('bizName').value.trim() || "हमारा बिजनेस";
         db.capital = parseFloat(document.getElementById('bizCapital').value) || 100;
         db.goal = parseFloat(document.getElementById('targetGoal').value) || 10000000;
 
@@ -248,12 +247,12 @@
             document.getElementById('transAmount').value = "";
         }
 
+        localStorage.getItem('lifeOS_data', JSON.stringify(db));
         localStorage.setItem('lifeOS_data', JSON.stringify(db));
-        document.getElementById('saveStatus').innerText = "✅ डेटा सेव हो गया! एजेंट रोडमैप अपडेट कर रहा है।";
+        document.getElementById('saveStatus').innerText = "✅ डेटा अपडेट हो गया!";
         setTimeout(() => {
             document.getElementById('saveStatus').innerText = "";
             closeSettings();
-            triggerProRoadmapMessage();
         }, 1200);
     }
 
@@ -270,9 +269,9 @@
         inputField.value = "";
 
         setTimeout(() => {
-            let reply = getProResponse(text);
-            appendMessage(reply, 'bot-msg');
-        }, 600);
+            let reply = getCoFounderResponse(text);
+            appendMessageWithTypingEffect(reply, 'bot-msg');
+        }, 400);
     }
 
     function appendMessage(text, className) {
@@ -284,63 +283,69 @@
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // यहाँ बिजनेस के हिसाब से असली जमीनी रोडमैप जनरेट होगा
-    function getGroundRoadmap() {
-        let name = db.bizName.toLowerCase();
-        let auditExpenses = db.transactions.filter(t => t.type === 'खर्चा');
-        let wasted = auditExpenses.reduce((sum, t) => sum + t.amount, 0);
-
-        let roadmapHTML = `📌 <strong>${db.bizName} के लिए जमीनी एक्शन रोडमैप (टारगेट: ₹${db.goal.toLocaleString()}):्</strong><br><br>`;
-
-        if (name.includes('fruit') || name.includes('ফল') || name.includes('फल')) {
-            roadmapHTML += `1. <strong>सप्लाई चेन ऑप्टिमाइजेशन:</strong> सुबह मंडी से सीधे फ्रेश माल उठाओ ताकि वेस्टेज (सड़न) शून्य हो सके।<br>` +
-                           `2. <strong>लोकल विजिबिलिटी:</strong> ठेले/दुकान की लाइटिंग और फ्रूट्स की डिस्प्ले ऐसी हो कि दूर से कस्टमर आकर्षित हो।<br>` +
-                           `3. <strong>रिटेंशन और वॉल्यूम:</strong> रेगुलर ग्राहकों को प्रीमियम क्वालिटी या थोड़ा फ्रूट एक्स्ट्रा देकर जोड़कर रखो।`;
-        } else if (name.includes('jet') || name.includes('black') || name.includes('polish') || name.includes('cleaning')) {
-            roadmapHTML += `1. <strong>डायरेक्ट मार्केटिंग:</strong> अपने प्रोडक्ट या सर्विस का एक डेमो वीडियो बनाओ और लोकल WhatsApp ग्रुप्स या इंस्टाग्राम रील्स पर डालो।<br>` +
-                           `2. <strong>मार्जिन प्रोटेक्शन:</strong> केमिकल या रॉ मटेरियल हमेशा होलसेल सप्लायर से कम दाम में बल्क में खरीदो।<br>` +
-                           `3. <strong>कस्टमर ट्रस्ट:</strong> पहली सर्विस या प्रोडक्ट पर शानदार रिजल्ट दो ताकि वर्ड-ऑफ-माउथ पब्लिसिटी मिले।`;
-        } else {
-            roadmapHTML += `1. <strong>कस्टमर एक्विजिशन:</strong> बिना लागत के लोकल मार्केट में सीधे कस्टमर से मिलो और फीडबैक लो।<br>` +
-                           `2. <strong>कैश फ्लो कंट्रोल:</strong> हर एक रुपये के खर्चे और आमदनी का रिकॉर्ड रखो, फालतू के खर्चों पर तुरंत ब्रेक लगाओ।<br>` +
-                           `3. <strong>स्कैलिंग:</strong> जब प्रॉफिट लगातार आने लगे, तभी री-इन्वेस्ट करके बिजनेस का दायरा बढ़ाओ।`;
-        }
-
-        if (wasted > 0) {
-            roadmapHTML += `<br><br>⚠️ <strong>खर्चे पर उस्ताद की चेतावनी:</strong> तूने लोकल स्टोरेज में कुल ₹${wasted.toLocaleString()} के खर्चे दर्ज किए हैं। अगर ऐसे ही पैसे बहते रहे, तो करोड़ों का गोल कागजों पर ही रह जाएगा!`;
-        }
-
-        return roadmapHTML;
-    }
-
-    function triggerProRoadmapMessage() {
+    // टाइपराइटर इफेक्ट (मशीन की तरह एक-एक अक्षर छपेगा)
+    function appendMessageWithTypingEffect(htmlText, className) {
         let chatBox = document.getElementById('chatBox');
-        chatBox.innerHTML = ""; 
+        let div = document.createElement('div');
+        div.className = `message ${className}`;
+        chatBox.appendChild(div);
+
+        let i = 0;
+        let speed = 12; // टाइपिंग स्पीड
         
-        let totalIncome = db.transactions.filter(t => t.type === 'आमदनी').reduce((sum, t) => sum + t.amount, 0);
-        let totalExpense = db.transactions.filter(t => t.type === 'खर्चा').reduce((sum, t) => sum + t.amount, 0);
-        let roadmap = getGroundRoadmap();
-
-        let mentorText = `🎯 <strong>नमस्ते भाई!</strong><br>` +
-            `तूने अपना बिजनेस <strong>'${db.bizName}'</strong> लॉक किया है, करंट कैपिटल <strong>₹${db.capital.toLocaleString()}</strong> है, और फाइनल गोल <strong>₹${db.goal.toLocaleString()}</strong> का है।<br><br>` +
-            `📊 <strong>फाइनेंशियल स्टेटस:</strong> कमाई ₹${totalIncome.toLocaleString()} | खर्चा ₹${totalExpense.toLocaleString()}<br><br>` +
-            `${roadmap}<br><br>` +
-            `👉 बता भाई, आज इस रोडमैप के हिसाब से जमीन पर क्या एक्शन लिया तूने?`;
-
-        appendMessage(mentorText, 'bot-msg');
+        function typeWriter() {
+            if (i < htmlText.length) {
+                if (htmlText.charAt(i) === '<') {
+                    let closeIdx = htmlText.indexOf('>', i);
+                    if (closeIdx !== -1) {
+                        div.innerHTML += htmlText.substring(i, closeIdx + 1);
+                        i = closeIdx + 1;
+                    } else {
+                        div.innerHTML += htmlText.charAt(i);
+                        i++;
+                    }
+                } else {
+                    div.innerHTML += htmlText.charAt(i);
+                    i++;
+                }
+                chatBox.scrollTop = chatBox.scrollHeight;
+                setTimeout(typeWriter, speed);
+            }
+        }
+        typeWriter();
     }
 
-    function getProResponse(query) {
+    // असली को-फाउंडर / पार्टनर लॉजिक (जो हर टारगेट को अपना मानता है)
+    function getCoFounderResponse(query) {
         let q = query.toLowerCase();
+        let name = db.bizName.toLowerCase();
 
-        if(q.includes(' roadmap') || q.includes('रोडमैप') || q.includes('plan') || q.includes('क्या करूँ')) {
-            return getGroundRoadmap();
-        } else if(q.includes('बैलेंस') || q.includes('capital') || q.includes('paisa') || q.includes('पैसे')) {
+        if(q.includes('mahnga') || q.includes('mehnga') || q.includes('manda') || q.includes('chals nahi') || q.includes('bacchad kam') || q.includes('bacht')) {
+            if(name.includes('fruit') || name.includes('ফল') || name.includes('फल')) {
+                return `🔥 <strong>भाई, तू बिल्कुल सही कह रहा है, ये माल महंगा पड़ने वाला झंझट हमें मिलकर निपटाना पड़ेगा!</strong><br><br>` +
+                       `देख, <strong>'${db.bizName}'</strong> में अगर माल महंगा मिल रहा है और मार्जिन निचोड़ रहा है, तो हमारा ₹${db.goal.toLocaleString()} का टारगेट कैसे पूरा होगा? सुन हमारी नई रणनीति:<br>` +
+                       `1. कल सुबह मैं और तू सीधे बड़े आढ़तिए या डायरेक्ट किसान के पास चलेंगे, बिचौलियों का कमीशन खत्म करना है!<br>` +
+                       `2. जो फल थोड़ा दब रहा है या बच रहा है, उसे फेंकने की बिल्कुल जरूरत नहीं है—हम उसका फ्रूट शेक और जूस बनाएंगे, जिसमें लागत कम और मुनाफा सीधा डबल है!<br>` +
+                       `3. बता, कल सुबह कितने बजे चल रहा है मंडी में माल उठाने? तू बता, मैं पूरी तरह तेरे साथ खड़ा हूँ!`;
+            } else {
+                return `🔥 <strong>सुन भाई, अगर धंधा मंदा है तो ये हम दोनों की टेंशन है!</strong><br><br>` +
+                       `देख, <strong>'${db.bizName}'</strong> को उठाने के लिए हमें जमीन पर उतरकर मेहनत करनी होगी। लागत कम करनी है और क्वालिटी ऐसी देनी है कि कस्टमर भागकर हमारे पास आए। बता, आज का क्या प्लान है तेरा?`;
+            }
+        } 
+        else if(q.includes('roadmap') || q.includes('रोडमैप') || q.includes('plan') || q.includes('kya karein') || q.includes('kya karna')) {
+            return `🎯 <strong>ये ले भाई, हमारे ${db.bizName} का आज का पक्का एक्शन प्लान:</strong><br><br>` +
+                   `1. आज अपनी दुकान की डिस्प्ले और साफ-सफाई एकदम फर्स्ट-क्लास रखनी है ताकि दूर से चमक आए。<br>` +
+                   `2. एक भी रुपया फालतू खर्च नहीं होने देना, हर एक चवनी हमारे कैपिटल और टारगेट में जुड़ेगी।<br>` +
+                   `3. बता भाई, इस प्लान में से कौन सा काम सबसे पहले हाथ में लें?`;
+        }
+        else if(q.includes('paisa') || q.includes('capital') || q.includes('balance') || q.includes('पैसे')) {
             let totalIncome = db.transactions.filter(t => t.type === 'आमदनी').reduce((sum, t) => sum + t.amount, 0);
             let totalExpense = db.transactions.filter(t => t.type === 'खर्चा').reduce((sum, t) => sum + t.amount, 0);
-            return `💰 <strong>लेखा-जोखा:</strong><br>• बिजनेस: ${db.bizName}<br>• कैपिटल: ₹${db.capital.toLocaleString()}<br>• कुल कमाई: ₹${totalIncome.toLocaleString()}<br>• कुल खर्चा: ₹${totalExpense.toLocaleString()}<br>• टारगेट गोल: ₹${db.goal.toLocaleString()}`;
-        } else {
-            return `💡 भाई, '${db.bizName}' को ₹${db.goal.toLocaleString()} तक ले जाने के लिए हवा में तीर चलाने से काम नहीं चलेगा। जो जमीनी रोडमैप दिया है उसपर फोकस कर। मुझसे पूछ सकता है कि <em>"आज का रोडमैप क्या है?"</em> या <em>"बैलेंस कितना है?"</em>।`;
+            return `💰 <strong>देख भाई, ये रहा हमारे बिजनेस का कच्चा चिट्ठा:</strong><br>• बिजनेस: ${db.bizName}<br>• कुल कैपिटल: ₹${db.capital.toLocaleString()}<br>• कुल कमाई: ₹${totalIncome.toLocaleString()}<br>• कुल खर्चा: ₹${totalExpense.toLocaleString()}<br>• हमारा बड़ा टारगेट: ₹${db.goal.toLocaleString()}<br><br>हिساب एकदम साफ है, अब हमें मिलकर रेवेन्यू और बढ़ाना है!`;
+        }
+        else {
+            return `💪 <strong>भाई, बात को घुमा मत!</strong><br>` +
+                   `हम दोनों का एक ही सपना है—<strong>'${db.bizName}'</strong> को फर्श से उठाकर आसमान तक ले जाना और उस ₹${db.goal.toLocaleString()} के टारगेट को फोड़ना। बता, आज बिक्री बढ़ाने के लिए जमीन पर क्या एक्शन ले रहे हैं हम?`;
         }
     }
 </script>
