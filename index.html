@@ -12,27 +12,27 @@
             background: #060913; 
             color: #f1f5f9; 
             margin: 0; 
-            padding: 8px; 
+            padding: 0; 
             display: flex;
             justify-content: center;
+            align-items: center;
             height: 100vh;
             overflow: hidden;
         }
         .container { 
             width: 100%; 
             max-width: 480px; 
+            height: 100%;
             background: #0f172a; 
-            border-radius: 18px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.8); 
             display: flex;
             flex-direction: column;
-            border: 1px solid #1e293b;
-            overflow: hidden;
+            border-left: 1px solid #1e293b;
+            border-right: 1px solid #1e293b;
             position: relative;
-            height: 100%;
+            overflow: hidden;
         }
         .header {
-            padding: 12px 16px;
+            padding: 10px 14px;
             background: #0f172a;
             border-bottom: 1px solid #1e293b;
             display: flex;
@@ -40,17 +40,17 @@
             align-items: center;
             flex-shrink: 0;
         }
-        h2 { color: #38bdf8; margin: 0; font-weight: 800; font-size: 15px; }
-        .subtitle { font-size: 10px; color: #94a3b8; font-weight: 700; }
+        h2 { color: #38bdf8; margin: 0; font-weight: 800; font-size: 14px; }
+        .subtitle { font-size: 9px; color: #94a3b8; font-weight: 700; }
         
         .header-btns { display: flex; gap: 6px; align-items: center; }
         .token-badge {
             background: rgba(234, 179, 8, 0.15);
             border: 1px solid #eab308;
             color: #facc15;
-            padding: 4px 8px;
-            border-radius: 10px;
-            font-size: 11px;
+            padding: 3px 6px;
+            border-radius: 8px;
+            font-size: 10px;
             font-weight: 800;
             display: flex;
             align-items: center;
@@ -60,11 +60,11 @@
         .action-btn { 
             background: #1e293b; 
             border: none; 
-            font-size: 13px; 
+            font-size: 12px; 
             cursor: pointer; 
             color: #cbd5e1; 
-            padding: 6px 8px;
-            border-radius: 8px;
+            padding: 5px 7px;
+            border-radius: 6px;
         }
 
         /* Navigation Tabs */
@@ -83,7 +83,6 @@
             font-weight: 800;
             font-size: 11px;
             cursor: pointer;
-            transition: 0.2s;
             text-align: center;
         }
         .tab-btn.active {
@@ -107,16 +106,16 @@
         .biz-card {
             background: #111827;
             border: 1px solid #1f2937;
-            border-radius: 12px;
-            padding: 10px 12px;
+            border-radius: 10px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            margin-bottom: 10px;
+            gap: 4px;
+            margin-bottom: 8px;
         }
         .biz-title { font-size: 12px; font-weight: 800; color: #f8fafc; display: flex; justify-content: space-between; align-items: center; }
         .biz-meta { font-size: 10px; color: #94a3b8; font-weight: 700; display: flex; gap: 10px; }
-        .biz-desc { font-size: 10px; color: #cbd5e1; line-height: 1.3; font-weight: 500; }
+        .biz-desc { font-size: 10px; color: #cbd5e1; line-height: 1.3; }
         .unlock-btn {
             background: #0284c7;
             color: white;
@@ -137,33 +136,33 @@
             display: flex; 
             flex-direction: column; 
             gap: 10px; 
-            padding-bottom: 15px; 
+            padding-bottom: 10px;
         }
-        .message { max-width: 88%; padding: 10px 14px; border-radius: 12px; font-size: 12px; font-weight: 700; line-height: 1.5; word-break: break-word; }
+        .message { max-width: 88%; padding: 10px 12px; border-radius: 10px; font-size: 12px; font-weight: 700; line-height: 1.4; word-break: break-word; }
         .user-msg { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
         .bot-msg { background: #1f2937; color: #f1f5f9; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #374151; }
 
-        /* Gemini Like Input Box (Fixed at Bottom, Raised & Clean) */
+        /* Gemini Like Fixed Bottom Input Box */
         .chat-input-wrapper {
             background: #0f172a;
             border-top: 1px solid #1e293b;
-            padding: 10px 12px;
+            padding: 10px;
             flex-shrink: 0;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
-        #imagePreviewContainer { display: none; align-items: center; gap: 8px; background: #1e293b; padding: 6px 10px; border-radius: 8px; width: fit-content; }
-        #imagePreviewContainer img { width: 35px; height: 35px; object-fit: cover; border-radius: 4px; }
-        #imagePreviewContainer span { font-size: 11px; color: #38bdf8; font-weight: 700; }
-        .remove-img { background: none; border: none; color: #ef4444; font-weight: 800; cursor: pointer; font-size: 14px; }
+        #imagePreviewContainer { display: none; align-items: center; gap: 8px; background: #1e293b; padding: 4px 8px; border-radius: 6px; width: fit-content; }
+        #imagePreviewContainer img { width: 30px; height: 30px; object-fit: cover; border-radius: 4px; }
+        #imagePreviewContainer span { font-size: 10px; color: #38bdf8; font-weight: 700; }
+        .remove-img { background: none; border: none; color: #ef4444; font-weight: 800; cursor: pointer; font-size: 12px; }
 
         .chat-input-row {
             display: flex;
             align-items: center;
             background: #111827;
             border: 1px solid #334155;
-            border-radius: 14px;
+            border-radius: 12px;
             padding: 6px 10px;
             gap: 8px;
         }
@@ -173,18 +172,17 @@
             color: #94a3b8;
             font-size: 16px;
             cursor: pointer;
-            padding: 4px;
+            padding: 2px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .tool-icon-btn:hover { color: #38bdf8; }
         .tool-icon-btn.listening { color: #ef4444; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
 
         input[type="text"] { 
             flex: 1; 
-            padding: 8px; 
+            padding: 6px; 
             border: none; 
             background: transparent; 
             color: #fff; 
@@ -196,15 +194,16 @@
             background: #0284c7; 
             border: none; 
             color: white; 
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%; 
             font-weight: 800; 
             cursor: pointer; 
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 13px;
+            flex-shrink: 0;
         }
 
         /* Modal */
@@ -235,7 +234,7 @@
 
     <!-- Navigation Tabs -->
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('packages')">📦 बिजनेस पैकेज डैशबोर्ड</button>
+        <button class="tab-btn active" onclick="switchTab('packages')">📦 बिजनेस पैकेज</button>
         <button class="tab-btn" onclick="switchTab('chat')">💬 चैट को-फाउंडर</button>
     </div>
 
@@ -245,11 +244,11 @@
         <div id="fullPackageDashboard" style="display: flex; flex-direction: column; gap: 8px;"></div>
     </div>
 
-    <!-- Pane 2: Gemini Like Chat Box -->
+    <!-- Pane 2: Gemini Like Chat Box (Fixed visibility) -->
     <div id="pane-chat" class="pane">
         <div class="chat-box" id="chatBox"></div>
         
-        <!-- Gemini Style Bottom Input Area -->
+        <!-- Bottom Input Area -->
         <div class="chat-input-wrapper">
             <div id="imagePreviewContainer">
                 <img id="previewImg" src="" alt="preview">
@@ -257,17 +256,13 @@
                 <button class="remove-img" onclick="removeImage()">×</button>
             </div>
             <div class="chat-input-row">
-                <!-- Image Upload Button (Screenshot / Photo) -->
                 <button class="tool-icon-btn" onclick="document.getElementById('imageInput').click()" title="स्क्रीनशॉट या फोटो जोड़ें">📎</button>
                 <input type="file" id="imageInput" accept="image/*" style="display: none;" onchange="handleImageUpload(event)">
                 
-                <!-- Voice Input Button (Speech to Text) -->
                 <button class="tool-icon-btn" id="micBtn" onclick="toggleSpeechRecognition()" title="बोलकर टाइप करें">🎙️</button>
                 
-                <!-- Text Input -->
                 <input type="text" id="userInput" placeholder="भाई, धंधे की बात कर..." onkeypress="handleKeyPress(event)">
                 
-                <!-- Send Button -->
                 <button class="send-btn" onclick="sendMessage()">➔</button>
             </div>
         </div>
@@ -324,7 +319,7 @@
         document.getElementById('tokenCount').innerText = db.tokens;
         renderDashboard();
         let activeB = allBusinesses[db.activeBizIndex];
-        appendMessage(`💪 राम-राम भाई! हमने '${activeB.name}' (कैपिटल: ₹${activeB.cap.toLocaleString()}) सेट कर लिया है। बता, इस धंधे को आगे कैसे बढ़ाना है?`, 'bot-msg');
+        appendMessage(`💪 राम-राम भाई! '${activeB.name}' (कैपिटल: ₹${activeB.cap.toLocaleString()}) सेट है। बता, आगे क्या प्लान है?`, 'bot-msg');
         
         if(db.grokKey) {
             fetchBestModel(db.grokKey);
@@ -340,6 +335,9 @@
         } else {
             document.getElementById('pane-chat').classList.add('active');
             document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            // स्क्रॉल चैट टू बॉटम
+            let chatBox = document.getElementById('chatBox');
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
     }
 
@@ -399,7 +397,6 @@
         triggerAIResponse(`भाई, हमने सिर्फ '${b.name}' (कैपिटल: ₹${b.cap.toLocaleString()}) बिजनेस सेलेक्ट किया है। इसके ₹1 करोड़ के टारगेट को पाने के लिए पहले हफ्ते की फुल-प्रूफ स्ट्रैटेजी बता।`);
     }
 
-    // Image Upload Handler
     function handleImageUpload(event) {
         let file = event.target.files[0];
         if(!file) return;
@@ -418,7 +415,6 @@
         document.getElementById('imagePreviewContainer').style.display = 'none';
     }
 
-    // Speech to Text (Mic Voice Input)
     function toggleSpeechRecognition() {
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         if(!SpeechRecognition) {
@@ -429,24 +425,13 @@
         recognition.lang = 'hi-IN';
         let micBtn = document.getElementById('micBtn');
 
-        recognition.onstart = function() {
-            micBtn.classList.add('listening');
-        };
-
+        recognition.onstart = function() { micBtn.classList.add('listening'); };
         recognition.onresult = function(event) {
-            let speechText = event.results[0][0].transcript;
-            document.getElementById('userInput').value = speechText;
+            document.getElementById('userInput').value = event.results[0][0].transcript;
             micBtn.classList.remove('listening');
         };
-
-        recognition.onerror = function() {
-            micBtn.classList.remove('listening');
-        };
-
-        recognition.onend = function() {
-            micBtn.classList.remove('listening');
-        };
-
+        recognition.onerror = function() { micBtn.classList.remove('listening'); };
+        recognition.onend = function() { micBtn.classList.remove('listening'); };
         recognition.start();
     }
 
@@ -518,15 +503,13 @@
 
         let displayHTML = text.replace(/\n/g, '<br>');
         if(attachedImageBase64) {
-            displayHTML += `<br><img src="${attachedImageBase64}" style="max-width:100%; border-radius:8px; margin-top:6px;">`;
+            displayHTML += `<br><img src="${attachedImageBase64}" style="max-width:100%; border-radius:6px; margin-top:6px;">`;
         }
 
         appendMessage(displayHTML, 'user-msg');
         
         let queryToSend = text;
-        if(attachedImageBase64) {
-            queryToSend += " [उज़र ने एक स्क्रीनशॉट/फोटो अटैच की है]";
-        }
+        if(attachedImageBase64) queryToSend += " [उज़र ने स्क्रीनशॉट अटैच किया है]";
 
         inputField.value = "";
         removeImage();
@@ -585,7 +568,7 @@
             } else {
                 let errorMsg = data.error ? data.error.message : "अनजान एरर";
                 db.autoModel = "openai/gpt-oss-120b";
-                appendMessage(`⚠️ API एरर: ${errorMsg}. मॉडल को 'openai/gpt-oss-120b' पर रीसेट कर दिया है, दोबारा भेजें।`, 'bot-msg');
+                appendMessage(`⚠️ API एरर: ${errorMsg}. मॉडल को रीसेट कर दिया है, दोबारा भेजें।`, 'bot-msg');
             }
         } catch(e) {
             if(document.getElementById('loadingMsg')) chatBox.removeChild(document.getElementById('loadingMsg'));
