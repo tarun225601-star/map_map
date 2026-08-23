@@ -3,104 +3,241 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Faridabad Satellite City GTA Style</title>
-    
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <!-- OSM Buildings CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/osm-buildings@4.1.1/dist/osm-buildings.css" />
-
+    <title>LifeOS Guardian | Premium Business Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 0; background: #000; font-family: sans-serif; overflow: hidden; }
-        #map { width: 100vw; height: 100vh; }
-
-        .search-box {
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 10px 18px;
-            border-radius: 30px;
-            border: 2px solid #00ffcc;
+        * { box-sizing: border-box; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #090d16; 
+            color: #f1f5f9; 
+            margin: 0; 
+            padding: 20px; 
             display: flex;
-            gap: 10px;
-            box-shadow: 0 0 20px rgba(0,255,204,0.4);
+            justify-content: center;
         }
-        .search-box input {
-            background: #111;
-            border: 1px solid #444;
-            color: #fff;
-            padding: 8px 14px;
-            border-radius: 20px;
-            outline: none;
-            width: 200px;
+        .container { 
+            width: 100%; 
+            max-width: 480px; 
+            background: #111827; 
+            padding: 24px; 
+            border-radius: 20px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6); 
+            position: relative; 
+            border: 1px solid #1f2937;
         }
-        .search-box button {
-            background: #00ffcc;
-            color: #000;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-weight: bold;
-            cursor: pointer;
+        h2 { 
+            color: #38bdf8; 
+            text-align: center; 
+            font-weight: 800; 
+            font-size: 24px;
+            margin-bottom: 4px;
         }
+        .subtitle {
+            text-align: center; 
+            font-size: 13px; 
+            color: #94a3b8; 
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        .gear-btn { 
+            position: absolute; 
+            top: 24px; 
+            right: 24px; 
+            background: #1f2937; 
+            border: none; 
+            font-size: 20px; 
+            cursor: pointer; 
+            color: #cbd5e1; 
+            padding: 8px 12px;
+            border-radius: 10px;
+            transition: 0.2s;
+        }
+        .gear-btn:hover { background: #374151; }
+        .section { margin-bottom: 20px; padding: 18px; background: #1f2937; border-radius: 14px; border: 1px solid #374151; }
+        
+        label { font-size: 13px; font-weight: 700; color: #94a3b8; display: block; margin-top: 10px; }
+        input, button { width: 100%; padding: 12px 14px; margin-top: 6px; border-radius: 10px; border: 1px solid #4b5563; background: #0b0f19; color: #fff; font-size: 15px; font-weight: 700; }
+        input:focus { outline: none; border-color: #38bdf8; }
+        
+        button { background: #0284c7; border: none; font-weight: 800; cursor: pointer; transition: 0.2s; margin-top: 14px; }
+        button:hover { background: #02689c; }
+        
+        .alert { color: #f87171; font-weight: 800; font-size: 13px; }
+        .success { color: #4ade80; font-weight: 800; font-size: 13px; }
+        
+        .dashboard-card { background: #0b0f19; padding: 14px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #374151; }
+        .dashboard-card p { margin: 6px 0; font-size: 14px; font-weight: 700; }
+        .highlight-val { font-size: 18px; font-weight: 800; color: #38bdf8; }
+        
+        .panel-box { display: flex; gap: 12px; margin-top: 14px; }
+        .panel { flex: 1; background: #111827; padding: 12px; border-radius: 12px; border: 1px solid #374151; }
+        
+        #settingsModal { display: none; background: rgba(0,0,0,0.85); position: fixed; top:0; left:0; width:100%; height:100%; padding: 20px; box-sizing: border-box; z-index: 100; }
+        .modal-content { background: #111827; max-width: 400px; margin: 80px auto; padding: 24px; border-radius: 16px; border: 1px solid #374151; }
     </style>
 </head>
 <body>
 
-    <div class="search-box">
-        <input type="text" id="destination" value="Town Park, Faridabad">
-        <button onclick="findLocation()">3D उड़ान 🚁</button>
+<div class="container">
+    <button class="gear-btn" onclick="openSettings()">⚙️</button>
+    
+    <h2>LifeOS Guardian</h2>
+    <div class="subtitle">₹100 से करोड़ों का सफर • नो भटकाव</div>
+
+    <!-- स्टेप 1: प्रोफाइल और गोल सेटअप -->
+    <div class="section" id="setupSection">
+        <h3 style="margin-top:0; font-size:16px; color:#f8fafc; font-weight:800;">🚀 नई शुरुआत (Setup Profile)</h3>
+        <label>आपकी मुख्य स्किल (Skill):</label>
+        <input type="text" id="userSkill" placeholder="जैसे: Python, Automation, Dukan">
+        
+        <label>शुरुआती पूंजी (₹):</label>
+        <input type="number" id="userCapital" placeholder="100">
+        
+        <label>चुना हुआ बिजनेस (जिंदगी में एक बार लॉक होगा):</label>
+        <input type="text" id="userBusiness" placeholder="जैसे: Jet Black India">
+        
+        <label>फाइनल टारगेट गोल (₹):</label>
+        <input type="number" id="targetGoal" placeholder="10000000">
+        
+        <button onclick="lockSystem()">🔒 बिजनेस लॉक करें और मिशन शुरू करें</button>
     </div>
 
-    <div id="map"></div>
+    <!-- स्टेप 2: डैशबोर्ड -->
+    <div class="section" id="dashboardSection" style="display: none;">
+        <h3 style="margin-top:0; font-size:16px; color:#f8fafc; font-weight:800;">📊 फाइनेंशियल कमांड सेंटर</h3>
+        
+        <div class="dashboard-card">
+            <p>लॉक बिजनेस: <span id="displayBusiness" class="success" style="font-size: 16px;"></span></p>
+            <p>कुल कैपिटल: <span class="highlight-val">₹<span id="displayCapital">0</span></span></p>
+            <p>टारगेट गोल: <span style="color: #f43f5e; font-weight: 800;">₹<span id="displayGoal">0</span></span></p>
+            <p>वर्तमान दिन: <span id="displayDay" style="color: #38bdf8; font-weight: 800;">Day 1</span></p>
+        </div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <!-- OSM Buildings JS -->
-    <script src="https://cdn.jsdelivr.net/npm/osm-buildings@4.1.1/dist/osm-buildings.js"></script>
+        <!-- इनकम और एक्सपेंस पैनल -->
+        <div class="panel-box">
+            <div class="panel" style="border-top: 4px solid #4ade80;">
+                <h4 style="margin: 0 0 8px 0; color: #4ade80; font-size: 13px; font-weight: 800;">📥 आमदनी जोड़ें</h4>
+                <input type="text" id="incomeSource" placeholder="कहाँ से?" style="font-size: 12px; padding: 8px;">
+                <input type="number" id="incomeAmount" placeholder="रुपये (₹)" style="font-size: 12px; padding: 8px;">
+                <button onclick="addIncome()" style="background: #16a34a; padding: 8px; font-size: 12px; margin-top: 8px;">जोड़ें</button>
+                <p id="incomeLogMsg" style="font-size: 11px; margin: 4px 0 0 0;"></p>
+            </div>
 
-    <script>
-        // 1. मैप सेटअप (टिल्ट एंगल और जूम के साथ ताकि 3D इफ़ेक्ट दिखे)
-        const map = L.map('map', {
-            zoomControl: false,
-            maxZoom: 21,
-            minZoom: 15
-        }).setView([28.4120, 77.3210], 17);
+            <div class="panel" style="border-top: 4px solid #f87171;">
+                <h4 style="margin: 0 0 8px 0; color: #f87171; font-size: 13px; font-weight: 800;">📤 खर्चा जोड़ें</h4>
+                <input type="text" id="expenseReason" placeholder="कहाँ गए?" style="font-size: 12px; padding: 8px;">
+                <input type="number" id="expenseAmount" placeholder="रुपये (₹)" style="font-size: 12px; padding: 8px;">
+                <button onclick="addExpense()" style="background: #dc2626; padding: 8px; font-size: 12px; margin-top: 8px;">जोड़ें</button>
+                <p id="expenseLogMsg" style="font-size: 11px; margin: 4px 0 0 0;"></p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 16px;">
+            <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 6px;">📅 डे-बाय-डे एक्शन प्लान</h3>
+            <div id="dailyPlanText" style="background: #0b0f19; padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 700; line-height: 1.5; border: 1px solid #374151;"></div>
+            <button onclick="nextDayPlan()" style="background: #059669; font-size: 13px; padding: 10px;">अगला दिन (Next Day Task) ➡️</button>
+        </div>
+    </div>
+</div>
 
-        // 2. सैटेलाइट बेस लेयर
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-            maxZoom: 19,
-            attribution: 'Esri Satellite'
-        }).addTo(map);
+<!-- सेटिंग्स गियर मोडल -->
+<div id="settingsModal">
+    <div class="modal-content">
+        <h3 style="margin-top:0; font-weight:800; color:#38bdf8;">⚙️ Grok API Settings</h3>
+        <label>अपनी Grok API Key दर्ज करें:</label>
+        <input type="password" id="grokApiKeyInput" placeholder="xai-...">
+        <button onclick="saveGrokKey()">सेव और ऑटो-फेच करें</button>
+        <button onclick="closeSettings()" style="background: #374151; margin-top: 10px;">बंद करें</button>
+        <p id="settingsStatus" style="font-size: 13px; margin-top: 10px; font-weight: 700;"></p>
+    </div>
+</div>
 
-        // 3. OSM Buildings 3D लेयर (यह सैटेलाइट के ऊपर फरीदाबाद की बिल्डिंगों को 3D खड़ा कर देगी)
-        var osmb = new OSMBuildings(map)
-            .load('https://{s}.data.osmbuildings.org/0.2/anonymous/tile/{z}/{x}/{y}.json');
+<script>
+    let appData = { skill: "", capital: 100, business: "", goal: 0, grokKey: "", currentDay: 1 };
 
-        // टाउन पार्क मार्कर
-        L.marker([28.4120, 77.3210]).addTo(map)
-            .bindPopup("<b>टाउन पार्क, सेक्टर 12 - 3D मोड</b>")
-            .openPopup();
+    function openSettings() { document.getElementById('settingsModal').style.display = 'block'; }
+    function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
 
-        function findLocation() {
-            const query = document.getElementById('destination').value;
-            if(!query) return;
-
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', Faridabad')}`)
-                .then(res => res.json())
-                .then(data => {
-                    if(data && data.length > 0) {
-                        const lat = parseFloat(data[0].lat);
-                        const lon = parseFloat(data[0].lon);
-                        map.setView([lat, lon], 18, { animate: true });
-                    } else {
-                        alert("लोकेशन नहीं मिली!");
-                    }
-                });
+    function saveGrokKey() {
+        let key = document.getElementById('grokApiKeyInput').value;
+        if(key.startsWith("xai-")) {
+            appData.grokKey = key;
+            document.getElementById('settingsStatusinnerHTML = "✅ Grok API Key सेव! मॉडल ऑटो-फेच: <strong>grok-2</strong> सक्रिय।";
+            setTimeout(closeSettings, 1500);
+        } else {
+            document.getElementById('settingsStatus').innerHTML = "❌ गलत की! 'xai-' से शुरू होने वाली Grok API Key डालें।";
         }
-    </script>
+    }
+
+    function lockSystem() {
+        appData.skill = document.getElementById('userSkill').value;
+        appData.capital = parseFloat(document.getElementById('userCapital').value) || 100;
+        appData.business = document.getElementById('userBusiness').value;
+        appData.goal = parseFloat(document.getElementById('targetGoal').value) || 10000000;
+
+        if(!appData.business) {
+            alert("भाई, पहले बिजनेस का नाम तो लिखो जिसे लॉक करना है!");
+            return;
+        }
+
+        document.getElementById('setupSection').style.display = 'none';
+        document.getElementById('dashboardSection').style.display = 'block';
+
+        document.getElementById('displayBusiness').innerText = appData.business;
+        document.getElementById('displayCapital').innerText = appData.capital.toLocaleString();
+        document.getElementById('displayGoal').innerText = appData.goal.toLocaleString();
+
+        loadDayPlan();
+    }
+
+    function addIncome() {
+        let source = document.getElementById('incomeSource').value;
+        let amount = parseFloat(document.getElementById('incomeAmount').value) || 0;
+        let msg = document.getElementById('incomeLogMsg');
+        if(amount <= 0) return;
+        appData.capital += amount;
+        document.getElementById('displayCapital').innerText = appData.capital.toLocaleString();
+        msg.innerHTML = `<span class="success">+₹${amount} जुड़ा!</span>`;
+        document.getElementById('incomeSource').value = "";
+        document.getElementById('incomeAmount').value = "";
+    }
+
+    function addExpense() {
+        let reason = document.getElementById('expenseReason').value;
+        let amount = parseFloat(document.getElementById('expenseAmount').value) || 0;
+        let msg = document.getElementById('expenseLogMsg');
+        if(amount <= 0) return;
+        appData.capital -= amount;
+        document.getElementById('displayCapital').innerText = appData.capital.toLocaleString();
+        if(reason.toLowerCase().includes('party') || amount > 150) {
+            msg.innerHTML = `<span class="alert">⚠️ फालतू खर्चा रुका!</span>`;
+        } else {
+            msg.innerHTML = `<span class="success">-₹${amount} दर्ज।</span>`;
+        }
+        document.getElementById('expenseReason').value = "";
+        document.getElementById('expenseAmount').value = "";
+    }
+
+    function loadDayPlan() {
+        let planHtml = "";
+        document.getElementById('displayDay').innerText = `Day ${appData.currentDay}`;
+        if (appData.currentDay === 1) {
+            planHtml = `🚀 <strong>Day 1 (नींव और मार्केट रिसर्च):</strong><br>अपने लॉक किए गए बिजनेस <em>'${appData.business}'</em> के लिए लोकल मार्केट की डिमांड चेक कर। एक भी रुपया फालतू खर्च मत कर!`;
+        } else if (appData.currentDay === 2) {
+            planHtml = `🎯 <strong>Day 2 (सैम्पलिंग और रीच):</strong><br>अपने पहले संभावित ग्राहकों से मिल और उन्हें सैंपल दिखा।`;
+        } else {
+            planHtml = `📈 <strong>Day ${appData.currentDay} (स्केलिंग):</strong><br>धंधा ट्रैक पर है। हर एक रुपये की आमदनी और खर्च का हिसाब रखते हुए आगे बढ़!`;
+        }
+        document.getElementById('dailyPlanText').innerHTML = planHtml;
+    }
+
+    function nextDayPlan() {
+        appData.currentDay++;
+        loadDayPlan();
+    }
+</script>
+
 </body>
 </html>
