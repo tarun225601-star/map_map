@@ -3,153 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cartoon Gaming Nav - Faridabad</title>
+    <title>3D Faridabad Gaming Map - Free Fire Style</title>
     
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+    <!-- Mapbox GL JS CSS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.css" rel="stylesheet" />
 
     <style>
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        
-        /* एकदम साफ सफेद पन्ने जैसा बैकग्राउंड */
-        #map { width: 100vw; height: 100vh; background: #ffffff; }
+        #map { width: 100vw; height: 100vh; background: #111; }
 
-        /* सर्च बॉक्स - एकदम मॉडर्न और क्लीन */
-        .search-box {
+        /* गेमिंग स्टाइल सर्च और कंट्रोल बॉक्स */
+        .game-ui {
             position: absolute;
             top: 20px;
             left: 50%;
             transform: translateX(-50%);
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.95);
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.85);
             padding: 12px 20px;
             border-radius: 30px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 30px rgba(0,255,255,0.3);
             display: flex;
             gap: 12px;
-            border: 2px solid #000;
+            border: 2px solid #00ffcc;
         }
-        .search-box input {
-            padding: 8px 12px;
-            width: 240px;
-            border: 1px solid #ddd;
+        .game-ui input {
+            padding: 8px 14px;
+            width: 220px;
+            background: #222;
+            color: #fff;
+            border: 1px solid #444;
             border-radius: 20px;
             outline: none;
             font-size: 14px;
         }
-        .search-box button {
+        .game-ui button {
             padding: 8px 18px;
-            background: #000;
-            color: #fff;
+            background: #00ffcc;
+            color: #000;
             border: none;
             border-radius: 20px;
             cursor: pointer;
             font-weight: bold;
             font-size: 14px;
+            box-shadow: 0 0 10px rgba(0,255,255,0.5);
         }
-
-        /* लीफलेट के डिफ़ॉल्ट रूटिंग बॉक्स को छिपाना ताकि स्क्रीन साफ दिखे */
-        .leaflet-routing-container { display: none !important; }
+        .game-ui button:hover {
+            background: #fff;
+        }
     </style>
 </head>
 <body>
 
-    <div class="search-box">
-        <input type="text" id="destinationInput" placeholder="कहाँ जाना है? (जैसे: Neelam Chowk)" value="Neelam Chowk, Faridabad">
-        <button onclick="startNavigation()">ड्राइव शुरू 🚗</button>
+    <!-- गेमिंग यूआई सर्च बार -->
+    <div class="game-ui">
+        <input type="text" id="destInput" placeholder="डिस्टिनेशन लिखें (जैसे: Neelam Chowk)" value="Neelam Chowk, Faridabad">
+        <button onclick="flyToDestination()">मिशन शुरू 🚀</button>
     </div>
 
     <div id="map"></div>
 
-    <!-- Leaflet JS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+    <!-- Mapbox GL JS Library -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v3.0.1/mapbox-gl.js"></script>
 
     <script>
-        // 1. मैप को फरीदाबाद पर सेट किया
-        const map = L.map('map', {
-            zoomControl: false // स्क्रीन साफ रखने के लिए ज़ूम बटन हटाए
-        }).setView([28.4089, 77.3178], 14);
+        // यहाँ अपनी फ्री Mapbox Public Token डालनी होगी (Mapbox की साइट पर फ्री अकाउंट बनाकर 2 मिनट में मिलती है)
+        mapboxgl.accessToken = 'pk.eyJ1IjoidGFydW4yMjU2MDEiLCJhIjoiY2x5ZXhhbXBsZXRva2VuMDAxIn0.placeholder_token_replace_it'; 
+        // नोट: परमानेंट इस्तेमाल के लिए mapbox.com से अपनी फ्री पब्लिक टोकन यहां डाल देना भाई।
 
-        // 2. कार्टोडर (CartoDB Positron) टाइल्स का इस्तेमाल - जो मैप को एकदम साफ, सफेद पन्ने और काली/ग्रे क्लीन सड़कों जैसा दिखाता है!
-        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-            maxZoom: 19,
-            attribution: '© OpenStreetMap contributors & CartoDB'
-        }).addTo(map);
-
-        let userLatLng = null;
-        let routingControl = null;
-        let carMarker = null;
-
-        // कार्टून या गेम वाली कार का कस्टम आइकॉन (Emoji या Car Icon)
-        const cartoonCarIcon = L.divIcon({
-            html: '<div style="font-size: 28px; background: white; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3); border: 2px solid #000;">🏎️</div>',
-            className: 'custom-car-icon',
-            iconSize: [40, 40],
-            iconAnchor: [20, 20]
+        // 1. फरीदाबाद का 3D गेमिंग मैप सेटअप
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/dark-v11', // एकदम कूल डार्क गेमिंग थीम (या light-v11 भी रख सकता है)
+            center: [77.3178, 28.4089], // फरीदाबाद कोऑर्डिनेट्स
+            zoom: 15.5,                // नज़दीकी गेमिंग व्यू
+            pitch: 60,                 // कैमरे को तिरछा (Tilt) किया ताकि 3D गहराई दिखे
+            bearing: -17               // गेम जैसा एंगल
         });
 
-        // 3. लाइव GPS लोकेशन ट्रैक करना
-        if (navigator.geolocation) {
-            navigator.geolocation.watchPosition(
-                (position) => {
-                    const lat = position.coords.latitude;
-                    const lng = position.coords.longitude;
-                    userLatLng = L.latLng(lat, lng);
-
-                    // अगर गाड़ी का आइकॉन पहले से नहीं है, तो सफेद पन्ने पर गाड़ी खड़ी करो
-                    if (!carMarker) {
-                        carMarker = L.marker(userLatLng, { icon: cartoonCarIcon }).addTo(map)
-                            .bindPopup("<b>आप यहाँ हैं - रेडी टू ड्राइव!</b>");
-                    } else {
-                        // जैसे-जैसे GPS बदलेगा, कार्टून गाड़ी सड़क पर आगे बढ़ेगी!
-                        carMarker.setLatLng(userLatLng);
-                    }
-                    
-                    map.setView(userLatLng, 15);
-                },
-                (error) => {
-                    userLatLng = L.latLng(28.4089, 77.3178); // डिफ़ॉल्ट फरीदाबाद
-                },
-                { enableHighAccuracy: true }
-            );
-        }
-
-        // 4. नेविगेशन और रूट चालू करने का फंक्शन
-        function startNavigation() {
-            const destName = document.getElementById('destinationInput').value;
-            if (!destName || !userLatLng) {
-                alert("लोकेशन या डेस्टिनेशन चेक करें!");
-                return;
+        // 2. मैप लोड होते ही फरीदाबाद की बिल्डिंगों को 3D में ऊपर उठाना (Extrusion Magic)
+        map.on('load', () => {
+            // इंसर्ट लेयर जो ओपनस्ट्रीट/मैपबॉक्स के डेटा से 3D बिल्डिंग्स खड़ी कर देगी
+            const layers = map.getStyle().layers;
+            let labelLayerId;
+            for (let i = 0; i < layers.length; i++) {
+                if (layers[i].type === 'symbol' && layers[i].layout['text-field']) {
+                    labelLayerId = layers[i].id;
+                    break;
+                }
             }
 
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(destName)}`)
+            // 3D बिल्डिंग लेयर जोड़ना
+            map.addLayer(
+                {
+                    'id': '3d-buildings',
+                    'source': 'composite',
+                    'source-layer': 'building',
+                    'filter': ['==', 'extrude', 'true'],
+                    'type': 'fill-extrusion',
+                    'minzoom': 13,
+                    'paint': {
+                        'fill-extrusion-color': '#aaa', // बिल्डिंग का रंग
+                        // डेटा के हिसाब से बिल्डिंग की असली ऊंचाई (Height) 3D में उठेगी
+                        'fill-extrusion-height': [
+                            'interpolate',
+                            ['linear'],
+                            ['zoom'],
+                            13,
+                            0,
+                            15.05,
+                            ['get', 'height']
+                        ],
+                        'fill-extrusion-base': [
+                            'interpolate',
+                            ['linear'],
+                            ['zoom'],
+                            13,
+                            0,
+                            15.05,
+                            ['get', 'min_height']
+                        ],
+                        'fill-extrusion-opacity': 0.85
+                    }
+                },
+                labelLayerId
+            );
+        });
+
+        // 3. सर्च करके गेम की तरह कैमरा उड़ाकर डेस्टिनेशन पर जाने का फंक्शन
+        function flyToDestination() {
+            const query = document.getElementById('destInput').value;
+            if(!query) return;
+
+            // Mapbox की Geocoding API से जगह ढूंढना
+            fetch(`https://api.mapbox.com/geocoding/v5/mapbox.places/${encodeURIComponent(query)}.json?access_token=${mapboxgl.accessToken}&country=in&bbox=77.1,28.2,77.5,28.6`)
                 .then(response => response.json())
                 .then(data => {
-                    if (data.length > 0) {
-                        const destLatLng = L.latLng(parseFloat(data[0].lat), parseFloat(data[0].lon));
-
-                        if (routingControl) {
-                            map.removeControl(routingControl);
-                        }
-
-                        // एकदम बोल्ड और साफ़ काली/डार्क ब्लू लाइन जो रास्ता दिखाएगी
-                        routingControl = L.Routing.control({
-                            waypoints: [userLatLng, destLatLng],
-                            routeWhileDragging: false,
-                            lineOptions: {
-                                styles: [{ color: '#000000', weight: 7, opacity: 0.8 }] // एकदम गहरी काली सड़क जैसी लाइन!
-                            },
-                            addWaypoints: false,
-                            draggableWaypoints: false,
-                            fitSelectedRoutes: true
-                        }).addTo(map);
+                    if(data.features && data.features.length > 0) {
+                        const coords = data.features[0].center;
+                        
+                        // गेम के कैमरे की तरह एनीमेशन के साथ डेस्टिनेशन पर उड़कर जाना (FlyTo)
+                        map.flyTo({
+                            center: coords,
+                            zoom: 17,
+                            pitch: 65,
+                            bearing: 30,
+                            speed: 1.5, // उड़ने की रफ्तार
+                            curve: 1.4,
+                            essential: true
+                        });
 
                     } else {
-                        alert("यह जगह नहीं मिली!");
+                        alert("भाई, यह जगह फरीदाबाद के आसपास नहीं मिली!");
                     }
-                });
+                })
+                .catch(err => console.log(err));
         }
     </script>
 </body>
