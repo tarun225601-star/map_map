@@ -3,88 +3,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leaflet Map Fix</title>
-    
-    <!-- 1. Leaflet CSS CDN -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" 
-          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" 
-          crossorigin=""/>
-
+    <title>Faridabad Live Map Fix</title>
     <style>
-        /* बॉडी और एचटीएमएल की हाइट सेट करना जरूरी है */
         html, body {
             margin: 0;
             padding: 0;
             height: 100%;
             width: 100%;
-            background-color: #121212; /* तुम्हारी ऐप की तरह डार्क थीम */
+            background-color: #121212;
             color: white;
             font-family: sans-serif;
+            overflow: hidden;
         }
-
-        /* ऊपर का सर्च/हेडर एरिया */
         #header {
-            padding: 10px;
+            padding: 12px;
+            background: #1f1f1f;
             display: flex;
             gap: 10px;
-            background: #1f1f1f;
             align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-
         #header input {
             flex: 1;
             padding: 10px;
             border-radius: 8px;
-            border: 1px solid #333;
+            border: 1px solid #444;
             background: #2a2a2a;
             color: white;
+            font-size: 14px;
         }
-
         #header button {
-            padding: 10px 20px;
+            padding: 10px 18px;
             background: #00ffcc;
+            color: #000;
             border: none;
             border-radius: 8px;
             font-weight: bold;
             cursor: pointer;
         }
-
-        /* 2. सबसे जरूरी: मैप वाले <div> की फिक्स या फुल हाइट देना */
-        #map {
+        /* मैप बॉक्स की पक्की हाइट */
+        #map-container {
             width: 100%;
-            height: calc(100vh - 60px); /* स्क्रीन की बची हुई पूरी हाइट लेगा */
+            height: calc(100vh - 60px);
+            background: #222;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
     </style>
 </head>
 <body>
 
     <div id="header">
-        <input type="text" value="Neelam Chowk, Faridabad">
-        <button>मिशन शुरू 🚀</button>
+        <input type="text" id="searchInput" value="Neelam Chowk, Faridabad">
+        <button onclick="searchLocation()">लोकेशन ढूँढें 🚀</button>
     </div>
 
-    <!-- मैप का कंटेनर -->
-    <div id="map"></div>
-
-    <!-- 3. Leaflet JavaScript CDN -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" 
-            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" 
-            crossorigin=""></script>
+    <!-- मैप दिखाने के लिए अचूक iframe तरीका ताकि कभी ब्लैक स्क्रीन न आए -->
+    <div id="map-container">
+        <iframe id="mapFrame" 
+            src="https://www.google.com/maps?q=Neelam+Chowk,Faridabad&output=embed">
+        </iframe>
+    </div>
 
     <script>
-        // फरीदाबाद (नीलम चौक के आस-पास) के कोऑर्डिनेट्स
-        var map = L.map('map').setView([28.4089, 77.3178], 15);
-
-        // OpenStreetMap का बेस लेयर जोड़ना
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        // एक मार्कर जोड़कर चेक करना कि मैप काम कर रहा है या नहीं
-        var marker = L.marker([28.4089, 77.3178]).addTo(map)
-            .bindAddress = "Neelam Chowk, Faridabad";
-        marker.bindPopup("<b>नीलम चौक, फरीदाबाद</b><br>यहाँ से राइड शुरू होगी!").openPopup();
+        function searchLocation() {
+            var query = document.getElementById('searchInput').value;
+            var iframe = document.getElementById('mapFrame');
+            // सीधे गूगल मैप्स का एम्बेड यूआरएल अपडेट कर देगा, कोई ब्लैक स्क्रीन नहीं आएगी!
+            iframe.src = "https://www.google.com/maps?q=" + encodeURIComponent(query + ", Faridabad") + "&output=embed";
+        }
     </script>
 </body>
 </html>
