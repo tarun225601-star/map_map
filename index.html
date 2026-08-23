@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Business Hub | 100+ Business Ecosystem</title>
+    <title>Indian Business Hub | AI Co-Founder</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -65,7 +65,7 @@
             border-radius: 10px;
         }
 
-        /* Nav Tabs */
+        /* Clean 2-Tab Navigation */
         .nav-tabs {
             display: flex;
             background: #090d16;
@@ -73,12 +73,12 @@
         }
         .tab-btn {
             flex: 1;
-            padding: 10px;
+            padding: 12px;
             background: none;
             border: none;
             color: #64748b;
             font-weight: 800;
-            font-size: 11px;
+            font-size: 12px;
             cursor: pointer;
             transition: 0.2s;
             text-align: center;
@@ -98,32 +98,6 @@
             background: #0b0f19;
         }
         .pane.active { display: flex; flex-direction: column; gap: 12px; }
-
-        /* Floating Packages Cloud */
-        .floating-cloud {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            padding: 6px 0;
-        }
-        .float-pill {
-            background: linear-gradient(135deg, #1e293b, #0f172a);
-            border: 1px solid #334155;
-            color: #e2e8f0;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            animation: floatAnim 3s ease-in-out infinite alternate;
-            transition: 0.2s;
-        }
-        .float-pill:hover { border-color: #38bdf8; transform: scale(1.05); }
-        @keyframes floatAnim {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-3px); }
-        }
 
         /* Package Cards */
         .biz-card {
@@ -151,9 +125,9 @@
         }
         .unlock-btn.unlocked { background: #16a34a; }
 
-        /* Chat UI */
-        .chat-box { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .message { max-width: 88%; padding: 12px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; line-height: 1.4; }
+        /* Chat UI Clean Box */
+        .chat-box { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; padding-bottom: 5px; }
+        .message { max-width: 88%; padding: 12px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; line-height: 1.4; word-break: break-word; }
         .user-msg { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
         .bot-msg { background: #1f2937; color: #f1f5f9; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #374151; }
 
@@ -164,7 +138,7 @@
             display: flex;
             gap: 8px;
         }
-        input, select { 
+        input { 
             flex: 1; 
             padding: 10px; 
             border-radius: 10px; 
@@ -195,40 +169,30 @@
     <div class="header">
         <div>
             <h2>🇮🇳 Indian Business Hub</h2>
-            <div class="subtitle" id="subTitle">100+ बिजनेस पैकेजेस • ₹1 Cr विजन</div>
+            <div class="subtitle">AI बिजनेस को-फाउंडर</div>
         </div>
         <div class="header-btns">
-            <div class="token-badge" onclick="addTokens()" title="टोकन जोड़ों">🪙 <span id="tokenCount">5</span> Tokens</div>
+            <div class="token-badge" onclick="addTokens()" title="टोकन जोड़ों">🪙 <span id="tokenCount">15</span> Tokens</div>
             <button class="action-btn" onclick="openSettings()" title="सेटिंग्स">⚙️</button>
         </div>
     </div>
 
-    <!-- Navigation Tabs -->
+    <!-- Clean Navigation Tabs (Only Packages & Chat) -->
     <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('cloud')">☁️ क्लाउड</button>
-        <button class="tab-btn" onclick="switchTab('packages')">📦 पैकेज डैशबोर्ड</button>
+        <button class="tab-btn active" onclick="switchTab('packages')">📦 बिजनेस पैकेज डैशबोर्ड</button>
         <button class="tab-btn" onclick="switchTab('chat')">💬 चैट को-फाउंडर</button>
     </div>
 
-    <!-- Pane 1: Floating Packages Cloud -->
-    <div id="pane-cloud" class="pane active">
-        <div style="font-size: 11px; color: #94a3b8; font-weight: 700; text-align: center;">तैरते हुए पैकेजेस चुनें:</div>
-        <div class="floating-cloud" id="floatingCloudContainer"></div>
-        <div style="font-size: 12px; font-weight: 800; color: #38bdf8; margin-top: 4px;">📋 क्विक लिस्ट:</div>
-        <div id="quickListContainer" style="display: flex; flex-direction: column; gap: 8px;"></div>
+    <!-- Pane 1: Clean Package Dashboard -->
+    <div id="pane-packages" class="pane active">
+        <div style="font-size: 12px; color: #94a3b8; font-weight: 700;">कोई भी बिजनेस सेलेक्ट करें, सीधे चैट में प्लान शुरू होगा:</div>
+        <div id="fullPackageDashboard" style="display: flex; flex-direction: column; gap: 10px;"></div>
     </div>
 
-    <!-- Pane 2: Dedicated Package Dashboard -->
-    <div id="pane-packages" class="pane">
-        <div style="font-size: 13px; font-weight: 800; color: #38bdf8;">📦 सभी 100+ बिजनेस पैकेजेस का फ्लोटिंग डैशबोर्ड</div>
-        <div style="font-size: 11px; color: #94a3b8;">यहाँ से कोई भी पैकेज सेलेक्ट/खरीदें, सीधे चैट में एक्टिव हो जाएगा:</div>
-        <div id="fullPackageDashboard" style="display: flex; flex-direction: column; gap: 10px; margin-top: 6px;"></div>
-    </div>
-
-    <!-- Pane 3: AI Chat Co-Founder -->
+    <!-- Pane 2: Clean Chat Box (No Clutter) -->
     <div id="pane-chat" class="pane">
         <div style="background: rgba(56,189,248,0.1); border: 1px solid #38bdf8; padding: 8px 12px; border-radius: 8px; font-size: 11px; color: #38bdf8; font-weight: 800;" id="activeBizBanner">
-            एक्टिव बिजनेस: फ्रूट स्टॉल एक्सप्रेस (कैपिटल: ₹11,000)
+            एक्टिव: फ्रूट स्टॉल एक्सप्रेस (कैपिटल: ₹11,000)
         </div>
         <div class="chat-box" id="chatBox"></div>
         <div class="chat-input-area">
@@ -238,18 +202,17 @@
     </div>
 </div>
 
-<!-- Settings Modal (Only 2 Options: Floating Dashboard View & Groq API Key) -->
+<!-- Settings Modal -->
 <div id="settingsModal" class="modal">
     <div class="modal-content">
-        <h3>⚙️ Indian Business Hub सेटिंग्स</h3>
+        <h3>⚙️ सेटिंग्स</h3>
         
-        <label>1. Groq API Key (AI को-फाउंडर के लिए):</label>
-        <input type="password" id="grokKey" placeholder="अपनी API key डालें...">
+        <label>Groq API Key:</label>
+        <input type="password" id="grokKey" placeholder="अपनी API key यहाँ डालें...">
 
-        <label style="margin-top: 15px;">2. बिजनेस पैकेज डैशबोर्ड मोड:</label>
-        <button class="modal-btn" style="background: #1e293b; border: 1px solid #38bdf8; color: #38bdf8;" onclick="closeSettings(); switchTab('packages');">📦 फ्लोटिंग पैकेज डैशबोर्ड खोलें</button>
+        <div id="modelStatus" style="font-size: 11px; color: #38bdf8; margin-top: 8px; font-weight: 700;"></div>
 
-        <button class="modal-btn" onclick="saveSettings()">💾 सेव करें</button>
+        <button class="modal-btn" onclick="saveSettings()">💾 सेव करें & मॉडल ऑटो-फेच करें</button>
         <button class="modal-btn close-btn" onclick="closeSettings()">बंद करें</button>
     </div>
 </div>
@@ -264,14 +227,14 @@
     ];
 
     let allBusinesses = [...bizTemplates];
-    for(let i = 5; i <= 100; i++) {
+    for(let i = 5; i <= 50; i++) {
         let cat = categories[i % categories.length];
         allBusinesses.push({
             name: `स्मार्ट वेंचर मॉडल #${i}`,
             cap: 10000 + (i * 400),
             target: 10000000,
             cat: cat,
-            desc: `${cat} सेक्टर का हाई-प्रॉफिटेबल ऑटोमेटेड बिजनेस ब्लूप्रिंट और स्केलिंग किट।`
+            desc: `${cat} सेक्टर का हाई-प्रॉफिटेबल ऑटोमेटेड बिजनेस ब्लूप्रिंट।`
         });
     }
 
@@ -279,51 +242,38 @@
         grokKey: "",
         tokens: 15,
         unlocked: [0, 1],
-        activeBizIndex: 0
+        activeBizIndex: 0,
+        autoModel: ""
     };
 
     window.onload = function() {
         document.getElementById('tokenCount').innerText = db.tokens;
-        renderAllViews();
+        renderDashboard();
         updateActiveBanner();
         let activeB = allBusinesses[db.activeBizIndex];
-        appendMessage(`💪 राम-राम भाई! **Indian Business Hub** में स्वागत है। एक्टिव बिजनेस '${activeB.name}' (कैपिटल: ₹${activeB.cap.toLocaleString()}) सेट है। बता, आज का क्या प्लान है?`, 'bot-msg');
+        appendMessage(`💪 राम-राम भाई! एक्टिव बिजनेस '${activeB.name}' (कैपिटल: ₹${activeB.cap.toLocaleString()}) सेट है। बता, आज का क्या प्लान है?`, 'bot-msg');
+        
+        if(db.grokKey && !db.autoModel) {
+            fetchBestModel(db.grokKey);
+        }
     };
 
     function switchTab(tab) {
         document.querySelectorAll('.pane').forEach(p => p.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        if(tab === 'cloud') {
-            document.getElementById('pane-cloud').classList.add('active');
-            event.target.classList.add('active');
-        } else if(tab === 'packages') {
+        if(tab === 'packages') {
             document.getElementById('pane-packages').classList.add('active');
-            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
         } else {
             document.getElementById('pane-chat').classList.add('active');
-            document.querySelectorAll('.tab-btn')[2].classList.add('active');
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
         }
     }
 
-    function renderAllViews() {
-        let cloudContainer = document.getElementById('floatingCloudContainer');
-        let quickList = document.getElementById('quickListContainer');
+    function renderDashboard() {
         let fullDash = document.getElementById('fullPackageDashboard');
-        
-        cloudContainer.innerHTML = '';
-        quickList.innerHTML = '';
         fullDash.innerHTML = '';
 
-        // क्लाउड बबल्स
-        allBusinesses.slice(0, 12).forEach((b, idx) => {
-            let pill = document.createElement('div');
-            pill.className = 'float-pill';
-            pill.innerHTML = `🚀 ${b.name}`;
-            pill.onclick = () => selectAndSwitchToChat(idx);
-            cloudContainer.appendChild(pill);
-        });
-
-        // क्विक लिस्ट और फुल डैशबोर्ड
         allBusinesses.forEach((b, idx) => {
             let isUnlocked = db.unlocked.includes(idx);
             let isActive = db.activeBizIndex === idx;
@@ -340,19 +290,17 @@
                     </div>
                     <div class="biz-desc">${b.desc}</div>
                     <button class="unlock-btn ${isUnlocked ? 'unlocked' : ''}" onclick="selectAndSwitchToChat(${idx})">
-                        ${isUnlocked ? (isActive ? '🟢 चैट में एक्टिव है' : '👉 सेलेक्ट करके चैट पर जाएं') : '🪙 1 टोकन देकर खरीदें & चैट शुरू करें'}
+                        ${isUnlocked ? (isActive ? '🟢 चैट में एक्टिव है' : '👉 सेलेक्ट करके चैट पर जाएं') : '🪙 1 टोकन देकर खरीदें'}
                     </button>
                 </div>
             `;
-
-            if(idx < 5) quickList.innerHTML += cardHTML;
             fullDash.innerHTML += cardHTML;
         });
     }
 
     function updateActiveBanner() {
         let b = allBusinesses[db.activeBizIndex];
-        document.getElementById('activeBizBanner').innerText = `एक्टिव बिजनेस: ${b.name} (कैपिटल: ₹${b.cap.toLocaleString()})`;
+        document.getElementById('activeBizBanner').innerText = `एक्टिव: ${b.name} (कैपिटल: ₹${b.cap.toLocaleString()})`;
     }
 
     function addTokens() {
@@ -376,25 +324,63 @@
         
         db.activeBizIndex = idx;
         localStorage.setItem('indian_biz_hub_data', JSON.stringify(db));
-        renderAllViews();
+        renderDashboard();
         updateActiveBanner();
 
-        // सीधा चैट टैब पर ले जाएं और मैसेज भेजें
         switchTab('chat');
         appendMessage(`भाई, हमने '${b.name}' (कैपिटल: ₹${b.cap.toLocaleString()}) पैकेज चुन लिया है। अब इसका मास्टर प्लान बता!`, 'user-msg');
-        triggerAIResponse(`भाई, हमने इंडियन बिजनेस हब पर नया बिजनेस '${b.name}' (कैपिटल: ₹${b.cap.toLocaleString()}) सेलेक्ट किया है। इसके ₹1 करोड़ के टारगेट को पाने के लिए पहले हफ्ते की फुल-प्रूफ स्ट्रैटेजी और एक्शन प्लान बता।`);
+        triggerAIResponse(`भाई, हमने नया बिजनेस '${b.name}' (कैपिटल: ₹${b.cap.toLocaleString()}) सेलेक्ट किया है। इसके ₹1 करोड़ के टारगेट को पाने के लिए पहले हफ्ते की फुल-प्रूफ स्ट्रैटेजी बता।`);
     }
 
     function openSettings() {
         document.getElementById('grokKey').value = db.grokKey;
+        document.getElementById('modelStatus').innerText = db.autoModel ? `एक्टिव ऑटो-डिटेक्टेड मॉडल: ${db.autoModel}` : "मॉडल अभी डिटेक्ट नहीं हुआ है।";
         document.getElementById('settingsModal').style.display = 'block';
     }
+    
     function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
-    function saveSettings() {
-        db.grokKey = document.getElementById('grokKey').value.trim();
-        localStorage.setItem('indian_biz_hub_data', JSON.stringify(db));
-        alert("✅ API Key सेव हो गई!");
-        closeSettings();
+
+    async function saveSettings() {
+        let key = document.getElementById('grokKey').value.trim();
+        if(!key) {
+            alert("⚠️ कृपया अपनी Groq API Key दर्ज करें!");
+            return;
+        }
+        db.grokKey = key;
+        document.getElementById('modelStatus').innerText = "🔄 मॉडल ऑटो-फेच हो रहा है...";
+        
+        let success = await fetchBestModel(key);
+        if(success) {
+            localStorage.setItem('indian_biz_hub_data', JSON.stringify(db));
+            alert("✅ API Key सेव हो गई और मॉडल ऑटो-डिटेक्ट हो गया!");
+            closeSettings();
+        } else {
+            alert("❌ API Key गलत है या मॉडल फेच नहीं हो पाया।");
+        }
+    }
+
+    async function fetchBestModel(apiKey) {
+        try {
+            let res = await fetch("https://api.groq.com/openai/v1/models", {
+                method: "GET",
+                headers: { "Authorization": `Bearer ${apiKey}` }
+            });
+            let data = await res.json();
+            if(res.ok && data.data && data.data.length > 0) {
+                let chatModels = data.data.filter(m => m.id.includes('llama') || m.id.includes('mixtral') || m.id.includes('gemma'));
+                if(chatModels.length > 0) {
+                    let selected = chatModels.find(m => m.id.includes('3.3-70b')) || chatModels.find(m => m.id.includes('3.1-8b')) || chatModels[0];
+                    db.autoModel = selected.id;
+                } else {
+                    db.autoModel = data.data[0].id;
+                }
+                localStorage.setItem('indian_biz_hub_data', JSON.stringify(db));
+                return true;
+            }
+        } catch(e) {
+            console.error(e);
+        }
+        return false;
     }
 
     function handleKeyPress(e) { if(e.key === 'Enter') sendMessage(); }
@@ -419,15 +405,25 @@
 
     async function triggerAIResponse(query) {
         if(!db.grokKey) {
-            appendMessage("⚠️ भाई, पहले ऊपर ⚙️ सेटिंग में जाकर अपनी Groq API Key डाल!", 'bot-msg');
+            appendMessage("⚠️ भाई, पहले ऊपर ⚙️ सेटिंग आइकन पर क्लिक करके अपनी Groq API Key डाल!", 'bot-msg');
             openSettings();
             return;
+        }
+
+        if(!db.autoModel) {
+            let fetched = await fetchBestModel(db.grokKey);
+            if(!fetched) {
+                appendMessage("⚠️ ऑटो-मॉडल डिटेक्ट करने में फेल। कृपया सेटिंग में जाकर की चेक करें।", 'bot-msg');
+                openSettings();
+                return;
+            }
         }
 
         let b = allBusinesses[db.activeBizIndex];
         let chatBox = document.getElementById('chatBox');
         let loadingDiv = document.createElement('div');
         loadingDiv.className = 'message bot-msg';
+        loadingDiv.id = 'loadingMsg';
         loadingDiv.innerText = "उस्ताद सोच रहा है...";
         chatBox.appendChild(loadingDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
@@ -440,25 +436,29 @@
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    model: "llama-3.3-70b-versatile",
+                    model: db.autoModel,
                     messages: [
-                        { role: "system", content: `तू 'Indian Business Hub' ऐप का खूंखार और शार्प बिजनेस को-फाउंडर है। हमारा करंट एक्टिव बिजनेस है: '${b.name}', कैपिटल है: ₹${b.cap} और टारगेट है: ₹1 Crore. बिना किसी फालतू अंग्रेजी थिंकिंग के सीधे सॉलिड हिंदी/हिंग्लिश में जवाब दे और हमेशा 'हम' बोलकर बात कर।` },
+                        { role: "system", content: `तू 'Indian Business Hub' ऐप का खूंखार और शार्प बिजनेस को-फाउंडर है। हमारा करंट एक्टिव बिजनेस है: '${b.name}', कैपिटल है: ₹${b.cap} और टारगेट है: ₹1 Crore. सीधे सॉलिड हिंदी/हिंग्लिश में जवाब दे और हमेशा 'हम' बोलकर बात कर।` },
                         { role: "user", content: query }
                     ],
-                    temperature: 0.8
+                    temperature: 0.7
                 })
             });
+            
             let data = await res.json();
-            chatBox.removeChild(loadingDiv);
-            if(res.ok && data.choices) {
-                let reply = data.choices[0].message.content.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            if(document.getElementById('loadingMsg')) chatBox.removeChild(document.getElementById('loadingMsg'));
+
+            if(res.ok && data.choices && data.choices.length > 0) {
+                let reply = data.choices[0].message.content.trim();
                 appendMessage(reply.replace(/\n/g, '<br>'), 'bot-msg');
             } else {
-                appendMessage("⚠️ API एरर आ गया भाई।", 'bot-msg');
+                let errorMsg = data.error ? data.error.message : "अनजान एरर";
+                appendMessage(`⚠️ API एरर: ${errorMsg}. नया मॉडल तलाश कर रहे हैं...`, 'bot-msg');
+                await fetchBestModel(db.grokKey);
             }
         } catch(e) {
-            chatBox.removeChild(loadingDiv);
-            appendMessage("⚠️ कनेक्शन फेल हो गया।", 'bot-msg');
+            if(document.getElementById('loadingMsg')) chatBox.removeChild(document.getElementById('loadingMsg'));
+            appendMessage("⚠️ कनेक्शन फेल हो गया। इंटरनेट या API Key की जांच करें।", 'bot-msg');
         }
     }
 </script>
