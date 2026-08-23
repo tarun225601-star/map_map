@@ -3,287 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Faridabad Bike Runner Game</title>
+    <title>Faridabad Satellite Map</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body, html {
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background-color: #0b0f19;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
-        }
+        body { margin: 0; padding: 0; background: #000; font-family: sans-serif; overflow: hidden; }
+        #map { width: 100vw; height: 100vh; }
 
-        /* गेम यूआई हेडर */
-        #hud {
+        /* यूआई पैनल */
+        .hud {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            right: 15px;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.85);
+            padding: 10px 18px;
+            border-radius: 30px;
+            border: 2px solid #00ffcc;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-            pointer-events: none;
+            gap: 10px;
+            box-shadow: 0 0 20px rgba(0,255,204,0.4);
         }
-        .card {
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(0, 255, 204, 0.3);
-            padding: 10px 16px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            pointer-events: auto;
+        .hud input {
+            background: #111;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 20px;
+            outline: none;
+            width: 200px;
         }
-        .card h1 {
-            font-size: 15px;
-            color: #00ffcc;
-            margin-bottom: 2px;
-            letter-spacing: 0.5px;
-        }
-        .card p {
-            font-size: 12px;
-            color: #94a3b8;
-        }
-
-        #start-btn {
-            background: linear-gradient(135deg, #00ffcc 0%, #00bfff 100%);
+        .hud button {
+            background: #00ffcc;
             color: #000;
             border: none;
-            padding: 12px 24px;
-            font-weight: 800;
-            font-size: 14px;
-            border-radius: 12px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(0,255,204,0.4);
-            transition: 0.2s;
-        }
-        #start-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* 3D कैनवास स्क्रीन */
-        #canvas-container {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        /* मोबाइल कंट्रोल पैनल्स (गेम पैड) */
-        #controls {
-            position: absolute;
-            bottom: 25px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: space-around;
-            padding: 0 20px;
-            z-index: 10;
-            user-select: none;
-        }
-        .ctrl-btn {
-            width: 70px;
-            height: 70px;
-            background: rgba(30, 41, 59, 0.8);
-            border: 2px solid rgba(0, 255, 204, 0.5);
-            border-radius: 50%;
-            color: #00ffcc;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-            cursor: pointer;
-        }
-        .ctrl-btn:active {
-            background: rgba(0, 255, 204, 0.3);
-            transform: scale(0.9);
         }
     </style>
-
-    <!-- Three.js CDN (3D इंजन जिसके सहारे पूरी गेम दुनिया खड़ी होगी) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
-    <div id="hud">
-        <div class="card">
-            <h1>टाऊ देवीलाल पार्क, फरीदाबाद 🌳</h1>
-            <p>मॉर्डन 3D इंजन मोड</p>
-        </div>
-        <button id="start-btn" onclick="toggleGame()">मिशन शुरू 🚀</button>
+    <div class="hud">
+        <input type="text" id="searchInput" value="Town Park, Faridabad">
+        <button onclick="searchLoc()">लोकेशन ढूँढें 🚁</button>
     </div>
 
-    <!-- 3D रेंडरर का घर -->
-    <div id="canvas-container"></div>
+    <div id="map"></div>
 
-    <!-- स्क्रीन वाले गेम कंट्रोलर्स -->
-    <div id="controls">
-        <div class="ctrl-btn" ontouchstart="moveLeft()" onmousedown="moveLeft()">◀</div>
-        <div class="ctrl-btn" ontouchstart="boostBike()" onmousedown="boostBike()">⚡</div>
-        <div class="ctrl-btn" ontouchstart="moveRight()" onmousedown="moveRight()">▶</div>
-    </div>
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        let scene, camera, renderer, bike;
-        let isRunning = false;
-        let obstacles = [];
-        let roadSegments = [];
-        let bikeLane = 0; // -2 (Left), 0 (Center), 2 (Right)
+        // 1. मैप सेटअप (फरीदाबाद सेंटर)
+        const map = L.map('map', { zoomControl: false }).setView([28.4089, 77.3178], 16);
 
-        function init3D() {
-            // 1. सीन और कैमरा सेटअप
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x0b0f19);
-            scene.fog = new THREE.FogExp2(0x0b0f19, 0.015);
+        // 2. असली सैटेलाइट व्यू (Esri World Imagery - बिना किसी टोकन या एरर के चलने वाला फ्री सैटेलाइट मैप)
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 19,
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        }).addTo(map);
 
-            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 4, 8);
-            camera.lookAt(0, 0, -5);
+        // टाउन पार्क पर मार्कर
+        L.marker([28.4120, 77.3210]).addTo(map)
+            .bindPopup("<b>टाउन पार्क, सेक्टर 12</b>")
+            .openPopup();
 
-            // 2. लाइटिंग (रोशनी ताकि 3D ऑब्जेक्ट्स साफ चमकें)
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
-            scene.add(ambientLight);
+        // 3. लोकेशन सर्च फंक्शन (Nominatim)
+        function searchLoc() {
+            const query = document.getElementById('searchInput').value;
+            if(!query) return;
 
-            const directionalLight = new THREE.DirectionalLight(0x00ffcc, 0.8);
-            directionalLight.position.set(10, 20, 10);
-            scene.add(directionalLight);
-
-            // 3. सड़क बनाना (Road)
-            const roadGeo = new THREE.PlaneGeometry(10, 300);
-            const roadMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.8 });
-            const road = new THREE.Mesh(roadGeo, roadMat);
-            road.rotation.x = -Math.PI / 2;
-            road.position.z = -100;
-            scene.add(road);
-
-            // सड़क की सेंटर की सफेद लाइनें
-            for(let i = 0; i > -300; i -= 15) {
-                const lineGeo = new THREE.BoxGeometry(0.3, 0.05, 4);
-                const lineMat = new THREE.MeshBasicMaterial({ color: 0x00ffcc });
-                const line = new THREE.Mesh(lineGeo, lineMat);
-                line.position.set(0, 0.02, i);
-                scene.add(line);
-                roadSegments.push(line);
-            }
-
-            // 4. पार्क के 3D ब्लॉक्स और पेड़ (Town Park / Buildings Environment)
-            for(let i = -10; i > -200; i -= 20) {
-                // बाएं तरफ की बिल्डिंग/पार्क का हिस्सा
-                createBuilding(-7, i);
-                // दाहिने तरफ की बिल्डिंग
-                createBuilding(7, i);
-            }
-
-            // 5. यूजर की बाइक बनाना (Custom 3D Bike Model)
-            const bikeGroup = new THREE.Group();
-
-            // बाइक बॉडी
-            const bodyGeo = new THREE.BoxGeometry(0.8, 0.6, 2);
-            const bodyMat = new THREE.MeshStandardMaterial({ color: 0x00ffcc, metalness: 0.5 });
-            const body = new THREE.Mesh(bodyGeo, bodyMat);
-            body.position.y = 0.6;
-            bikeGroup.add(body);
-
-            // पहिये
-            const wheelGeo = new THREE.CylinderGeometry(0.4, 0.4, 0.3, 16);
-            const wheelMat = new THREE.MeshStandardMaterial({ color: 0x111 });
-            
-            const wheelF = new THREE.Mesh(wheelGeo, wheelMat);
-            wheelF.rotation.z = Math.PI / 2;
-            wheelF.position.set(0, 0.4, 0.9);
-            bikeGroup.add(wheelF);
-
-            const wheelB = new THREE.Mesh(wheelGeo, wheelMat);
-            wheelB.rotation.z = Math.PI / 2;
-            wheelB.position.set(0, 0.4, -0.9);
-            bikeGroup.add(wheelB);
-
-            bike = bikeGroup;
-            bike.position.set(0, 0, 0);
-            scene.add(bike);
-
-            // 6. रेंडरर सेटअप
-            renderer = new THREE.WebGLRenderer({ antialias: true });
-            renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            document.getElementById('canvas-container').appendChild(renderer.domElement);
-
-            // रिसाइज़ हैंडलर
-            window.addEventListener('resize', onWindowResize);
-        }
-
-        function createBuilding(x, z) {
-            const width = 3 + Math.random() * 2;
-            const height = 4 + Math.random() * 8;
-            const depth = 5;
-            const geom = new THREE.BoxGeometry(width, height, depth);
-            const mat = new THREE.MeshStandardMaterial({ 
-                color: Math.random() > 0.5 ? 0x334155 : 0x1e293b,
-                roughness: 0.5
-            });
-            const bldg = new THREE.Mesh(geom, mat);
-            bldg.position.set(x > 0 ? x + width/2 : x - width/2, height/2, z);
-            scene.add(bldg);
-        }
-
-        function toggleGame() {
-            isRunning = !isRunning;
-            document.getElementById('start-btn').innerText = isRunning ? "रोकें ⏸️" : "मिशन शुरू 🚀";
-        }
-
-        function moveLeft() {
-            if(bikeLane > -2) bikeLane -= 2;
-        }
-
-        function moveRight() {
-            if(bikeLane < 2) bikeLane += 2;
-        }
-
-        function boostBike() {
-            // बूस्ट एक्शन
-            camera.position.z -= 0.5;
-            setTimeout(() => { camera.position.z += 0.5; }, 200);
-        }
-
-        function onWindowResize() {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
-
-        // गेम लूप (एनीमेशन इंजन)
-        function animate() {
-            requestAnimationFrame(animate);
-
-            if (isRunning) {
-                // बाइक की स्मूथ लेन मूवमेंट
-                bike.position.x += (bikeLane - bike.position.x) * 0.1;
-
-                // सड़क की लाइनों को आगे बढ़ाना ताकि राइडिंग का अहसास हो
-                roadSegments.forEach(line => {
-                    line.position.z += 0.8;
-                    if (line.position.z > 5) {
-                        line.position.z = -200;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query + ', Faridabad')}`)
+                .then(res => res.json())
+                .then(data => {
+                    if(data && data.length > 0) {
+                        const lat = parseFloat(data[0].lat);
+                        const lon = parseFloat(data[0].lon);
+                        map.setView([lat, lon], 18, { animate: true });
+                        L.marker([lat, lon]).addTo(map).bindPopup("<b>मंजिल:</b> " + query).openPopup();
+                    } else {
+                        alert("जगह नहीं मिली!");
                     }
                 });
-
-                // कैमरा का हल्का टिल्ट इफ़ेक्ट
-                camera.position.x = bike.position.x * 0.3;
-            }
-
-            renderer.render(scene, camera);
         }
-
-        // स्टार्ट इनिशियलाइजेशन
-        init3D();
-        animate();
     </script>
 </body>
 </html>
