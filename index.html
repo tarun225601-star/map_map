@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeOS Guardian | Real AI Business Co-Founder</title>
+    <title>LifeOS Guardian | Auto-Voice Co-Founder</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -40,19 +40,20 @@
         h2 { color: #38bdf8; margin: 0; font-weight: 800; font-size: 20px; }
         .subtitle { font-size: 11px; color: #94a3b8; font-weight: 700; }
         
-        .gear-btn { 
+        .header-btns { display: flex; gap: 8px; align-items: center; }
+        .action-btn { 
             background: #1f2937; 
             border: none; 
-            font-size: 18px; 
+            font-size: 16px; 
             cursor: pointer; 
             color: #cbd5e1; 
             padding: 8px 10px;
             border-radius: 10px;
             transition: 0.2s;
         }
-        .gear-btn:hover { background: #374151; }
+        .action-btn:hover { background: #374151; }
+        .action-btn.active { background: #0284c7; color: #fff; }
 
-        /* चैट एरिया */
         .chat-container {
             flex: 1;
             padding: 16px;
@@ -84,7 +85,6 @@
             border: 1px solid #374151;
         }
 
-        /* बोलकर सुनने वाला स्पीकर बटन */
         .speak-btn {
             background: rgba(56, 189, 248, 0.1);
             border: 1px solid #38bdf8;
@@ -102,7 +102,6 @@
         }
         .speak-btn:hover { background: rgba(56, 189, 248, 0.2); }
 
-        /* चैट इनपुट बॉक्स */
         .chat-input-area {
             padding: 12px;
             background: #111827;
@@ -133,7 +132,6 @@
         }
         .send-btn:disabled { background: #374151; cursor: not-allowed; }
 
-        /* सेटिंग्स मोडल */
         #settingsModal { 
             display: none; 
             background: rgba(0,0,0,0.85); 
@@ -165,28 +163,29 @@
     <div class="header">
         <div>
             <h2>LifeOS Guardian</h2>
-            <div class="subtitle">हमारा बिजनेस • हमारा बड़ा टारगेट</div>
+            <div class="subtitle">ऑटो-वॉइस • हमारा बड़ा टारगेट</div>
         </div>
-        <button class="gear-btn" onclick="openSettings()">⚙️</button>
+        <div class="header-btns">
+            <!-- बोलकर सुनाने वाला मास्टर टॉगल बटन -->
+            <button id="voiceToggleBtn" class="action-btn active" onclick="toggleVoiceOutput()" title="ऑटो-स्पीच चालू/बंद करें">🔊</button>
+            <button class="action-btn" onclick="openSettings()">⚙️</button>
+        </div>
     </div>
 
-    <!-- चैट स्क्रीन -->
     <div class="chat-container" id="chatBox"></div>
 
-    <!-- चैट इनपुट -->
     <div class="chat-input-area">
         <input type="text" id="userInput" placeholder="भाई, बता आज मार्केट में क्या सीन है..." onkeypress="handleKeyPress(event)">
         <button class="send-btn" id="sendBtn" onclick="sendMessage()">भेजें</button>
     </div>
 </div>
 
-<!-- सेटिंग्स मोडल -->
 <div id="settingsModal">
     <div class="modal-content">
-        <h3>⚙️ बिजनेस और टारगेट सेटिंग्स</h3>
+        <h3>⚙️ सेटिंग्स</h3>
         
         <label>Groq API Key:</label>
-        <input type="password" id="grokKey" placeholder="اپنی API key यहां डालें...">
+        <input type="password" id="grokKey" placeholder="अपनी API key यहाँ डालें...">
 
         <label>हमारा बिजनेस नाम:</label>
         <input type="text" id="bizName" placeholder="जैसे: Fruit Stall">
@@ -212,13 +211,32 @@
         transactions: []
     };
 
+    let isVoiceEnabled = true; // ऑटो-वॉइस बाय डिफ़ॉल्ट चालू रहेगी
+
     window.onload = function() {
         if(!db.grokKey) {
-            appendMessage("🔥 भाई, लाइव AI और टारगेट पर बात करने के लिए ऊपर ⚙️ (गेयर) बटन दबाकर अपनी **Groq API Key** डाल दे!", 'bot-msg');
+            let welcomeText = "🔥 भाई, शुरू करने के लिए ऊपर ⚙️ (गेयर) बटन दबाकर अपनी Groq API Key डाल दे!";
+            appendMessage(welcomeText, 'bot-msg');
+            speakText(welcomeText);
         } else {
-            appendMessage(`💪 राम-राम भाई! हमारा बिजनेस <strong>'${db.bizName}'</strong> चालू है और हमारा बड़ा टारगेट **₹${db.goal.toLocaleString()}** का है। बता, आज इसे हासिल करने के लिए क्या मैदान में उतरना है?`, 'bot-msg');
+            let welcomeText = `राम-राम भाई! हमारा बिजनेस '${db.bizName}' चालू है और हमारा बड़ा टारगेट ₹${db.goal.toLocaleString()} का है। बता, आज क्या प्लान है?`;
+            appendMessage(`💪 ${welcomeText}`, 'bot-msg');
+            speakText(welcomeText);
         }
     };
+
+    function toggleVoiceOutput() {
+        isVoiceEnabled = !isVoiceEnabled;
+        let btn = document.getElementById('voiceToggleBtn');
+        if(isVoiceEnabled) {
+            btn.classList.add('active');
+            btn.innerHTML = '🔊';
+        } else {
+            btn.classList.remove('active');
+            btn.innerHTML = '🔇';
+            window.speechSynthesis.cancel(); // अगर कुछ बोल रहा है तो तुरंत चुप करा दें
+        }
+    }
 
     function openSettings() {
         document.getElementById('grokKey').value = db.grokKey;
@@ -239,7 +257,7 @@
         db.goal = parseFloat(document.getElementById('targetGoal').value) || 10000000;
 
         localStorage.setItem('lifeOS_data', JSON.stringify(db));
-        document.getElementById('saveStatus').innerText = "✅ टारगेट और सेटिंग्स अपडेट हो गई!";
+        document.getElementById('saveStatus').innerText = "✅ सेटिंग्स सेव हो गई!";
         setTimeout(() => {
             document.getElementById('saveStatus').innerText = "";
             closeSettings();
@@ -274,12 +292,15 @@
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
-            let aiReply = await fetchRealAIResponse(text);
+            let aiReply = await fetchAutoModelResponse(text);
             chatBox.removeChild(loadingDiv);
             appendMessageWithTypingEffect(aiReply, 'bot-msg');
         } catch (error) {
             chatBox.removeChild(loadingDiv);
-            appendMessage("⚠️ भाई, API Key गलत है या इंटरनेट में दिक्कत है। सही की (Key) चेक कर.", 'bot-msg');
+            console.error("API Error:", error);
+            let errMsg = `⚠️ दिक्कत आ रही है: ${error.message}`;
+            appendMessage(errMsg, 'bot-msg');
+            speakText(errMsg);
         } finally {
             sendBtn.disabled = false;
         }
@@ -294,7 +315,6 @@
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // टाइपराइटर इफ़ेक्ट और 'बोलकर सुनने वाला' बटन
     function appendMessageWithTypingEffect(htmlText, className) {
         let chatBox = document.getElementById('chatBox');
         let div = document.createElement('div');
@@ -323,31 +343,54 @@
                 chatBox.scrollTop = chatBox.scrollHeight;
                 setTimeout(typeWriter, speed);
             } else {
+                // टाइपिंग पूरी होने पर मैन्युअल बटन भी रख दिया है
                 let speakBtn = document.createElement('button');
                 speakBtn.className = 'speak-btn';
-                speakBtn.innerHTML = '🔊 बोलकर सुनें';
+                speakBtn.innerHTML = '🔊 दोबारा सुनें';
                 speakBtn.onclick = () => speakText(rawTextForSpeech);
                 div.appendChild(speakBtn);
                 chatBox.scrollTop = chatBox.scrollHeight;
+
+                // जैसे ही मैसेज पूरा टाइप हो, ऑटोमैटिक बोलकर सुनाना चालू कर दे
+                if(isVoiceEnabled) {
+                    speakText(rawTextForSpeech);
+                }
             }
         }
         typeWriter();
     }
 
     function speakText(text) {
+        if (!isVoiceEnabled) return;
         if ('speechSynthesis' in window) {
-            window.speechSynthesis.cancel();
+            window.speechSynthesis.cancel(); // पिछली आवाज रोककर नई शुरू करेगा
             let utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = 'hi-IN';
-            utterance.rate = 1.0;
+            utterance.lang = 'hi-IN'; // हिंदी आवाज
+            utterance.rate = 1.0;     // बोलने की स्पीड
             window.speechSynthesis.speak(utterance);
-        } else {
-            alert("भाई, इस डिवाइस में वॉइस सपोर्ट काम नहीं कर रहा।");
         }
     }
 
-    // AI प्रॉम्प्ट जिसमें टारगेट हमेशा दिमाग में रहेगा
-    async function fetchRealAIResponse(userQuery) {
+    async function getActiveGroqModel(apiKey) {
+        try {
+            let res = await fetch("https://api.groq.com/openai/v1/models", {
+                method: "GET",
+                headers: { "Authorization": `Bearer ${apiKey}` }
+            });
+            let data = await res.json();
+            if(data && data.data && data.data.length > 0) {
+                let chatModel = data.data.find(m => m.id.includes('llama') || m.id.includes('mixtral')) || data.data[0];
+                return chatModel.id;
+            }
+        } catch(e) {
+            console.warn("Auto-fetch model failed, using fallback");
+        }
+        return "llama-3.1-8b-instant";
+    }
+
+    async function fetchAutoModelResponse(userQuery) {
+        let activeModel = await getActiveGroqModel(db.grokKey);
+
         let systemPrompt = `तू एक खूंखार, शार्प और जमीनी बिजनेस को-फाउंडर (उस्ताद) है। 
         हमारा बिजनेस है: '${db.bizName}', हमारी कैपिटल है: ₹${db.capital} और हमारा सबसे बड़ा और मुख्य टारगेट है: ₹${db.goal} कमाना।
         
@@ -356,14 +399,14 @@
         2. तू हर जवाब में इस बात का खास ध्यान रखेगा और जिक्र करेगा कि हमें अपने ₹${db.goal} के टारगेट को कैसे भी करके हासिल करना है। 
         3. हमेशा 'हम', 'हमारा बिजनेस' और 'हमारा टारगेट' बोलकर बात कर, जैसे दो पक्के भाई मिलकर धंधा संभाल रहे हों।`;
 
-        let response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        let res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${db.grokKey}`,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                model: "llama-3.3-70b-versatile",
+                model: activeModel,
                 messages: [
                     { role: "system", content: systemPrompt },
                     { role: "user", content: userQuery }
@@ -372,11 +415,11 @@
             })
         });
 
-        let data = await response.json();
-        if(data.choices && data.choices.length > 0) {
+        let data = await res.json();
+        if(res.ok && data.choices && data.choices.length > 0) {
             return data.choices[0].message.content.replace(/\n/g, '<br>');
         } else {
-            throw new Error("AI response failed");
+            throw new Error(data.error ? data.error.message : "API connection failed");
         }
     }
 </script>
