@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeOS Guardian | Premium Business Engine</title>
+    <title>LifeOS Guardian | Pro Business Mentor</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -12,233 +12,336 @@
             background: #090d16; 
             color: #f1f5f9; 
             margin: 0; 
-            padding: 20px; 
+            padding: 16px; 
             display: flex;
             justify-content: center;
+            height: 100vh;
         }
         .container { 
             width: 100%; 
             max-width: 480px; 
             background: #111827; 
-            padding: 24px; 
             border-radius: 20px; 
             box-shadow: 0 10px 30px rgba(0,0,0,0.6); 
-            position: relative; 
+            display: flex;
+            flex-direction: column;
             border: 1px solid #1f2937;
+            overflow: hidden;
+            position: relative;
         }
-        h2 { 
-            color: #38bdf8; 
-            text-align: center; 
-            font-weight: 800; 
-            font-size: 24px;
-            margin-bottom: 4px;
+        .header {
+            padding: 16px 20px;
+            background: #111827;
+            border-bottom: 1px solid #1f2937;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .subtitle {
-            text-align: center; 
-            font-size: 13px; 
-            color: #94a3b8; 
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: 0.5px;
-        }
+        h2 { color: #38bdf8; margin: 0; font-weight: 800; font-size: 20px; }
+        .subtitle { font-size: 11px; color: #94a3b8; font-weight: 700; }
+        
         .gear-btn { 
-            position: absolute; 
-            top: 24px; 
-            right: 24px; 
             background: #1f2937; 
             border: none; 
-            font-size: 20px; 
+            font-size: 18px; 
             cursor: pointer; 
             color: #cbd5e1; 
-            padding: 8px 12px;
+            padding: 8px 10px;
             border-radius: 10px;
             transition: 0.2s;
         }
         .gear-btn:hover { background: #374151; }
-        .section { margin-bottom: 20px; padding: 18px; background: #1f2937; border-radius: 14px; border: 1px solid #374151; }
-        
-        label { font-size: 13px; font-weight: 700; color: #94a3b8; display: block; margin-top: 10px; }
-        input, button { width: 100%; padding: 12px 14px; margin-top: 6px; border-radius: 10px; border: 1px solid #4b5563; background: #0b0f19; color: #fff; font-size: 15px; font-weight: 700; }
-        input:focus { outline: none; border-color: #38bdf8; }
-        
-        button { background: #0284c7; border: none; font-weight: 800; cursor: pointer; transition: 0.2s; margin-top: 14px; }
-        button:hover { background: #02689c; }
-        
-        .alert { color: #f87171; font-weight: 800; font-size: 13px; }
-        .success { color: #4ade80; font-weight: 800; font-size: 13px; }
-        
-        .dashboard-card { background: #0b0f19; padding: 14px; border-radius: 12px; margin-bottom: 12px; border: 1px solid #374151; }
-        .dashboard-card p { margin: 6px 0; font-size: 14px; font-weight: 700; }
-        .highlight-val { font-size: 18px; font-weight: 800; color: #38bdf8; }
-        
-        .panel-box { display: flex; gap: 12px; margin-top: 14px; }
-        .panel { flex: 1; background: #111827; padding: 12px; border-radius: 12px; border: 1px solid #374151; }
-        
-        #settingsModal { display: none; background: rgba(0,0,0,0.85); position: fixed; top:0; left:0; width:100%; height:100%; padding: 20px; box-sizing: border-box; z-index: 100; }
-        .modal-content { background: #111827; max-width: 400px; margin: 80px auto; padding: 24px; border-radius: 16px; border: 1px solid #374151; }
+
+        /* चैट एरिया */
+        .chat-container {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            background: #0b0f19;
+        }
+        .message {
+            max-width: 88%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+        .user-msg {
+            background: #0284c7;
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+        .bot-msg {
+            background: #1f2937;
+            color: #f1f5f9;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+            border: 1px solid #374151;
+            border-left: 4px solid #38bdf8;
+        }
+
+        /* चैट इनपुट बॉक्स */
+        .chat-input-area {
+            padding: 12px;
+            background: #111827;
+            border-top: 1px solid #1f2937;
+            display: flex;
+            gap: 8px;
+        }
+        input, select { 
+            flex: 1; 
+            padding: 12px; 
+            border-radius: 10px; 
+            border: 1px solid #4b5563; 
+            background: #0b0f19; 
+            color: #fff; 
+            font-size: 14px; 
+            font-weight: 700; 
+            outline: none;
+        }
+        input:focus { border-color: #38bdf8; }
+        .send-btn {
+            background: #0284c7;
+            border: none;
+            color: white;
+            padding: 0 16px;
+            border-radius: 10px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        /* सेटिंग्स मोडल */
+        #settingsModal { 
+            display: none; 
+            background: rgba(0,0,0,0.85); 
+            position: absolute; 
+            top:0; left:0; width:100%; height:100%; 
+            padding: 20px; 
+            box-sizing: border-box; 
+            z-index: 100;
+            overflow-y: auto;
+        }
+        .modal-content { 
+            background: #111827; 
+            max-width: 400px; 
+            margin: 20px auto; 
+            padding: 20px; 
+            border-radius: 16px; 
+            border: 1px solid #374151; 
+        }
+        .modal-content h3 { color: #38bdf8; margin-top: 0; font-weight: 800; font-size: 16px; }
+        label { font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-top: 10px; }
+        .modal-btn { width: 100%; padding: 10px; margin-top: 10px; border-radius: 8px; border: none; background: #0284c7; color: #fff; font-weight: 800; cursor: pointer; }
+        .close-btn { background: #374151; }
+        .success { color: #4ade80; font-size: 12px; font-weight: 700; margin-top: 5px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <button class="gear-btn" onclick="openSettings()">⚙️</button>
-    
-    <h2>LifeOS Guardian</h2>
-    <div class="subtitle">₹100 से करोड़ों का सफर • नो भटकाव</div>
-
-    <!-- सेटअप प्रोफाइल -->
-    <div class="section" id="setupSection">
-        <h3 style="margin-top:0; font-size:16px; color:#f8fafc; font-weight:800;">🚀 नई शुरुआत (Setup Profile)</h3>
-        <label>आपकी मुख्य स्किल (Skill):</label>
-        <input type="text" id="userSkill" placeholder="जैसे: Python, Automation, Dukan">
-        
-        <label>शुरुआती पूंजी (₹):</label>
-        <input type="number" id="userCapital" placeholder="100">
-        
-        <label>चुना हुआ बिजनेस (जिंदगी में एक बार लॉक होगा):</label>
-        <input type="text" id="userBusiness" placeholder="जैसे: Jet Black India">
-        
-        <label>फाइनल टारगेट गोल (₹):</label>
-        <input type="number" id="targetGoal" placeholder="10000000">
-        
-        <button onclick="lockSystem()">🔒 बिजनेस लॉक करें और मिशन शुरू करें</button>
+    <div class="header">
+        <div>
+            <h2>LifeOS Guardian</h2>
+            <div class="subtitle">₹100 से करोड़ों का सफर • प्रोफेशनल एजेंट</div>
+        </div>
+        <button class="gear-btn" onclick="openSettings()">⚙️</button>
     </div>
 
-    <!-- डैशबोर्ड -->
-    <div class="section" id="dashboardSection" style="display: none;">
-        <h3 style="margin-top:0; font-size:16px; color:#f8fafc; font-weight:800;">📊 फाइनेंशियल कमांड सेंटर</h3>
-        
-        <div class="dashboard-card">
-            <p>लॉक बिजनेस: <span id="displayBusiness" class="success" style="font-size: 16px;"></span></p>
-            <p>कुल कैपिटल: <span class="highlight-val">₹<span id="displayCapital">0</span></span></p>
-            <p>टारगेट गोल: <span style="color: #f43f5e; font-weight: 800;">₹<span id="displayGoal">0</span></span></p>
-            <p>वर्तमान दिन: <span id="displayDay" style="color: #38bdf8; font-weight: 800;">Day 1</span></p>
-            <p>एक्टिव मॉडल: <span id="displayModelStatus" style="color: #4ade80; font-weight: 800;">Grok API Ready</span></p>
-        </div>
+    <!-- चैट स्क्रीन जहाँ उस्ताद जमीनी रोडमैप रखेगा -->
+    <div class="chat-container" id="chatBox"></div>
 
-        <!-- इनकम और एक्सपेंस पैनल -->
-        <div class="panel-box">
-            <div class="panel" style="border-top: 4px solid #4ade80;">
-                <h4 style="margin: 0 0 8px 0; color: #4ade80; font-size: 13px; font-weight: 800;">📥 आमदनी जोड़ें</h4>
-                <input type="text" id="incomeSource" placeholder="कहाँ से?" style="font-size: 12px; padding: 8px;">
-                <input type="number" id="incomeAmount" placeholder="रुपये (₹)" style="font-size: 12px; padding: 8px;">
-                <button onclick="addIncome()" style="background: #16a34a; padding: 8px; font-size: 12px; margin-top: 8px;">जोड़ें</button>
-                <p id="incomeLogMsg" style="font-size: 11px; margin: 4px 0 0 0;"></p>
-            </div>
-
-            <div class="panel" style="border-top: 4px solid #f87171;">
-                <h4 style="margin: 0 0 8px 0; color: #f87171; font-size: 13px; font-weight: 800;">📤 खर्चा जोड़ें</h4>
-                <input type="text" id="expenseReason" placeholder="कहाँ गए?" style="font-size: 12px; padding: 8px;">
-                <input type="number" id="expenseAmount" placeholder="रुपये (₹)" style="font-size: 12px; padding: 8px;">
-                <button onclick="addExpense()" style="background: #dc2626; padding: 8px; font-size: 12px; margin-top: 8px;">जोड़ें</button>
-                <p id="expenseLogMsg" style="font-size: 11px; margin: 4px 0 0 0;"></p>
-            </div>
-        </div>
-        
-        <div style="margin-top: 16px;">
-            <h3 style="font-size: 15px; font-weight: 800; margin-bottom: 6px;">📅 डे-बाय-डे एक्शन प्लान</h3>
-            <div id="dailyPlanText" style="background: #0b0f19; padding: 12px; border-radius: 10px; font-size: 13px; font-weight: 700; line-height: 1.5; border: 1px solid #374151;"></div>
-            <button onclick="nextDayPlan()" style="background: #059669; font-size: 13px; padding: 10px;">अगला दिन (Next Day Task) ➡️</button>
-        </div>
+    <!-- चैट इनपुट -->
+    <div class="chat-input-area">
+        <input type="text" id="userInput" placeholder="रोडमैप या सवाल पूछें..." onkeypress="handleKeyPress(event)">
+        <button class="send-btn" onclick="sendMessage()">भेजें</button>
     </div>
 </div>
 
-<!-- सेटिंग्स गियर मोडल -->
+<!-- सेटिंग्स और डेटा मैनेजमेंट मोडल -->
 <div id="settingsModal">
     <div class="modal-content">
-        <h3 style="margin-top:0; font-weight:800; color:#38bdf8;">⚙️ Grok API Settings</h3>
-        <label>अपनी Grok API Key दर्ज करें:</label>
-        <input type="password" id="grokApiKeyInput" placeholder="API Key डालें...">
-        <button onclick="saveGrokKey()">सेव और ऑटो-फेच करें</button>
-        <button onclick="closeSettings()" style="background: #374151; margin-top: 10px;">बंद करें</button>
-        <p id="settingsStatus" style="font-size: 13px; margin-top: 10px; font-weight: 700;"></p>
+        <h3>⚙️ बिजनेस सेटिंग्स और गोल</h3>
+        
+        <label>Grok API Key:</label>
+        <input type="password" id="grokKey" placeholder="API Key डालें...">
+
+        <label>बिजनेस का नाम:</label>
+        <input type="text" id="bizName" placeholder="जैसे: Fruit Stall / Jet Black">
+
+        <label>कुल कैपिटल (₹):</label>
+        <input type="number" id="bizCapital" placeholder="10000">
+
+        <label>टारगेट गोल (₹):</label>
+        <input type="number" id="targetGoal" placeholder="10000000">
+
+        <hr style="border-color: #374151; margin: 15px 0;">
+
+        <h3>💰 आमदनी / खर्चा जोड़ें</h3>
+        <label>ट्रांजैक्शन प्रकार:</label>
+        <select id="transType">
+            <option value="income">📥 आमदनी (Income)</option>
+            <option value="expense">📤 खर्चा (Expense)</option>
+        </select>
+
+        <label>विवरण (कहाँ से आए / कहाँ गए?):</label>
+        <input type="text" id="transDesc" placeholder="जैसे: माल बिका / फालतू खर्चा">
+
+        <label>रुपये (₹):</label>
+        <input type="number" id="transAmount" placeholder="500">
+
+        <button class="modal-btn" onclick="saveAllSettings()">💾 डेटा सेव करें</button>
+        <button class="modal-btn close-btn" onclick="closeSettings()">बंद करें</button>
+        <div id="saveStatus" class="success"></div>
     </div>
 </div>
 
 <script>
-    let appData = { skill: "", capital: 100, business: "", goal: 0, grokKey: "", currentDay: 1 };
+    // लोकल स्टोरेज से डेटा लोड करना
+    let db = JSON.parse(localStorage.getItem('lifeOS_data')) || {
+        grokKey: "",
+        bizName: "Fruit Stall",
+        capital: 10000,
+        goal: 10000000,
+        transactions: []
+    };
 
-    function openSettings() { document.getElementById('settingsModal').style.display = 'block'; }
-    function closeSettings() { document.getElementById('settingsModal').style.display = 'none'; }
+    window.onload = function() {
+        triggerProRoadmapMessage();
+    };
 
-    function saveGrokKey() {
-        let key = document.getElementById('grokApiKeyInput').value.trim();
-        let status = document.getElementById('settingsStatus');
+    function openSettings() {
+        document.getElementById('grokKey').value = db.grokKey;
+        document.getElementById('bizName').value = db.bizName;
+        document.getElementById('bizCapital').value = db.capital;
+        document.getElementById('targetGoal').value = db.goal;
+        document.getElementById('settingsModal').style.display = 'block';
+    }
+
+    function closeSettings() {
+        document.getElementById('settingsModal').style.display = 'none';
+    }
+
+    function saveAllSettings() {
+        db.grokKey = document.getElementById('grokKey').value.trim();
+        db.bizName = document.getElementById('bizName').value.trim() || "मेरा बिजनेस";
+        db.capital = parseFloat(document.getElementById('bizCapital').value) || 100;
+        db.goal = parseFloat(document.getElementById('targetGoal').value) || 10000000;
+
+        let tType = document.getElementById('transType').value;
+        let tDesc = document.getElementById('transDesc').value.trim();
+        let tAmount = parseFloat(document.getElementById('transAmount').value) || 0;
+
+        if(tAmount > 0 && tDesc) {
+            if(tType === 'income') {
+                db.capital += tAmount;
+                db.transactions.push({type: 'आमदनी', desc: tDesc, amount: tAmount, date: new Date().toLocaleDateString()});
+            } else {
+                db.capital -= tAmount;
+                db.transactions.push({type: 'खर्चा', desc: tDesc, amount: tAmount, date: new Date().toLocaleDateString()});
+            }
+            document.getElementById('transDesc').value = "";
+            document.getElementById('transAmount').value = "";
+        }
+
+        localStorage.setItem('lifeOS_data', JSON.stringify(db));
+        document.getElementById('saveStatus').innerText = "✅ डेटा सेव हो गया! एजेंट रोडमैप अपडेट कर रहा है।";
+        setTimeout(() => {
+            document.getElementById('saveStatus').innerText = "";
+            closeSettings();
+            triggerProRoadmapMessage();
+        }, 1200);
+    }
+
+    function handleKeyPress(e) {
+        if(e.key === 'Enter') sendMessage();
+    }
+
+    function sendMessage() {
+        let inputField = document.getElementById('userInput');
+        let text = inputField.value.trim();
+        if(!text) return;
+
+        appendMessage(text, 'user-msg');
+        inputField.value = "";
+
+        setTimeout(() => {
+            let reply = getProResponse(text);
+            appendMessage(reply, 'bot-msg');
+        }, 600);
+    }
+
+    function appendMessage(text, className) {
+        let chatBox = document.getElementById('chatBox');
+        let div = document.createElement('div');
+        div.className = `message ${className}`;
+        div.innerHTML = text;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // यहाँ बिजनेस के हिसाब से असली जमीनी रोडमैप जनरेट होगा
+    function getGroundRoadmap() {
+        let name = db.bizName.toLowerCase();
+        let auditExpenses = db.transactions.filter(t => t.type === 'खर्चा');
+        let wasted = auditExpenses.reduce((sum, t) => sum + t.amount, 0);
+
+        let roadmapHTML = `📌 <strong>${db.bizName} के लिए जमीनी एक्शन रोडमैप (टारगेट: ₹${db.goal.toLocaleString()}):्</strong><br><br>`;
+
+        if (name.includes('fruit') || name.includes('ফল') || name.includes('फल')) {
+            roadmapHTML += `1. <strong>सप्लाई चेन ऑप्टिमाइजेशन:</strong> सुबह मंडी से सीधे फ्रेश माल उठाओ ताकि वेस्टेज (सड़न) शून्य हो सके।<br>` +
+                           `2. <strong>लोकल विजिबिलिटी:</strong> ठेले/दुकान की लाइटिंग और फ्रूट्स की डिस्प्ले ऐसी हो कि दूर से कस्टमर आकर्षित हो।<br>` +
+                           `3. <strong>रिटेंशन और वॉल्यूम:</strong> रेगुलर ग्राहकों को प्रीमियम क्वालिटी या थोड़ा फ्रूट एक्स्ट्रा देकर जोड़कर रखो।`;
+        } else if (name.includes('jet') || name.includes('black') || name.includes('polish') || name.includes('cleaning')) {
+            roadmapHTML += `1. <strong>डायरेक्ट मार्केटिंग:</strong> अपने प्रोडक्ट या सर्विस का एक डेमो वीडियो बनाओ और लोकल WhatsApp ग्रुप्स या इंस्टाग्राम रील्स पर डालो।<br>` +
+                           `2. <strong>मार्जिन प्रोटेक्शन:</strong> केमिकल या रॉ मटेरियल हमेशा होलसेल सप्लायर से कम दाम में बल्क में खरीदो।<br>` +
+                           `3. <strong>कस्टमर ट्रस्ट:</strong> पहली सर्विस या प्रोडक्ट पर शानदार रिजल्ट दो ताकि वर्ड-ऑफ-माउथ पब्लिसिटी मिले।`;
+        } else {
+            roadmapHTML += `1. <strong>कस्टमर एक्विजिशन:</strong> बिना लागत के लोकल मार्केट में सीधे कस्टमर से मिलो और फीडबैक लो।<br>` +
+                           `2. <strong>कैश फ्लो कंट्रोल:</strong> हर एक रुपये के खर्चे और आमदनी का रिकॉर्ड रखो, फालतू के खर्चों पर तुरंत ब्रेक लगाओ।<br>` +
+                           `3. <strong>स्कैलिंग:</strong> जब प्रॉफिट लगातार आने लगे, तभी री-इन्वेस्ट करके बिजनेस का दायरा बढ़ाओ।`;
+        }
+
+        if (wasted > 0) {
+            roadmapHTML += `<br><br>⚠️ <strong>खर्चे पर उस्ताद की चेतावनी:</strong> तूने लोकल स्टोरेज में कुल ₹${wasted.toLocaleString()} के खर्चे दर्ज किए हैं। अगर ऐसे ही पैसे बहते रहे, तो करोड़ों का गोल कागजों पर ही रह जाएगा!`;
+        }
+
+        return roadmapHTML;
+    }
+
+    function triggerProRoadmapMessage() {
+        let chatBox = document.getElementById('chatBox');
+        chatBox.innerHTML = ""; 
         
-        if(key.length > 5) {
-            appData.grokKey = key;
-            status.innerHTML = "✅ Grok API Key सफलतापूर्वक सेव! मॉडल ऑटो-फेच: <strong>Grok API</strong> सक्रिय।";
-            document.getElementById('displayModelStatus').innerText = "Grok API (Connected)";
-            setTimeout(closeSettings, 1500);
+        let totalIncome = db.transactions.filter(t => t.type === 'आमदनी').reduce((sum, t) => sum + t.amount, 0);
+        let totalExpense = db.transactions.filter(t => t.type === 'खर्चा').reduce((sum, t) => sum + t.amount, 0);
+        let roadmap = getGroundRoadmap();
+
+        let mentorText = `🎯 <strong>नमस्ते भाई!</strong><br>` +
+            `तूने अपना बिजनेस <strong>'${db.bizName}'</strong> लॉक किया है, करंट कैपिटल <strong>₹${db.capital.toLocaleString()}</strong> है, और फाइनल गोल <strong>₹${db.goal.toLocaleString()}</strong> का है।<br><br>` +
+            `📊 <strong>फाइनेंशियल स्टेटस:</strong> कमाई ₹${totalIncome.toLocaleString()} | खर्चा ₹${totalExpense.toLocaleString()}<br><br>` +
+            `${roadmap}<br><br>` +
+            `👉 बता भाई, आज इस रोडमैप के हिसाब से जमीन पर क्या एक्शन लिया तूने?`;
+
+        appendMessage(mentorText, 'bot-msg');
+    }
+
+    function getProResponse(query) {
+        let q = query.toLowerCase();
+
+        if(q.includes(' roadmap') || q.includes('रोडमैप') || q.includes('plan') || q.includes('क्या करूँ')) {
+            return getGroundRoadmap();
+        } else if(q.includes('बैलेंस') || q.includes('capital') || q.includes('paisa') || q.includes('पैसे')) {
+            let totalIncome = db.transactions.filter(t => t.type === 'आमदनी').reduce((sum, t) => sum + t.amount, 0);
+            let totalExpense = db.transactions.filter(t => t.type === 'खर्चा').reduce((sum, t) => sum + t.amount, 0);
+            return `💰 <strong>लेखा-जोखा:</strong><br>• बिजनेस: ${db.bizName}<br>• कैपिटल: ₹${db.capital.toLocaleString()}<br>• कुल कमाई: ₹${totalIncome.toLocaleString()}<br>• कुल खर्चा: ₹${totalExpense.toLocaleString()}<br>• टारगेट गोल: ₹${db.goal.toLocaleString()}`;
         } else {
-            status.innerHTML = "❌ कृपया वैध Grok API Key दर्ज करें!";
+            return `💡 भाई, '${db.bizName}' को ₹${db.goal.toLocaleString()} तक ले जाने के लिए हवा में तीर चलाने से काम नहीं चलेगा। जो जमीनी रोडमैप दिया है उसपर फोकस कर। मुझसे पूछ सकता है कि <em>"आज का रोडमैप क्या है?"</em> या <em>"बैलेंस कितना है?"</em>।`;
         }
-    }
-
-    function lockSystem() {
-        appData.skill = document.getElementById('userSkill').value;
-        appData.capital = parseFloat(document.getElementById('userCapital').value) || 100;
-        appData.business = document.getElementById('userBusiness').value;
-        appData.goal = parseFloat(document.getElementById('targetGoal').value) || 10000000;
-
-        if(!appData.business) {
-            alert("भाई, पहले बिजनेस का नाम तो लिखो जिसे लॉक करना है!");
-            return;
-        }
-
-        document.getElementById('setupSection').style.display = 'none';
-        document.getElementById('dashboardSection').style.display = 'block';
-
-        document.getElementById('displayBusiness').innerText = appData.business;
-        document.getElementById('displayCapital').innerText = appData.capital.toLocaleString();
-        document.getElementById('displayGoal').innerText = appData.goal.toLocaleString();
-
-        loadDayPlan();
-    }
-
-    function addIncome() {
-        let amount = parseFloat(document.getElementById('incomeAmount').value) || 0;
-        let msg = document.getElementById('incomeLogMsg');
-        if(amount <= 0) return;
-        appData.capital += amount;
-        document.getElementById('displayCapital').innerText = appData.capital.toLocaleString();
-        msg.innerHTML = `<span class="success">+₹${amount} जुड़ा!</span>`;
-        document.getElementById('incomeSource').value = "";
-        document.getElementById('incomeAmount').value = "";
-    }
-
-    function addExpense() {
-        let reason = document.getElementById('expenseReason').value;
-        let amount = parseFloat(document.getElementById('expenseAmount').value) || 0;
-        let msg = document.getElementById('expenseLogMsg');
-        if(amount <= 0) return;
-        appData.capital -= amount;
-        document.getElementById('displayCapital').innerText = appData.capital.toLocaleString();
-        if(reason.toLowerCase().includes('party') || amount > 150) {
-            msg.innerHTML = `<span class="alert">⚠️ फालतू खर्चा रुका!</span>`;
-        } else {
-            msg.innerHTML = `<span class="success">-₹${amount} दर्ज।</span>`;
-        }
-        document.getElementById('expenseReason').value = "";
-        document.getElementById('expenseAmount').value = "";
-    }
-
-    function loadDayPlan() {
-        let planHtml = "";
-        document.getElementById('displayDay').innerText = `Day ${appData.currentDay}`;
-        if (appData.currentDay === 1) {
-            planHtml = `🚀 <strong>Day 1 (नींव और मार्केट रिसर्च):</strong><br>अपने लॉक किए गए बिजनेस <em>'${appData.business}'</em> के लिए लोकल मार्केट डिमांड चेक कर। एक भी रुपया फालतू खर्च मत कर!`;
-        } else if (appData.currentDay === 2) {
-            planHtml = `🎯 <strong>Day 2 (सैम्पलिंग और रीच):</strong><br>अपने पहले संभावित ग्राहकों से मिल और उन्हें सैंपल दिखा।`;
-        } else {
-            planHtml = `📈 <strong>Day ${appData.currentDay} (स्केलिंग):</strong><br>धंधा ट्रैक पर है। हर एक रुपये की आमदनी और खर्च का हिसाब रखते हुए आगे बढ़!`;
-        }
-        document.getElementById('dailyPlanText').innerHTML = planHtml;
-    }
-
-    function nextDayPlan() {
-        appData.currentDay++;
-        loadDayPlan();
     }
 </script>
 
