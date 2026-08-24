@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Business Hub | Desi Bro Agent v24.0</title>
+    <title>Indian Business Hub | Desi Bro Agent v28.0 (Micro-to-Scale Empire)</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -15,6 +15,7 @@
             padding: 0; 
             height: 100%;
             overflow: hidden;
+            font-size: 15px;
         }
         .container { 
             width: 100%; 
@@ -28,51 +29,51 @@
             border-right: 1px solid #1e293b;
         }
         .header {
-            padding: 10px 14px;
+            padding: 12px 16px;
             background: #0f172a;
             border-bottom: 1px solid #1e293b;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 56px;
+            height: 62px;
             flex-shrink: 0;
         }
-        h2 { color: #38bdf8; margin: 0; font-weight: 800; font-size: 13px; }
-        .subtitle { font-size: 9px; color: #10b981; font-weight: 800; }
+        h2 { color: #38bdf8; margin: 0; font-weight: 800; font-size: 15px; }
+        .subtitle { font-size: 11px; color: #10b981; font-weight: 800; }
         
-        .header-btns { display: flex; gap: 6px; align-items: center; }
+        .header-btns { display: flex; gap: 8px; align-items: center; }
         .wallet-badge {
             background: rgba(16, 185, 129, 0.15);
             border: 1px solid #10b981;
             color: #34d399;
-            padding: 4px 8px;
+            padding: 6px 10px;
             border-radius: 8px;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 800;
             cursor: pointer;
         }
         .action-btn { 
             background: #1e293b; 
             border: none; 
-            font-size: 13px; 
+            font-size: 15px; 
             cursor: pointer; 
             color: #cbd5e1; 
-            padding: 5px 8px;
+            padding: 6px 10px;
             border-radius: 6px;
         }
 
         /* Progress Bar */
         .progress-container {
             background: #0b0f19;
-            padding: 8px 14px;
+            padding: 10px 16px;
             border-bottom: 1px solid #1e293b;
-            font-size: 10px;
+            font-size: 12px;
             font-weight: 700;
             flex-shrink: 0;
         }
-        .progress-info { display: flex; justify-content: space-between; margin-bottom: 4px; color: #94a3b8; }
+        .progress-info { display: flex; justify-content: space-between; margin-bottom: 6px; color: #94a3b8; }
         .progress-info span b { color: #38bdf8; }
-        .progress-bar-bg { width: 100%; background: #1e293b; height: 7px; border-radius: 4px; overflow: hidden; }
+        .progress-bar-bg { width: 100%; background: #1e293b; height: 8px; border-radius: 4px; overflow: hidden; }
         .progress-bar-fill { width: 0%; background: linear-gradient(90deg, #10b981, #38bdf8); height: 100%; transition: width 0.3s; }
 
         /* Workspace */
@@ -87,7 +88,7 @@
 
         /* Dashboard Section */
         .dashboard-section {
-            padding: 8px 12px;
+            padding: 10px 14px;
             border-bottom: 1px solid #1e293b;
             background: #0f172a;
             flex-shrink: 0;
@@ -96,7 +97,7 @@
             background: linear-gradient(135deg, #065f46 0%, #0f172a 100%);
             border: 1px solid #10b981;
             border-radius: 12px;
-            padding: 10px 12px;
+            padding: 12px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -110,17 +111,17 @@
             top: 0; left: 0; width: 4px; height: 100%;
             background: #10b981;
         }
-        .gift-left { display: flex; align-items: center; gap: 8px; }
-        .gift-icon { font-size: 20px; }
-        .gift-title { font-size: 11px; font-weight: 800; color: #fff; max-width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .gift-sub { font-size: 9px; color: #34d399; font-weight: 700; margin-top: 2px; }
+        .gift-left { display: flex; align-items: center; gap: 10px; }
+        .gift-icon { font-size: 22px; }
+        .gift-title { font-size: 13px; font-weight: 800; color: #fff; max-width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .gift-sub { font-size: 11px; color: #34d399; font-weight: 700; margin-top: 2px; }
         .gift-goal-badge {
             background: rgba(16, 185, 129, 0.2);
             border: 1px solid #34d399;
             color: #a7f3d0;
-            padding: 5px 8px;
+            padding: 6px 10px;
             border-radius: 8px;
-            font-size: 10px;
+            font-size: 11px;
             font-weight: 800;
             text-align: right;
         }
@@ -129,31 +130,55 @@
         .chat-box { 
             flex: 1;
             overflow-y: auto; 
-            padding: 14px;
+            padding: 16px;
             display: flex; 
             flex-direction: column; 
-            gap: 14px; 
+            gap: 16px; 
         }
+        .message-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 92%;
+        }
+        .user-container { align-self: flex-end; }
+        .bot-container { align-self: flex-start; }
+
         .message { 
-            max-width: 92%; 
-            padding: 12px 14px; 
-            border-radius: 12px; 
-            font-size: 13px; 
+            padding: 14px 16px; 
+            border-radius: 14px; 
+            font-size: 14px; 
             font-weight: 700; 
             line-height: 1.6; 
             word-break: break-word; 
         }
-        .user-msg { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
-        .bot-msg { background: #1f2937; color: #f1f5f9; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #374151; }
+        .user-msg { background: #0284c7; color: #fff; border-bottom-right-radius: 2px; }
+        .bot-msg { background: #1f2937; color: #f1f5f9; border-bottom-left-radius: 2px; border: 1px solid #374151; }
         
+        .speak-btn {
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid #38bdf8;
+            color: #38bdf8;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+            margin-top: 6px;
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .speak-btn:hover { background: rgba(56, 189, 248, 0.25); }
+
         /* Fixed Bottom Input Bar */
         .chat-input-wrapper {
             background: #0f172a;
             border-top: 1px solid #1e293b;
-            padding: 10px 12px;
+            padding: 12px 14px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 6px;
             flex-shrink: 0;
         }
         .chat-input-row {
@@ -162,8 +187,8 @@
             background: #111827;
             border: 1px solid #334155;
             border-radius: 14px;
-            padding: 6px 10px;
-            gap: 8px;
+            padding: 8px 12px;
+            gap: 10px;
         }
         input[type="text"] { 
             flex: 1; 
@@ -171,7 +196,7 @@
             border: none; 
             background: transparent; 
             color: #fff; 
-            font-size: 13px; 
+            font-size: 14px; 
             font-weight: 700; 
             outline: none;
         }
@@ -179,15 +204,15 @@
             background: #0284c7; 
             border: none; 
             color: white; 
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%; 
             font-weight: 800; 
             cursor: pointer; 
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
+            font-size: 14px;
             flex-shrink: 0;
         }
 
@@ -196,11 +221,12 @@
             display: none; background: rgba(0,0,0,0.85); position: fixed; top:0; left:0; width:100%; height:100%; 
             padding: 15px; box-sizing: border-box; z-index: 100; overflow-y: auto; 
         }
-        .modal-content { background: #111827; max-width: 380px; margin: 30px auto; padding: 16px; border-radius: 14px; border: 1px solid #374151; }
-        .modal-content h3 { color: #38bdf8; margin-top: 0; font-weight: 800; font-size: 14px; }
-        label { font-size: 11px; font-weight: 700; color: #94a3b8; display: block; margin-top: 8px; }
-        .modal-input, textarea.modal-input, select.modal-input { width:100%; padding: 7px; margin-top: 4px; background:#1e293b; border:1px solid #334155; color:#fff; border-radius:6px; font-size:11px; font-weight: 700; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .modal-btn { width: 100%; padding: 9px; margin-top: 10px; border-radius: 6px; border: none; background: #0284c7; color: #fff; font-weight: 800; cursor: pointer; font-size: 11px; }
+        .modal-content { background: #111827; max-width: 380px; margin: 30px auto; padding: 18px; border-radius: 14px; border: 1px solid #374151; }
+        .modal-content h3 { color: #38bdf8; margin-top: 0; font-weight: 800; font-size: 15px; }
+        label { font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-top: 10px; }
+        .modal-input, textarea.modal-input, select.modal-input { width:100%; padding: 9px; margin-top: 4px; background:#1e293b; border:1px solid #334155; color:#fff; border-radius:6px; font-size:12px; font-weight: 700; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .modal-btn { width: 100%; padding: 100px; margin-top: 12px; border-radius: 6px; border: none; background: #0284c7; color: #fff; font-weight: 800; cursor: pointer; font-size: 12px; }
+        .modal-btn { width: 100%; padding: 10px; margin-top: 12px; border-radius: 6px; border: none; background: #0284c7; color: #fff; font-weight: 800; cursor: pointer; font-size: 12px; }
         .close-btn { background: #374151; margin-top: 6px; }
     </style>
 </head>
@@ -209,9 +235,10 @@
 <div class="container">
     <div class="header">
         <div>
-            <h2>🪜 देसी ब्रो एजेंट <span style="font-size:9px; color:#10b981;">v24.0</span></h2>
-            <div class="subtitle">🔊 टाइपिंग साउंड इफ़ेक्ट के साथ</div>
+            <h2>🚀 माइक्रो-टू-स्केल एम्पायर <span style="font-size:10px; color:#10b981;">v28.0</span></h2>
+            <div class="subtitle">💡 ₹1000 से करोड़ों का सफर</div>
         </div>
+        .header-btns { display: flex; gap: 8px; align-items: center; }
         <div class="header-btns">
             <div class="wallet-badge" onclick="openSettings()">💳 बजट: ₹<span id="walletBalance">0</span></div>
             <button class="action-btn" onclick="openSettings()">⚙️</button>
@@ -221,8 +248,8 @@
     <!-- Progress Tracker -->
     <div class="progress-container">
         <div class="progress-info">
-            <span>कमाई का लक्ष्य (Target): <b id="packageGoalText">₹0</b></span>
-            <span>अचीव्ड कमाई: <b id="progressVal">₹0</b></span>
+            <span>एम्पायर टारगेट: <b id="packageGoalText">₹0</b></span>
+            <span>अचीव्ड: <b id="progressVal">₹0</b></span>
         </div>
         <div class="progress-bar-bg">
             <div class="progress-bar-fill" id="progressBar"></div>
@@ -234,14 +261,14 @@
         <div class="dashboard-section" id="giftSection" style="display:none;">
             <div class="gift-package-card" onclick="openSettings()">
                 <div class="gift-left">
-                    <div class="gift-icon">🪜</div>
+                    <div class="gift-icon">🚀</div>
                     <div>
-                        <div class="gift-title" id="cardDesireText">बिजनेस इच्छा यहाँ दिखेगी</div>
-                        <div class="gift-sub">सुरक्षित बजट: ₹<span id="cardBudgetText">0</span></div>
+                        <div class="gift-title" id="cardDesireText">बिजनेस प्रोजेक्ट</div>
+                        <div class="gift-sub">शुरुआती कैपिटल: ₹<span id="cardBudgetText">0</span></div>
                     </div>
                 </div>
                 <div class="gift-goal-badge">
-                    टारगेट लक्ष्य<br><span id="cardGoalText" style="color:#fff;">₹0</span>
+                    मास्टर लक्ष्य<br><span id="cardGoalText" style="color:#fff;">₹0</span>
                 </div>
             </div>
         </div>
@@ -251,7 +278,7 @@
         
         <div class="chat-input-wrapper">
             <div class="chat-input-row">
-                <input type="text" id="userInput" placeholder="भाई से सीधी बात पूछो..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" placeholder="चाहे ₹1000 हो, स्केल कैसे करें पूछो..." onkeypress="handleKeyPress(event)">
                 <button class="send-btn" onclick="sendMessage()">➔</button>
             </div>
         </div>
@@ -261,47 +288,46 @@
 <!-- Settings & Business Goal Modal -->
 <div id="settingsModal" class="modal">
     <div class="modal-content">
-        <h3>🛡️ लाइव बिजनेस सेटअप</h3>
+        <h3>🚀 बिजनेस और स्केल सेटअप</h3>
 
         <label>🌐 भाषा चुनें (Select Language):</label>
         <select id="inputLang" class="modal-input">
-            <option value="hinglish">हिंग्लिश (Hinglish / Desi Bro)</option>
-            <option value="hindi">शुद्ध हिंदी (Pure Hindi)</option>
+            <option value="hinglish">हिंग्लिश (Desi Bro Scaling)</option>
+            <option value="hindi">शुद्ध हिंदी</option>
             <option value="english">English</option>
         </select>
 
-        <label>💳 1. कुल सुरक्षित बजट कितना है? (₹):</label>
-        <input type="number" id="inputWallet" class="modal-input" placeholder="जैसे: 10000">
+        <label>💳 1. जेब में अभी कितना बजट है? (₹ चाहे 1000 हो):</label>
+        <input type="number" id="inputWallet" class="modal-input" placeholder="जैसे: 1000 या 50000">
 
-        <label>🎯 2. कमाई का कुल लक्ष्य कितना है? (₹):</label>
-        <input type="number" id="inputGoal" class="modal-input" placeholder="जैसे: 100000">
+        <label>🎯 2. बड़ा एम्पायर लक्ष्य कितना है? (₹):</label>
+        <input type="number" id="inputGoal" class="modal-input" placeholder="जैसे: 1000000">
 
-        <label>💡 3. कौन सा बिजनेस करना चाहते हैं?</label>
-        <textarea id="inputDesire" class="modal-input" rows="3" placeholder="जैसे: मुझे फ्रूट का ठेला या दुकान लगानी है..."></textarea>
+        <label>💡 3. कौन सा बिजनेस करना या बड़ा करना चाहते हैं?</label>
+        <textarea id="inputDesire" class="modal-input" rows="3" placeholder="जैसे: फ्रूट सप्लाई, पॉलिश मैन्युफैक्चरिंग, डिजिटल एजेंसी..."></textarea>
 
         <label>🔑 Groq API Key:</label>
         <input type="password" id="grokKey" class="modal-input" placeholder="अपनी API key यहाँ डालें...">
         
-        <div id="modelStatus" style="font-size: 10px; color: #38bdf8; margin-top: 6px; font-weight: 700;"></div>
+        <div id="modelStatus" style="font-size: 11px; color: #38bdf8; margin-top: 6px; font-weight: 700;"></div>
 
-        <button class="modal-btn" onclick="saveSettings()">💾 सेव करें और चैट शुरू करें</button>
+        <button class="modal-btn" onclick="saveSettings()">💾 सेव करें और स्केलिंग समझें</button>
         <button class="modal-btn close-btn" onclick="closeSettings()">बंद करें</button>
     </div>
 </div>
 
 <script>
-    const APP_VERSION = "24.0_typewriter_sound";
+    const APP_VERSION = "28.0_micro_to_scale";
     
-    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v24')) || {
+    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v28')) || {
         grokKey: "",
         language: "hinglish",
         packageData: null, 
         autoModel: "openai/gpt-oss-120b"
     };
 
-    // Web Audio API Sound Synthesizer for "Tick-Tick" Typewriter Sound
     let audioCtx = null;
-    function playTypeSound() {
+    function playKeyClickSound() {
         try {
             if (!audioCtx) {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -309,31 +335,55 @@
             if (audioCtx.state === 'suspended') {
                 audioCtx.resume();
             }
-            let osc = audioCtx.createOscillator();
+
+            let bufferSize = audioCtx.sampleRate * 0.012;
+            let buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            let output = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                output[i] = Math.random() * 2 - 1;
+            }
+
+            let whiteNoise = audioCtx.createBufferSource();
+            whiteNoise.buffer = buffer;
+
+            let filter = audioCtx.createBiquadFilter();
+            filter.type = 'bandpass';
+            filter.frequency.value = 1200;
+            filter.Q.value = 1.5;
+
             let gain = audioCtx.createGain();
-            
-            // Short crisp click noise frequency
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(400 + Math.random() * 300, audioCtx.currentTime);
-            
-            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-            
-            osc.connect(gain);
+            gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.012);
+
+            whiteNoise.connect(filter);
+            filter.connect(gain);
             gain.connect(audioCtx.destination);
-            
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.04);
+
+            whiteNoise.start();
         } catch(e) {}
+    }
+
+    function speakText(text) {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            let cleanText = text.replace(/<[^>]*>/g, '').replace(/\*\*/g, '');
+            let utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = db.language === 'hindi' ? 'hi-IN' : 'en-IN';
+            utterance.rate = 1.0;
+            utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
+        } else {
+            alert("⚠️ ब्राउज़र वॉइस स्पीच सपोर्ट नहीं करता!");
+        }
     }
 
     window.onload = function() {
         if(!db.packageData) {
             openSettings();
-            appendMessage(`अरे भाई! <b>v24.0</b> आ गया है। अब चैट जीपीटी की तरह <b>कटकट टाइपिंग साउंड</b> के साथ एजेंट लाइव जवाब देगा!<br><br>ऊपर कोने में <b>⚙️ सेटिंग</b> पर क्लिक करके अपनी API Key, बजट और बिजनेस सेट कर ले!`, 'bot-msg');
+            appendMessage(`🚀 भाई! <b>v28.0 (Micro-to-Scale Edition)</b> तैयार है। चाहे जेब में <b>₹1,000</b> हों या ज्यादा, यह एजेंट तुझे बताएगा कि छोटे से पैसे से शुरुआत करके उसे <b>होलसेल, ब्रांडिंग और बड़े डिस्ट्रीब्यूशन एम्पायर</b> में कैसे बदला जाता है!<br><br>ऊपर <b>⚙️ सेटिंग</b> में जाकर अपना बजट और बिजनेस सेट कर ले!`, 'bot-msg');
         } else {
             updateUIStats();
-            appendMessage(`राम-राम भाई! तेरा बिजनेस <b>"${db.packageData.desire}"</b> एक्टिव है। बता, आज क्या डिस्कस करना है?`, 'bot-msg');
+            appendMessage(`राम-राम भाई! तेरा प्रोजेक्ट <b>"${db.packageData.desire}"</b> (कैपिटल: ₹${db.packageData.budget}) एक्टिव है। बता, इसे छोटे लेवल से उठाकर बड़ा स्केल करने का आज क्या प्लान डिस्कस करना है?`, 'bot-msg');
         }
         if(db.grokKey) fetchBestModel(db.grokKey);
     };
@@ -358,7 +408,7 @@
     }
 
     function openSettings() {
-        let p = db.packageData || { budget: 10000, goal: 100000, desire: "" };
+        let p = db.packageData || { budget: 1000, goal: 1000000, desire: "" };
         document.getElementById('inputLang').value = db.language || 'hinglish';
         document.getElementById('inputWallet').value = p.budget;
         document.getElementById('inputGoal').value = p.goal;
@@ -376,11 +426,11 @@
         let langVal = document.getElementById('inputLang').value;
         let walletVal = parseInt(document.getElementById('inputWallet').value) || 0;
         let goalVal = parseInt(document.getElementById('inputGoal').value) || 0;
-        let desireVal = document.getElementById('inputDesire').value.trim() || "शानदार बिजनेस";
+        let desireVal = document.getElementById('inputDesire').value.trim() || "माइक्रो बिजनेस स्केल";
         let key = document.getElementById('grokKey').value.trim();
 
         if(goalVal <= 0) {
-            alert("⚠️ कृपया कमाई का सही लक्ष्य दर्ज करें!");
+            alert("⚠️ कृपया सही लक्ष्य दर्ज करें!");
             return;
         }
 
@@ -399,16 +449,16 @@
         updateUIStats();
         closeSettings();
 
-        appendMessage(`बढ़िया भाई! सेटिंग सेव हो गई है:<br>• बिजनेस: <b>${desireVal}</b><br>• कुल बजट: <b>₹${walletVal.toLocaleString()}</b><br>• लक्ष्य: <b>₹${goalVal.toLocaleString()}</b><br><br>अब लाइव Groq API से कनेक्ट हो रहा है...`, 'bot-msg');
+        appendMessage(`🚀 सेटिंग सेव हो गई है भाई:<br>• बिजनेस: <b>${desireVal}</b><br>• शुरुआती कैपिटल: <b>₹${walletVal.toLocaleString()}</b><br>• बड़ा लक्ष्य: <b>₹${goalVal.toLocaleString()}</b><br><br>अब Groq API से कनेक्ट करके इसका 'Micro-to-Scale' ब्लूप्रिंट तैयार हो रहा है...`, 'bot-msg');
 
         if(key) {
             await fetchBestModel(key);
-            await triggerAIResponse("भाई मेरा बिजनेस सेट है। अब तू मुझे इस लक्ष्य को पाने के लिए एकदम सीधी और ग्राउंड-लेवल प्रैक्टिकल सलाह दे।");
+            await triggerAIResponse(`भाई मेरी जेब में ₹${walletVal} हैं और मेरा बिजनेस है '${desireVal}'। मुझे यह समझा कि इस छोटे से पैसे से शुरुआत करके मैं इसे सीधे बड़े स्केल (होलसेल, सप्लाई चेन और ब्रांड) तक कैसे ले जाऊँगा। मुझे स्टेप-बाय-स्टेप पूरा रोडमैप दे।`);
         }
     }
 
     function saveData() {
-        localStorage.setItem('indian_biz_hub_v24', JSON.stringify(db));
+        localStorage.setItem('indian_biz_hub_v28', JSON.stringify(db));
     }
 
     async function fetchBestModel(apiKey) {
@@ -434,49 +484,65 @@
         let inputField = document.getElementById('userInput');
         let text = inputField.value.trim();
         if(!text) return;
-        appendMessage(text, 'user-msg');
+        appendUserMessage(text);
         inputField.value = "";
         await triggerAIResponse(text);
     }
 
-    function appendMessage(text, className) {
+    function appendUserMessage(text) {
         let chatBox = document.getElementById('chatBox');
+        let container = document.createElement('div');
+        container.className = 'message-container user-container';
+        
         let div = document.createElement('div');
-        div.className = `message ${className}`;
-        div.innerHTML = text;
-        chatBox.appendChild(div);
+        div.className = 'message user-msg';
+        div.innerText = text;
+        
+        container.appendChild(div);
+        chatBox.appendChild(container);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // Typewriter effect function with real-time audio sound ticks
     function typeWriterEffect(fullText, elementId, onComplete) {
         let chatBox = document.getElementById('chatBox');
+        
+        let container = document.createElement('div');
+        container.className = 'message-container bot-container';
+        
         let div = document.createElement('div');
         div.className = 'message bot-msg';
         div.id = elementId;
-        chatBox.appendChild(div);
+        container.appendChild(div);
+        chatBox.appendChild(container);
 
-        // Convert formatting tags temporarily or render gradually
-        // To keep it simple and smooth, we type character by character
         let i = 0;
-        let speed = 15; // typing speed in ms
+        let speed = 30;
 
         function typing() {
             if (i < fullText.length) {
                 let char = fullText.charAt(i);
                 div.innerHTML += char === '\n' ? '<br>' : char;
                 
-                // Play typewriter click sound every few characters or on non-space chars
-                if (char !== ' ' && char !== '\n' && i % 2 === 0) {
-                    playTypeSound();
+                if (char !== ' ' && char !== '\n') {
+                    playKeyClickSound();
                 }
 
                 i++;
                 chatBox.scrollTop = chatBox.scrollHeight;
                 setTimeout(typing, speed);
             } else {
-                // Final clean up formatting (bold tags replacement)
-                div.innerHTML = fullText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+                let formattedHTML = fullText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+                div.innerHTML = formattedHTML;
+
+                let speakBtn = document.createElement('button');
+                speakBtn.className = 'speak-btn';
+                speakBtn.innerHTML = '🔊 बोलकर सुनो';
+                speakBtn.onclick = function() {
+                    speakText(fullText);
+                };
+                container.appendChild(speakBtn);
+
+                chatBox.scrollTop = chatBox.scrollHeight;
                 if(onComplete) onComplete();
             }
         }
@@ -485,13 +551,13 @@
 
     async function triggerAIResponse(query) {
         if(!db.grokKey) {
-            appendMessage("अरे भाई! पहले ऊपर ⚙️ सेटिंग में अपनी वैध Groq API Key तो दर्ज करें!", 'bot-msg');
+            appendUserMessage("⚠️ भाई! पहले ⚙️ सेटिंग में अपनी वैध Groq API Key दर्ज कर!");
             openSettings();
             return;
         }
 
         if(!db.packageData) {
-            appendMessage("भाई, पहले सेटिंग खोलकर अपना बिजनेस प्लान और बजट सेट करें!", 'bot-msg');
+            appendUserMessage("⚠️ भाई, पहले सेटिंग में अपना बिजनेस और बजट सेट कर!");
             openSettings();
             return;
         }
@@ -499,23 +565,27 @@
         let p = db.packageData;
         let currentLang = db.language || 'hinglish';
         
+        // Micro-to-Scale Mastery System Prompt
         let systemPromptContent = "";
         if(currentLang === 'hindi') {
-            systemPromptContent = `तू एक अनुभवी, प्रैक्टिकल और दमदार बिजनेस पार्टनर है। यूजर का बिजनेस: '${p.desire}', कुल बजट: ₹${p.budget}, कमाई का लक्ष्य: ₹${p.goal}, अभी तक अचीव्ड: ₹${p.current || 0}. 
-            फालतू की कोई दिन-बिन (Day 1, Day 2) की बातें मत करना। बिल्कुल सीधी, देसी और असली बिजनेस की बात कर—जैसे माल कहाँ से सस्ता पड़ेगा, लागत कैसे बचाएं, ग्राहक कैसे बढ़ाएं और बजट को सही तरीके से कैसे इस्तेमाल करें। शुद्ध हिंदी में जवाब दे।`;
+            systemPromptContent = `तू एक मास्टर बिजनेस ग्रोथ कोच है। यूजर का बिजनेस: '${p.desire}', शुरुआती कैपिटल: ₹${p.budget}, एम्पायर लक्ष्य: ₹${p.goal}.
+            नियम: भले ही यूजर के पास केवल ₹1,000 या बहुत छोटा बजट हो, उसे कभी भी सिर्फ दिहाड़ी मजदूर या छोटी रेड़ी वाला बनकर काम करने की सलाह मत देना। हमेशा उसे समझा कि कैसे उस छोटे से पैसे से शुरुआत करके उसे **4 चरणों (1. माइक्रो कैशफ्लॉ, 2. B2B डिस्ट्रीब्यूशन, 3. ब्रांडिंग और पैकेजिंग, 4. ऑटोमेशन व सिस्टम)** के जरिए एक बड़ा स्केलेबल बिजनेस एम्पायर बनाया जाता है। शुद्ध हिंदी में जवाब दे।`;
         } else if(currentLang === 'hinglish') {
-            systemPromptContent = `तू एकदम धांसू और प्रैक्टिकल देसी बिजनेस ब्रो है। यूजर का बिजनेस: '${p.desire}', बजट: ₹${p.budget}, गोल: ₹${p.goal}, अचीव्ड: ₹${p.current || 0}.
-            कसम से कोई फेक दिन या कैलेंडर का चक्कर मत चलाना। एकदम सीधे भाई की तरह बात कर। यूजर जो पूछे या जिस टारगेट के लिए खड़ा है, उसके बारे में एकदम पक्की ग्राउंड-लेवल बिजनेस सलाह दे। हिंग्लिश में बात कर।`;
+            systemPromptContent = `Tu ek master business growth coach hai. User ka business: '${p.desire}', Starting Capital: ₹${p.budget}, Target Empire: ₹${p.goal}.
+            Rule: Chahe user ke paas sirf ₹1000 ya chota budget ho, usko kabhi bhi akela dukaan par baith kar bechne wali choti soch mat dena. Usse hamesha ye sikha ki kaise us chote budget se start karke usko **4 stages (1. Micro Cashflow, 2. B2B Wholesale Supply, 3. Brand & Packaging, 4. System Automation)** ke through ek bada scale business empire banaya jata hai. Hinglish me baat kar.`;
         } else {
-            systemPromptContent = `You are a smart, practical business partner. User's business: '${p.desire}', Budget: ₹${p.budget}, Goal: ₹${p.goal}, Current Progress: ₹${p.current || 0}. Do not use day-wise timelines. Provide direct, conversational, and practical business advice.`;
+            systemPromptContent = `You are a master business growth coach. User's business: '${p.desire}', Starting Capital: ₹${p.budget}, Target: ₹${p.goal}. Even if the budget is small (e.g. ₹1000), always show a clear scaling path from micro-start to wholesale, brand building, B2B distribution, and system automation. Never encourage low-level retail peddling.`;
         }
 
         let chatBox = document.getElementById('chatBox');
+        let loadingContainer = document.createElement('div');
+        loadingContainer.className = 'message-container bot-container';
         let loadingDiv = document.createElement('div');
         loadingDiv.className = 'message bot-msg';
         loadingDiv.id = 'loadingMsg';
-        loadingDiv.innerText = "एजेंट सोच रहा है...";
-        chatBox.appendChild(loadingDiv);
+        loadingDiv.innerText = "स्केलिंग ब्लूप्रिंट तैयार हो रहा है...";
+        loadingContainer.appendChild(loadingDiv);
+        chatBox.appendChild(loadingContainer);
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
@@ -536,23 +606,20 @@
             });
             
             let data = await res.json();
-            if(document.getElementById('loadingMsg')) chatBox.removeChild(document.getElementById('loadingMsg'));
+            if(document.getElementById('loadingMsg')) chatBox.removeChild(loadingContainer);
 
             if(res.ok && data.choices) {
                 let reply = data.choices[0].message.content.trim();
                 let uniqueId = 'msg_' + Date.now();
                 
-                // Trigger Typewriter text with sound effect
-                typeWriterEffect(reply, uniqueId, function() {
-                    // Finished typing callback if needed
-                });
+                typeWriterEffect(reply, uniqueId, function() {});
             } else {
                 let errorMsg = data.error ? data.error.message : "अज्ञात एरर";
-                appendMessage(`⚠️ Groq API एरर: ${errorMsg}. अपनी API Key चेक कर भाई!`, 'bot-msg');
+                appendUserMessage(`⚠️ Groq API एरर: ${errorMsg}.`);
             }
         } catch(e) {
-            if(document.getElementById('loadingMsg')) chatBox.removeChild(document.getElementById('loadingMsg'));
-            appendMessage("⚠️ नेटवर्क या API कनेक्शन में दिक्कत आ रही है भाई.", 'bot-msg');
+            if(document.getElementById('loadingMsg')) chatBox.removeChild(loadingContainer);
+            appendUserMessage("⚠️ नेटवर्क या API कनेक्शन में दिक्कत आ रही है भाई.");
         }
     }
 </script>
