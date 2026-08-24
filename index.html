@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Business Hub | Desi Bro Agent v28.0 (Micro-to-Scale Empire)</title>
+    <title>Indian Business Hub | Desi Bro Agent v29.0 (Direct & Sharp)</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -39,13 +39,13 @@
             flex-shrink: 0;
         }
         h2 { color: #38bdf8; margin: 0; font-weight: 800; font-size: 15px; }
-        .subtitle { font-size: 11px; color: #10b981; font-weight: 800; }
+        .subtitle { font-size: 11px; color: #f59e0b; font-weight: 800; }
         
         .header-btns { display: flex; gap: 8px; align-items: center; }
         .wallet-badge {
-            background: rgba(16, 185, 129, 0.15);
-            border: 1px solid #10b981;
-            color: #34d399;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid #f59e0b;
+            color: #fbbf24;
             padding: 6px 10px;
             border-radius: 8px;
             font-size: 12px;
@@ -74,7 +74,7 @@
         .progress-info { display: flex; justify-content: space-between; margin-bottom: 6px; color: #94a3b8; }
         .progress-info span b { color: #38bdf8; }
         .progress-bar-bg { width: 100%; background: #1e293b; height: 8px; border-radius: 4px; overflow: hidden; }
-        .progress-bar-fill { width: 0%; background: linear-gradient(90deg, #10b981, #38bdf8); height: 100%; transition: width 0.3s; }
+        .progress-bar-fill { width: 0%; background: linear-gradient(90deg, #f59e0b, #38bdf8); height: 100%; transition: width 0.3s; }
 
         /* Workspace */
         .workspace {
@@ -94,14 +94,14 @@
             flex-shrink: 0;
         }
         .gift-package-card {
-            background: linear-gradient(135deg, #065f46 0%, #0f172a 100%);
-            border: 1px solid #10b981;
+            background: linear-gradient(135deg, #78350f 0%, #0f172a 100%);
+            border: 1px solid #f59e0b;
             border-radius: 12px;
             padding: 12px 14px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
             position: relative;
             overflow: hidden;
         }
@@ -109,16 +109,16 @@
             content: '';
             position: absolute;
             top: 0; left: 0; width: 4px; height: 100%;
-            background: #10b981;
+            background: #f59e0b;
         }
         .gift-left { display: flex; align-items: center; gap: 10px; }
         .gift-icon { font-size: 22px; }
         .gift-title { font-size: 13px; font-weight: 800; color: #fff; max-width: 170px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .gift-sub { font-size: 11px; color: #34d399; font-weight: 700; margin-top: 2px; }
+        .gift-sub { font-size: 11px; color: #fbbf24; font-weight: 700; margin-top: 2px; }
         .gift-goal-badge {
-            background: rgba(16, 185, 129, 0.2);
-            border: 1px solid #34d399;
-            color: #a7f3d0;
+            background: rgba(245, 158, 11, 0.2);
+            border: 1px solid #fbbf24;
+            color: #fde68a;
             padding: 6px 10px;
             border-radius: 8px;
             font-size: 11px;
@@ -225,7 +225,6 @@
         .modal-content h3 { color: #38bdf8; margin-top: 0; font-weight: 800; font-size: 15px; }
         label { font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-top: 10px; }
         .modal-input, textarea.modal-input, select.modal-input { width:100%; padding: 9px; margin-top: 4px; background:#1e293b; border:1px solid #334155; color:#fff; border-radius:6px; font-size:12px; font-weight: 700; outline: none; font-family: 'Plus Jakarta Sans', sans-serif; }
-        .modal-btn { width: 100%; padding: 100px; margin-top: 12px; border-radius: 6px; border: none; background: #0284c7; color: #fff; font-weight: 800; cursor: pointer; font-size: 12px; }
         .modal-btn { width: 100%; padding: 10px; margin-top: 12px; border-radius: 6px; border: none; background: #0284c7; color: #fff; font-weight: 800; cursor: pointer; font-size: 12px; }
         .close-btn { background: #374151; margin-top: 6px; }
     </style>
@@ -235,10 +234,9 @@
 <div class="container">
     <div class="header">
         <div>
-            <h2>🚀 माइक्रो-टू-स्केल एम्पायर <span style="font-size:10px; color:#10b981;">v28.0</span></h2>
-            <div class="subtitle">💡 ₹1000 से करोड़ों का सफर</div>
+            <h2>🎯 डायरेक्ट बिजनेस ब्रो <span style="font-size:10px; color:#f59e0b;">v29.0</span></h2>
+            <div class="subtitle">⚡ नो बकवास, सिर्फ अगला कदम</div>
         </div>
-        .header-btns { display: flex; gap: 8px; align-items: center; }
         <div class="header-btns">
             <div class="wallet-badge" onclick="openSettings()">💳 बजट: ₹<span id="walletBalance">0</span></div>
             <button class="action-btn" onclick="openSettings()">⚙️</button>
@@ -248,7 +246,7 @@
     <!-- Progress Tracker -->
     <div class="progress-container">
         <div class="progress-info">
-            <span>एम्पायर टारगेट: <b id="packageGoalText">₹0</b></span>
+            <span>एम्पायर लक्ष्य: <b id="packageGoalText">₹0</b></span>
             <span>अचीव्ड: <b id="progressVal">₹0</b></span>
         </div>
         <div class="progress-bar-bg">
@@ -261,14 +259,14 @@
         <div class="dashboard-section" id="giftSection" style="display:none;">
             <div class="gift-package-card" onclick="openSettings()">
                 <div class="gift-left">
-                    <div class="gift-icon">🚀</div>
+                    <div class="gift-icon">🎯</div>
                     <div>
                         <div class="gift-title" id="cardDesireText">बिजनेस प्रोजेक्ट</div>
-                        <div class="gift-sub">शुरुआती कैपिटल: ₹<span id="cardBudgetText">0</span></div>
+                        <div class="gift-sub">कैपिटल: ₹<span id="cardBudgetText">0</span></div>
                     </div>
                 </div>
                 <div class="gift-goal-badge">
-                    मास्टर लक्ष्य<br><span id="cardGoalText" style="color:#fff;">₹0</span>
+                    मास्टर टारगेट<br><span id="cardGoalText" style="color:#fff;">₹0</span>
                 </div>
             </div>
         </div>
@@ -278,48 +276,41 @@
         
         <div class="chat-input-wrapper">
             <div class="chat-input-row">
-                <input type="text" id="userInput" placeholder="चाहे ₹1000 हो, स्केल कैसे करें पूछो..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" placeholder="अगला कदम क्या है पूछ भाई..." onkeypress="handleKeyPress(event)">
                 <button class="send-btn" onclick="sendMessage()">➔</button>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Settings & Business Goal Modal -->
+<!-- Settings Modal -->
 <div id="settingsModal" class="modal">
     <div class="modal-content">
-        <h3>🚀 बिजनेस और स्केल सेटअप</h3>
+        <h3>⚙️ बिजनेस सेटअप</h3>
 
-        <label>🌐 भाषा चुनें (Select Language):</label>
-        <select id="inputLang" class="modal-input">
-            <option value="hinglish">हिंग्लिश (Desi Bro Scaling)</option>
-            <option value="hindi">शुद्ध हिंदी</option>
-            <option value="english">English</option>
-        </select>
+        <label>💳 जेब में कितना बजट है? (₹):</label>
+        <input type="number" id="inputWallet" class="modal-input" placeholder="जैसे: 10000">
 
-        <label>💳 1. जेब में अभी कितना बजट है? (₹ चाहे 1000 हो):</label>
-        <input type="number" id="inputWallet" class="modal-input" placeholder="जैसे: 1000 या 50000">
-
-        <label>🎯 2. बड़ा एम्पायर लक्ष्य कितना है? (₹):</label>
+        <label>🎯 एम्पायर टारगेट कितना है? (₹):</label>
         <input type="number" id="inputGoal" class="modal-input" placeholder="जैसे: 1000000">
 
-        <label>💡 3. कौन सा बिजनेस करना या बड़ा करना चाहते हैं?</label>
-        <textarea id="inputDesire" class="modal-input" rows="3" placeholder="जैसे: फ्रूट सप्लाई, पॉलिश मैन्युफैक्चरिंग, डिजिटल एजेंसी..."></textarea>
+        <label>💡 बिजनेस का नाम या आईडिया:</label>
+        <textarea id="inputDesire" class="modal-input" rows="2" placeholder="जैसे: Fruit wholesale, Polishes..."></textarea>
 
         <label>🔑 Groq API Key:</label>
-        <input type="password" id="grokKey" class="modal-input" placeholder="अपनी API key यहाँ डालें...">
+        <input type="password" id="grokKey" class="modal-input" placeholder="API key यहाँ डालें...">
         
         <div id="modelStatus" style="font-size: 11px; color: #38bdf8; margin-top: 6px; font-weight: 700;"></div>
 
-        <button class="modal-btn" onclick="saveSettings()">💾 सेव करें और स्केलिंग समझें</button>
+        <button class="modal-btn" onclick="saveSettings()">💾 सेव करें</button>
         <button class="modal-btn close-btn" onclick="closeSettings()">बंद करें</button>
     </div>
 </div>
 
 <script>
-    const APP_VERSION = "28.0_micro_to_scale";
+    const APP_VERSION = "29.0_direct_sharp";
     
-    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v28')) || {
+    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v29')) || {
         grokKey: "",
         language: "hinglish",
         packageData: null, 
@@ -368,22 +359,20 @@
             window.speechSynthesis.cancel();
             let cleanText = text.replace(/<[^>]*>/g, '').replace(/\*\*/g, '');
             let utterance = new SpeechSynthesisUtterance(cleanText);
-            utterance.lang = db.language === 'hindi' ? 'hi-IN' : 'en-IN';
+            utterance.lang = 'hi-IN';
             utterance.rate = 1.0;
             utterance.pitch = 1.0;
             window.speechSynthesis.speak(utterance);
-        } else {
-            alert("⚠️ ब्राउज़र वॉइस स्पीच सपोर्ट नहीं करता!");
         }
     }
 
     window.onload = function() {
         if(!db.packageData) {
             openSettings();
-            appendMessage(`🚀 भाई! <b>v28.0 (Micro-to-Scale Edition)</b> तैयार है। चाहे जेब में <b>₹1,000</b> हों या ज्यादा, यह एजेंट तुझे बताएगा कि छोटे से पैसे से शुरुआत करके उसे <b>होलसेल, ब्रांडिंग और बड़े डिस्ट्रीब्यूशन एम्पायर</b> में कैसे बदला जाता है!<br><br>ऊपर <b>⚙️ सेटिंग</b> में जाकर अपना बजट और बिजनेस सेट कर ले!`, 'bot-msg');
+            appendMessage(`⚡ भाई! <b>v29.0</b> तैयार है। यहाँ कोई लंबी रामायण नहीं छपेगी—जो पूछोगे, एकदम सटीक और <b>रियल लाइफ की तरह अगला स्टेप</b> बताया जाएगा!<br><br>ऊपर <b>⚙️ सेटिंग</b> में जाकर अपना बजट सेट कर ले!`, 'bot-msg');
         } else {
             updateUIStats();
-            appendMessage(`राम-राम भाई! तेरा प्रोजेक्ट <b>"${db.packageData.desire}"</b> (कैपिटल: ₹${db.packageData.budget}) एक्टिव है। बता, इसे छोटे लेवल से उठाकर बड़ा स्केल करने का आज क्या प्लान डिस्कस करना है?`, 'bot-msg');
+            appendMessage(`राम-राम भाई! प्रोजेक्ट <b>"${db.packageData.desire}"</b> (कैपिटल: ₹${db.packageData.budget}) एक्टिव है। बता, इस वक्त क्या करना है?`, 'bot-msg');
         }
         if(db.grokKey) fetchBestModel(db.grokKey);
     };
@@ -408,13 +397,12 @@
     }
 
     function openSettings() {
-        let p = db.packageData || { budget: 1000, goal: 1000000, desire: "" };
-        document.getElementById('inputLang').value = db.language || 'hinglish';
+        let p = db.packageData || { budget: 10000, goal: 1000000, desire: "" };
         document.getElementById('inputWallet').value = p.budget;
         document.getElementById('inputGoal').value = p.goal;
         document.getElementById('inputDesire').value = p.desire;
         document.getElementById('grokKey').value = db.grokKey;
-        document.getElementById('modelStatus').innerText = db.autoModel ? `एक्टिव मॉडल: ${db.autoModel}` : "";
+        document.getElementById('modelStatus').innerText = db.autoModel ? `मॉडल: ${db.autoModel}` : "";
         document.getElementById('settingsModal').style.display = 'block';
     }
 
@@ -423,59 +411,43 @@
     }
 
     async function saveSettings() {
-        let langVal = document.getElementById('inputLang').value;
         let walletVal = parseInt(document.getElementById('inputWallet').value) || 0;
         let goalVal = parseInt(document.getElementById('inputGoal').value) || 0;
-        let desireVal = document.getElementById('inputDesire').value.trim() || "माइक्रो बिजनेस स्केल";
+        let desireVal = document.getElementById('inputDesire').value.trim() || "बिजनेस";
         let key = document.getElementById('grokKey').value.trim();
 
         if(goalVal <= 0) {
-            alert("⚠️ कृपया सही लक्ष्य दर्ज करें!");
+            alert("कृपया टारगेट दर्ज करें!");
             return;
         }
 
-        db.language = langVal;
         let currentVal = db.packageData ? (db.packageData.current || 0) : 0;
-        db.packageData = {
-            budget: walletVal,
-            goal: goalVal,
-            desire: desireVal,
-            current: currentVal
-        };
-
+        db.packageData = { budget: walletVal, goal: goalVal, desire: desireVal, current: currentVal };
         if(key) db.grokKey = key;
 
         saveData();
         updateUIStats();
         closeSettings();
 
-        appendMessage(`🚀 सेटिंग सेव हो गई है भाई:<br>• बिजनेस: <b>${desireVal}</b><br>• शुरुआती कैपिटल: <b>₹${walletVal.toLocaleString()}</b><br>• बड़ा लक्ष्य: <b>₹${goalVal.toLocaleString()}</b><br><br>अब Groq API से कनेक्ट करके इसका 'Micro-to-Scale' ब्लूप्रिंट तैयार हो रहा है...`, 'bot-msg');
-
-        if(key) {
-            await fetchBestModel(key);
-            await triggerAIResponse(`भाई मेरी जेब में ₹${walletVal} हैं और मेरा बिजनेस है '${desireVal}'। मुझे यह समझा कि इस छोटे से पैसे से शुरुआत करके मैं इसे सीधे बड़े स्केल (होलसेल, सप्लाई चेन और ब्रांड) तक कैसे ले जाऊँगा। मुझे स्टेप-बाय-स्टेप पूरा रोडमैप दे।`);
-        }
+        appendMessage(`✅ सेट हो गया भाई! कैपिटल ₹${walletVal.toLocaleString()} है। बता, अब तुरंत क्या कदम उठाया जाए?`, 'bot-msg');
+        if(key) await fetchBestModel(key);
     }
 
     function saveData() {
-        localStorage.setItem('indian_biz_hub_v28', JSON.stringify(db));
+        localStorage.setItem('indian_biz_hub_v29', JSON.stringify(db));
     }
 
     async function fetchBestModel(apiKey) {
         try {
             let res = "https://api.groq.com/openai/v1/models";
-            let req = await fetch(res, {
-                headers: { "Authorization": `Bearer ${apiKey}` }
-            });
+            let req = await fetch(res, { headers: { "Authorization": `Bearer ${apiKey}` } });
             let data = await req.json();
             if(req.ok && data.data) {
                 let models = data.data.filter(m => (m.id.includes('gpt-oss') || m.id.includes('llama')) && !m.id.includes('guard'));
                 if(models.length > 0) db.autoModel = models[0].id;
                 saveData();
-                return true;
             }
         } catch(e) {}
-        return false;
     }
 
     function handleKeyPress(e) { if(e.key === 'Enter') sendMessage(); }
@@ -493,22 +465,18 @@
         let chatBox = document.getElementById('chatBox');
         let container = document.createElement('div');
         container.className = 'message-container user-container';
-        
         let div = document.createElement('div');
         div.className = 'message user-msg';
         div.innerText = text;
-        
         container.appendChild(div);
         chatBox.appendChild(container);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function typeWriterEffect(fullText, elementId, onComplete) {
+    function typeWriterEffect(fullText, elementId) {
         let chatBox = document.getElementById('chatBox');
-        
         let container = document.createElement('div');
         container.className = 'message-container bot-container';
-        
         let div = document.createElement('div');
         div.className = 'message bot-msg';
         div.id = elementId;
@@ -516,34 +484,22 @@
         chatBox.appendChild(container);
 
         let i = 0;
-        let speed = 30;
-
         function typing() {
             if (i < fullText.length) {
                 let char = fullText.charAt(i);
                 div.innerHTML += char === '\n' ? '<br>' : char;
-                
-                if (char !== ' ' && char !== '\n') {
-                    playKeyClickSound();
-                }
-
+                if (char !== ' ' && char !== '\n') playKeyClickSound();
                 i++;
                 chatBox.scrollTop = chatBox.scrollHeight;
-                setTimeout(typing, speed);
+                setTimeout(typing, 25);
             } else {
-                let formattedHTML = fullText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
-                div.innerHTML = formattedHTML;
-
+                div.innerHTML = fullText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
                 let speakBtn = document.createElement('button');
                 speakBtn.className = 'speak-btn';
                 speakBtn.innerHTML = '🔊 बोलकर सुनो';
-                speakBtn.onclick = function() {
-                    speakText(fullText);
-                };
+                speakBtn.onclick = () => speakText(fullText);
                 container.appendChild(speakBtn);
-
                 chatBox.scrollTop = chatBox.scrollHeight;
-                if(onComplete) onComplete();
             }
         }
         typing();
@@ -551,31 +507,14 @@
 
     async function triggerAIResponse(query) {
         if(!db.grokKey) {
-            appendUserMessage("⚠️ भाई! पहले ⚙️ सेटिंग में अपनी वैध Groq API Key दर्ज कर!");
-            openSettings();
-            return;
-        }
-
-        if(!db.packageData) {
-            appendUserMessage("⚠️ भाई, पहले सेटिंग में अपना बिजनेस और बजट सेट कर!");
+            appendUserMessage("⚠️ पहले ⚙️ सेटिंग में अपनी Groq API Key डाल भाई!");
             openSettings();
             return;
         }
 
         let p = db.packageData;
-        let currentLang = db.language || 'hinglish';
-        
-        // Micro-to-Scale Mastery System Prompt
-        let systemPromptContent = "";
-        if(currentLang === 'hindi') {
-            systemPromptContent = `तू एक मास्टर बिजनेस ग्रोथ कोच है। यूजर का बिजनेस: '${p.desire}', शुरुआती कैपिटल: ₹${p.budget}, एम्पायर लक्ष्य: ₹${p.goal}.
-            नियम: भले ही यूजर के पास केवल ₹1,000 या बहुत छोटा बजट हो, उसे कभी भी सिर्फ दिहाड़ी मजदूर या छोटी रेड़ी वाला बनकर काम करने की सलाह मत देना। हमेशा उसे समझा कि कैसे उस छोटे से पैसे से शुरुआत करके उसे **4 चरणों (1. माइक्रो कैशफ्लॉ, 2. B2B डिस्ट्रीब्यूशन, 3. ब्रांडिंग और पैकेजिंग, 4. ऑटोमेशन व सिस्टम)** के जरिए एक बड़ा स्केलेबल बिजनेस एम्पायर बनाया जाता है। शुद्ध हिंदी में जवाब दे।`;
-        } else if(currentLang === 'hinglish') {
-            systemPromptContent = `Tu ek master business growth coach hai. User ka business: '${p.desire}', Starting Capital: ₹${p.budget}, Target Empire: ₹${p.goal}.
-            Rule: Chahe user ke paas sirf ₹1000 ya chota budget ho, usko kabhi bhi akela dukaan par baith kar bechne wali choti soch mat dena. Usse hamesha ye sikha ki kaise us chote budget se start karke usko **4 stages (1. Micro Cashflow, 2. B2B Wholesale Supply, 3. Brand & Packaging, 4. System Automation)** ke through ek bada scale business empire banaya jata hai. Hinglish me baat kar.`;
-        } else {
-            systemPromptContent = `You are a master business growth coach. User's business: '${p.desire}', Starting Capital: ₹${p.budget}, Target: ₹${p.goal}. Even if the budget is small (e.g. ₹1000), always show a clear scaling path from micro-start to wholesale, brand building, B2B distribution, and system automation. Never encourage low-level retail peddling.`;
-        }
+        let systemPromptContent = `तू एक डायरेक्ट और प्रैक्टिकल बिजनेस पार्टनर है। यूजर का बिजनेस: '${p.desire}', बजट: ₹${p.budget}, टारगेट: ₹${p.goal}.
+        नियम: कभी भी लंबी-लंबी थ्योरी या पूरी रामायण मत लिख। हमेशा एकदम छोटा, क्रिस्प और डायरेक्ट जवाब दे—सिर्फ यह बता कि रियल लाइफ में इस वक्त ठीक क्या एक्शन लेना है (एक या दो लाइन का ठोस काम)। हिंग्लिश में बात कर।`;
 
         let chatBox = document.getElementById('chatBox');
         let loadingContainer = document.createElement('div');
@@ -583,25 +522,22 @@
         let loadingDiv = document.createElement('div');
         loadingDiv.className = 'message bot-msg';
         loadingDiv.id = 'loadingMsg';
-        loadingDiv.innerText = "स्केलिंग ब्लूप्रिंट तैयार हो रहा है...";
+        loadingDiv.innerText = "सोच रहा हूँ...";
         loadingContainer.appendChild(loadingDiv);
-        chatBox.appendChild(loadingContainer);
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
             let res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
                 method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${db.grokKey}`,
-                    "Content-Type": "application/json"
-                },
+                headers: { "Authorization": `Bearer ${db.grokKey}`, "Content-Type": "application/json" },
                 body: JSON.stringify({
                     model: db.autoModel || "openai/gpt-oss-120b",
                     messages: [
                         { role: "system", content: systemPromptContent },
                         { role: "user", content: query }
                     ],
-                    temperature: 0.7
+                    temperature: 0.6,
+                    max_tokens: 200
                 })
             });
             
@@ -610,16 +546,13 @@
 
             if(res.ok && data.choices) {
                 let reply = data.choices[0].message.content.trim();
-                let uniqueId = 'msg_' + Date.now();
-                
-                typeWriterEffect(reply, uniqueId, function() {});
+                typeWriterEffect(reply, 'msg_' + Date.now());
             } else {
-                let errorMsg = data.error ? data.error.message : "अज्ञात एरर";
-                appendUserMessage(`⚠️ Groq API एरर: ${errorMsg}.`);
+                appendUserMessage("⚠️ API एरर आ गया भाई.");
             }
         } catch(e) {
             if(document.getElementById('loadingMsg')) chatBox.removeChild(loadingContainer);
-            appendUserMessage("⚠️ नेटवर्क या API कनेक्शन में दिक्कत आ रही है भाई.");
+            appendUserMessage("⚠️ नेटवर्क दिक्कत है भाई.");
         }
     }
 </script>
