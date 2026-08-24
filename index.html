@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Business Hub | Desi Bro Agent v21.0</title>
+    <title>Indian Business Hub | Desi Bro Agent v24.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -146,25 +146,6 @@
         .user-msg { background: #0284c7; color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
         .bot-msg { background: #1f2937; color: #f1f5f9; align-self: flex-start; border-bottom-left-radius: 2px; border: 1px solid #374151; }
         
-        /* Yes/No Action Card inside Chat */
-        .yesno-card {
-            background: #111827;
-            border: 1px solid #10b981;
-            border-radius: 10px;
-            padding: 10px;
-            margin-top: 10px;
-        }
-        .yesno-title { font-size: 11px; color: #34d399; font-weight: 800; margin-bottom: 4px; }
-        .yesno-desc { font-size: 12px; color: #cbd5e1; margin-bottom: 10px; font-weight: 700; }
-        .yesno-buttons { display: flex; gap: 8px; }
-        .yes-btn { background: #10b981; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; flex: 1; text-align: center; }
-        .no-btn { background: #ef4444; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; flex: 1; text-align: center; }
-        
-        .yesno-buttons button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
         /* Fixed Bottom Input Bar */
         .chat-input-wrapper {
             background: #0f172a;
@@ -228,8 +209,8 @@
 <div class="container">
     <div class="header">
         <div>
-            <h2>🪜 देसी ब्रो एजेंट <span style="font-size:9px; color:#10b981;">v21.0</span></h2>
-            <div class="subtitle">🛡️ ऑटो-टाइम्स डे-वाइज प्लानर</div>
+            <h2>🪜 देसी ब्रो एजेंट <span style="font-size:9px; color:#10b981;">v24.0</span></h2>
+            <div class="subtitle">🔊 टाइपिंग साउंड इफ़ेक्ट के साथ</div>
         </div>
         <div class="header-btns">
             <div class="wallet-badge" onclick="openSettings()">💳 बजट: ₹<span id="walletBalance">0</span></div>
@@ -241,7 +222,7 @@
     <div class="progress-container">
         <div class="progress-info">
             <span>कमाई का लक्ष्य (Target): <b id="packageGoalText">₹0</b></span>
-            <span>सुरक्षित प्रगति: <b id="progressVal">₹0</b></span>
+            <span>अचीव्ड कमाई: <b id="progressVal">₹0</b></span>
         </div>
         <div class="progress-bar-bg">
             <div class="progress-bar-fill" id="progressBar"></div>
@@ -270,7 +251,7 @@
         
         <div class="chat-input-wrapper">
             <div class="chat-input-row">
-                <input type="text" id="userInput" placeholder="यहाँ भाई से बात करें या नीचे बटन दबाएं..." onkeypress="handleKeyPress(event)">
+                <input type="text" id="userInput" placeholder="भाई से सीधी बात पूछो..." onkeypress="handleKeyPress(event)">
                 <button class="send-btn" onclick="sendMessage()">➔</button>
             </div>
         </div>
@@ -280,12 +261,12 @@
 <!-- Settings & Business Goal Modal -->
 <div id="settingsModal" class="modal">
     <div class="modal-content">
-        <h3>🛡️ ऑटो-टारगेट और दिन-ब-दिन सेटअप</h3>
+        <h3>🛡️ लाइव बिजनेस सेटअप</h3>
 
         <label>🌐 भाषा चुनें (Select Language):</label>
         <select id="inputLang" class="modal-input">
-            <option value="hindi">शुद्ध हिंदी (Pure Hindi)</option>
             <option value="hinglish">हिंग्लिश (Hinglish / Desi Bro)</option>
+            <option value="hindi">शुद्ध हिंदी (Pure Hindi)</option>
             <option value="english">English</option>
         </select>
 
@@ -295,7 +276,7 @@
         <label>🎯 2. कमाई का कुल लक्ष्य कितना है? (₹):</label>
         <input type="number" id="inputGoal" class="modal-input" placeholder="जैसे: 100000">
 
-        <label>💡 3. कौन सा बिजनेस करना चाहते हैं? (विचार):</label>
+        <label>💡 3. कौन सा बिजनेस करना चाहते हैं?</label>
         <textarea id="inputDesire" class="modal-input" rows="3" placeholder="जैसे: मुझे फ्रूट का ठेला या दुकान लगानी है..."></textarea>
 
         <label>🔑 Groq API Key:</label>
@@ -303,43 +284,59 @@
         
         <div id="modelStatus" style="font-size: 10px; color: #38bdf8; margin-top: 6px; font-weight: 700;"></div>
 
-        <button class="modal-btn" onclick="saveSettings()">💾 ऑटो-प्लान जनरेट करें</button>
+        <button class="modal-btn" onclick="saveSettings()">💾 सेव करें और चैट शुरू करें</button>
         <button class="modal-btn close-btn" onclick="closeSettings()">बंद करें</button>
     </div>
 </div>
 
 <script>
-    const APP_VERSION = "21.0_auto_timeline";
+    const APP_VERSION = "24.0_typewriter_sound";
     
-    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v21')) || {
+    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v24')) || {
         grokKey: "",
-        language: "hindi",
+        language: "hinglish",
         packageData: null, 
         autoModel: "openai/gpt-oss-120b"
     };
 
+    // Web Audio API Sound Synthesizer for "Tick-Tick" Typewriter Sound
+    let audioCtx = null;
+    function playTypeSound() {
+        try {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            let osc = audioCtx.createOscillator();
+            let gain = audioCtx.createGain();
+            
+            // Short crisp click noise frequency
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(400 + Math.random() * 300, audioCtx.currentTime);
+            
+            gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+            
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.04);
+        } catch(e) {}
+    }
+
     window.onload = function() {
         if(!db.packageData) {
             openSettings();
-            appendMessage(`अरे भाई! <b>v21.0</b> तैयार है। अब एजेंट खुद दिमाग लगाकर तय करेगा कि पूरा लक्ष्य कितने दिन में पूरा होगा और किस दिन कितने पैसे खर्च करने हैं!<br><br>ऊपर कोने में <b>⚙️ सेटिंग</b> पर क्लिक करके अपना बजट, लक्ष्य और बिजनेस भर दें।`, 'bot-msg');
+            appendMessage(`अरे भाई! <b>v24.0</b> आ गया है। अब चैट जीपीटी की तरह <b>कटकट टाइपिंग साउंड</b> के साथ एजेंट लाइव जवाब देगा!<br><br>ऊपर कोने में <b>⚙️ सेटिंग</b> पर क्लिक करके अपनी API Key, बजट और बिजनेस सेट कर ले!`, 'bot-msg');
         } else {
             updateUIStats();
-            let langWelcome = getLangWelcomeMessage(db.packageData.desire);
-            appendMessage(langWelcome, 'bot-msg');
+            appendMessage(`राम-राम भाई! तेरा बिजनेस <b>"${db.packageData.desire}"</b> एक्टिव है। बता, आज क्या डिस्कस करना है?`, 'bot-msg');
         }
         if(db.grokKey) fetchBestModel(db.grokKey);
     };
-
-    function getLangWelcomeMessage(desire) {
-        let lang = db.language || 'hindi';
-        if(lang === 'english') {
-            return `Hello brother! Your business <b>"${desire}"</b> is loaded. I am ready to calculate the total timeline, daily expenses, and step-by-step tasks automatically. Shall we start with Day 1?`;
-        } else if(lang === 'hinglish') {
-            return `राम-राम भाई! तेरा बिजनेस <b>"${desire}"</b> लोड हो गया है। अब मैं खुद हिसाब लगाऊंगा कि ये टारगेट कुल कितने दिन में अचीव होगा और किस दिन कितना पैसा कहाँ खर्च करना है। बता, **Day 1** का प्लान शुरू करें?`;
-        } else {
-            return `नमस्ते भाई! आपका व्यापार <b>"${desire}"</b> तैयार है। अब मैं कुल दिनों की समय-सीमा (Timeline) और प्रत्येक दिन के सटीक खर्च का हिसाब खुद तय करूँगा। आइए **पहले दिन (Day 1)** से शुरुआत करते हैं।`;
-        }
-    }
 
     function updateUIStats() {
         if(!db.packageData) {
@@ -362,7 +359,7 @@
 
     function openSettings() {
         let p = db.packageData || { budget: 10000, goal: 100000, desire: "" };
-        document.getElementById('inputLang').value = db.language || 'hindi';
+        document.getElementById('inputLang').value = db.language || 'hinglish';
         document.getElementById('inputWallet').value = p.budget;
         document.getElementById('inputGoal').value = p.goal;
         document.getElementById('inputDesire').value = p.desire;
@@ -402,16 +399,16 @@
         updateUIStats();
         closeSettings();
 
-        appendMessage(`बढ़िया भाई! सेटिंग सेव हो गई है:<br>• बिजनेस: <b>${desireVal}</b><br>• कुल बजट: <b>₹${walletVal.toLocaleString()}</b><br>• लक्ष्य: <b>₹${goalVal.toLocaleString()}</b><br><br>अब एजेंट खुद दिमाग लगाकर कुल दिन और डे-वाइज खर्च तय कर रहा है!`, 'bot-msg');
+        appendMessage(`बढ़िया भाई! सेटिंग सेव हो गई है:<br>• बिजनेस: <b>${desireVal}</b><br>• कुल बजट: <b>₹${walletVal.toLocaleString()}</b><br>• लक्ष्य: <b>₹${goalVal.toLocaleString()}</b><br><br>अब लाइव Groq API से कनेक्ट हो रहा है...`, 'bot-msg');
 
         if(key) {
             await fetchBestModel(key);
-            await triggerAIResponse("कृपया इस बिजनेस के लिए कुल कितने दिन लगेंगे (Timeline) यह तय करें और 'Day 1' का पक्का टास्क और खर्च कहाँ करना है, उसकी पूरी डिटेल दें।");
+            await triggerAIResponse("भाई मेरा बिजनेस सेट है। अब तू मुझे इस लक्ष्य को पाने के लिए एकदम सीधी और ग्राउंड-लेवल प्रैक्टिकल सलाह दे।");
         }
     }
 
     function saveData() {
-        localStorage.setItem('indian_biz_hub_v21', JSON.stringify(db));
+        localStorage.setItem('indian_biz_hub_v24', JSON.stringify(db));
     }
 
     async function fetchBestModel(apiKey) {
@@ -451,9 +448,44 @@
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
+    // Typewriter effect function with real-time audio sound ticks
+    function typeWriterEffect(fullText, elementId, onComplete) {
+        let chatBox = document.getElementById('chatBox');
+        let div = document.createElement('div');
+        div.className = 'message bot-msg';
+        div.id = elementId;
+        chatBox.appendChild(div);
+
+        // Convert formatting tags temporarily or render gradually
+        // To keep it simple and smooth, we type character by character
+        let i = 0;
+        let speed = 15; // typing speed in ms
+
+        function typing() {
+            if (i < fullText.length) {
+                let char = fullText.charAt(i);
+                div.innerHTML += char === '\n' ? '<br>' : char;
+                
+                // Play typewriter click sound every few characters or on non-space chars
+                if (char !== ' ' && char !== '\n' && i % 2 === 0) {
+                    playTypeSound();
+                }
+
+                i++;
+                chatBox.scrollTop = chatBox.scrollHeight;
+                setTimeout(typing, speed);
+            } else {
+                // Final clean up formatting (bold tags replacement)
+                div.innerHTML = fullText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+                if(onComplete) onComplete();
+            }
+        }
+        typing();
+    }
+
     async function triggerAIResponse(query) {
         if(!db.grokKey) {
-            appendMessage("अरे भाई! पहले ऊपर ⚙️ सेटिंग में अपनी Groq API Key तो दर्ज करें!", 'bot-msg');
+            appendMessage("अरे भाई! पहले ऊपर ⚙️ सेटिंग में अपनी वैध Groq API Key तो दर्ज करें!", 'bot-msg');
             openSettings();
             return;
         }
@@ -465,26 +497,24 @@
         }
 
         let p = db.packageData;
-        let currentLang = db.language || 'hindi';
+        let currentLang = db.language || 'hinglish';
         
         let systemPromptContent = "";
         if(currentLang === 'hindi') {
-            systemPromptContent = `तू एक सुपर इंटेलिजेंट और अनुभवी बिजनेस कोच है। यूजर का बिजनेस: '${p.desire}', कुल बजट: ₹${p.budget}, कमाई का लक्ष्य: ₹${p.goal}, अभी तक प्रगति: ₹${p.current || 0}.
-            तुझे खुद यह तय करना है कि इस बजट और लक्ष्य को हासिल करने में कुल कितने दिन (जैसे 30 दिन, 45 दिन आदि) लगेंगे। 
-            जब भी मैं पूछूँ या अगला स्टेप आए, तो स्पष्ट रूप से बता कि **कुल कितने दिनों का प्लान है**, आज कौन सा **Day (जैसे Day 1, Day 2)** है, उस दिन का टास्क क्या है, और उस दिन के पैसे को ठीक-ठीक कहाँ और कितने रुपए खर्च करना है। कोई तुक्का नहीं, बिल्कुल प्रैक्टिकल और गणितीय हिसाब हो। शुद्ध हिंदी भाषा का प्रयोग कर।`;
+            systemPromptContent = `तू एक अनुभवी, प्रैक्टिकल और दमदार बिजनेस पार्टनर है। यूजर का बिजनेस: '${p.desire}', कुल बजट: ₹${p.budget}, कमाई का लक्ष्य: ₹${p.goal}, अभी तक अचीव्ड: ₹${p.current || 0}. 
+            फालतू की कोई दिन-बिन (Day 1, Day 2) की बातें मत करना। बिल्कुल सीधी, देसी और असली बिजनेस की बात कर—जैसे माल कहाँ से सस्ता पड़ेगा, लागत कैसे बचाएं, ग्राहक कैसे बढ़ाएं और बजट को सही तरीके से कैसे इस्तेमाल करें। शुद्ध हिंदी में जवाब दे।`;
         } else if(currentLang === 'hinglish') {
-            systemPromptContent = `तू एक स्मार्ट देसी बिजनेस ब्रो है। यूजर का बिजनेस: '${p.desire}', बजट: ₹${p.budget}, गोल: ₹${p.goal}, प्रोग्रेस: ₹${p.current || 0}.
-            तुझे खुद दिमाग लगाकर डिसाइड करना है कि पूरा गोल अचीव करने में कुल कितने दिन लगेंगे। हर रिप्लाई में बता कि आज कौन सा Day है, उस दिन क्या काम करना है, और पैसे को ठीक-ठीक कहाँ और कितने रुपए खर्च करना है। हिंग्लिश में जवाब दे।`;
+            systemPromptContent = `तू एकदम धांसू और प्रैक्टिकल देसी बिजनेस ब्रो है। यूजर का बिजनेस: '${p.desire}', बजट: ₹${p.budget}, गोल: ₹${p.goal}, अचीव्ड: ₹${p.current || 0}.
+            कसम से कोई फेक दिन या कैलेंडर का चक्कर मत चलाना। एकदम सीधे भाई की तरह बात कर। यूजर जो पूछे या जिस टारगेट के लिए खड़ा है, उसके बारे में एकदम पक्की ग्राउंड-लेवल बिजनेस सलाह दे। हिंग्लिश में बात कर।`;
         } else {
-            systemPromptContent = `You are an expert business planner. User's business: '${p.desire}', Budget: ₹${p.budget}, Goal: ₹${p.goal}, Progress: ₹${p.current || 0}.
-            You must autonomously determine the total timeline (total days required) to achieve this goal. For each step, clearly specify the current Day, the exact task, and precisely where and how much money to spend.`;
+            systemPromptContent = `You are a smart, practical business partner. User's business: '${p.desire}', Budget: ₹${p.budget}, Goal: ₹${p.goal}, Current Progress: ₹${p.current || 0}. Do not use day-wise timelines. Provide direct, conversational, and practical business advice.`;
         }
 
         let chatBox = document.getElementById('chatBox');
         let loadingDiv = document.createElement('div');
         loadingDiv.className = 'message bot-msg';
         loadingDiv.id = 'loadingMsg';
-        loadingDiv.innerText = currentLang === 'english' ? "Agent is calculating total timeline and daily expenses..." : "एंट्री टाइमलाइन और दैनिक खर्च का हिसाब खुद लगाया जा रहा है...";
+        loadingDiv.innerText = "एजेंट सोच रहा है...";
         chatBox.appendChild(loadingDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -510,84 +540,20 @@
 
             if(res.ok && data.choices) {
                 let reply = data.choices[0].message.content.trim();
-                reply = reply.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+                let uniqueId = 'msg_' + Date.now();
                 
-                let finalHTML = reply.replace(/\n/g, '<br>');
-                
-                let yesText = currentLang === 'english' ? 'Yes, Next Day Task! ✅' : (currentLang === 'hinglish' ? 'हाँ, अगले दिन का टास्क! ✅' : 'हाँ, अगले दिन का कार्य! ✅');
-                let noText = currentLang === 'english' ? 'No, Adjust! ❌' : (currentLang === 'hinglish' ? 'ना, बदलो! ❌' : 'ना, सुधार करें! ❌');
-                let cardTitle = currentLang === 'english' ? 'Timeline & Daily Expense Approval' : (currentLang === 'hinglish' ? 'टाइमलाइन और खर्च अप्रूवल कार्ड' : 'समय-सीमा और दैनिक व्यय स्वीकृति कार्ड');
-                let cardDesc = currentLang === 'english' ? 'Approve this timeline day task and expense?' : 'क्या इस दिन के ऑटो-टारगेट और खर्च को आगे बढ़ाएं?';
-
-                let cardId = 'card_' + Date.now();
-                finalHTML += `
-                    <div class="yesno-card" id="${cardId}">
-                        <div class="yesno-title">🛡️ ${cardTitle}</div>
-                        <div class="yesno-desc">${cardDesc}</div>
-                        <div class="yesno-buttons">
-                            <button class="yes-btn" onclick="handleYesAction('${cardId}')">${yesText}</button>
-                            <button class="no-btn" onclick="handleNoAction('${cardId}')">${noText}</button>
-                        </div>
-                    </div>
-                `;
-
-                appendMessage(finalHTML, 'bot-msg');
+                // Trigger Typewriter text with sound effect
+                typeWriterEffect(reply, uniqueId, function() {
+                    // Finished typing callback if needed
+                });
             } else {
-                appendMessage(`⚠️ API में गड़बड़ हो गई: ${data.error ? data.error.message : "फेल"}`, 'bot-msg');
+                let errorMsg = data.error ? data.error.message : "अज्ञात एरर";
+                appendMessage(`⚠️ Groq API एरर: ${errorMsg}. अपनी API Key चेक कर भाई!`, 'bot-msg');
             }
         } catch(e) {
             if(document.getElementById('loadingMsg')) chatBox.removeChild(document.getElementById('loadingMsg'));
-            appendMessage("⚠️ नेटवर्क में दिक्कत आ रही है भाई, जाँच करें.", 'bot-msg');
+            appendMessage("⚠️ नेटवर्क या API कनेक्शन में दिक्कत आ रही है भाई.", 'bot-msg');
         }
-    }
-
-    async function handleYesAction(cardId) {
-        let card = document.getElementById(cardId);
-        if(card) {
-            let btns = card.querySelectorAll('button');
-            btns.forEach(b => b.disabled = true);
-        }
-
-        if(!db.packageData) return;
-        let p = db.packageData;
-        let increment = Math.round(p.goal * 0.15); 
-        p.current = Math.min(p.goal, (p.current || 0) + increment);
-        saveData();
-        updateUIStats();
-        
-        let currentLang = db.language || 'hindi';
-        let promptText = "";
-        if(currentLang === 'english') {
-            promptText = `I have completed this day's task. Progress is now ₹${p.current} of ₹${p.goal}. Please provide the next day's schedule, task, and exact spending details based on the timeline.`;
-        } else if(currentLang === 'hinglish') {
-            promptText = `भाई इस दिन का काम पूरा हो गया है! प्रोग्रेस ₹${p.current} / ₹${p.goal} हो गई है। अब टाइमलाइन के हिसाब से अगले दिन का टास्क और खर्च का हिसाब बता।`;
-        } else {
-            promptText = `इस दिन का कार्य पूरा हो गया है। प्रगति अब ₹${p.current} / ₹${p.goal} है। अब निर्धारित समय-सीमा के अनुसार अगले दिन का कार्य और व्यय बताइए।`;
-        }
-
-        appendMessage(promptText, 'user-msg');
-        await triggerAIResponse(promptText);
-    }
-
-    async function handleNoAction(cardId) {
-        let card = document.getElementById(cardId);
-        if(card) {
-            let btns = card.querySelectorAll('button');
-            btns.forEach(b => b.disabled = true);
-        }
-
-        let currentLang = db.language || 'hindi';
-        let promptText = "";
-        if(currentLang === 'english') {
-            promptText = `I want to adjust this timeline day task. Let's recalculate the expenses and steps safely.`;
-        } else if(currentLang === 'hinglish') {
-            promptText = `भाई इस दिन की टाइमलाइन या खर्चे में बदलाव करना है। दोबारा सही से कैलकुलेट करके बता।`;
-        } else {
-            promptText = `इस दिन के कार्य और व्यय की योजना में बदलाव करना है। इसे दोबारा सही से सुझाइए।`;
-        }
-
-        appendMessage(promptText, 'user-msg');
-        await triggerAIResponse(promptText);
     }
 </script>
 
