@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Business Partner | Paisa Vasool OS v35.0</title>
+    <title>AI Business Partner | Clean OS v36.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -94,7 +94,7 @@
         .message-container {
             display: flex;
             flex-direction: column;
-            max-width: 90%;
+            max-width: 95%;
         }
         .user-container { align-self: flex-end; }
         .bot-container { align-self: flex-start; }
@@ -102,14 +102,19 @@
         .message { 
             padding: 12px 16px; 
             border-radius: 12px; 
-            font-size: 15px; 
+            font-size: 14px; 
             font-weight: 400; 
-            line-height: 1.5; 
+            line-height: 1.6; 
             word-break: break-word; 
         }
         .user-msg { background: #27272a; color: #f4f4f5; border-bottom-right-radius: 2px; }
         .bot-msg { background: transparent; color: #e4e4e7; padding-left: 0; border: none; }
         
+        /* Clean Tables inside Chat */
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 13px; background: #1f1f23; border-radius: 6px; overflow: hidden; }
+        th, td { border: 1px solid #27272a; padding: 8px 10px; text-align: left; color: #d4d4d8; }
+        th { background: #27272a; color: #38bdf8; font-weight: 600; }
+
         .speak-btn {
             background: #27272a;
             border: none;
@@ -216,6 +221,8 @@
         .vasool-card { background: #211e12; border: 1px solid #f59e0b; padding: 12px; border-radius: 8px; margin-top: 10px; }
         .vasool-card h4 { color: #f59e0b; font-size: 14px; margin-bottom: 6px; }
         .vasool-card p { font-size: 12px; color: #d4d4d8; line-height: 1.4; }
+        
+        .clear-chat-btn { background: #ef4444; color: #fff; width: 100%; margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -227,8 +234,8 @@
             <span class="mode-badge" id="activeModeBadge" onclick="openPkgModal()">📦 पैकेज चुनें</span>
         </div>
         <div class="header-btns">
-            <button class="vasool-btn" onclick="openVasoolModal()">🔥 पैसा वसूल किट</button>
-            <button class="pkg-btn" onclick="openPkgModal()">⚡ 100 पैकेजेस</button>
+            <button class="vasool-btn" onclick="openVasoolModal()">🔥 किट</button>
+            <button class="pkg-btn" onclick="openPkgModal()">⚡ पैकेजेस</button>
             <button class="action-btn" onclick="openSettings()">⚙️</button>
         </div>
     </div>
@@ -237,10 +244,10 @@
         <div class="chat-box" id="chatBox"></div>
 
         <div class="instant-action-bar">
-            <div class="ia-pill" onclick="sendQuickAction('मुझे इस बिजनेस का रॉ-मटेरियल सप्लायर और होलसेलर का पता बता')">🛒 रॉ-मटेरियल सोर्सिंग</div>
-            <div class="ia-pill" onclick="sendQuickAction('इस बिजनेस के लिए WhatsApp मार्केटिंग मैसेज और पंपलेट टेक्स्ट बना कर दे')">📢 इंस्टेंट मार्केटिंग</div>
-            <div class="ia-pill" onclick="sendQuickAction('आज जमीन पर उतरने के लिए मुझे 3 कड़े और पक्के एक्शन स्टेप्स बता')">🚀 आज का एक्शन प्लान</div>
-            <div class="ia-pill" onclick="sendQuickAction('इस बिजनेस में कुल लागत कितनी आएगी और प्रॉफिट मार्जिन क्या है?')">💰 लागत और प्रॉफिट गणित</div>
+            <div class="ia-pill" onclick="sendQuickAction('सप्लायर और होलसेलर की पूरी जानकारी दो')">🛒 रॉ-मटेरियल</div>
+            <div class="ia-pill" onclick="sendQuickAction('WhatsApp मार्केटिंग मैसेज और एड कॉपी बना कर दो')">📢 मार्केटिंग</div>
+            <div class="ia-pill" onclick="sendQuickAction('आज जमीन पर उतरने के लिए 3 कड़े एक्शन स्टेप्स बताओ')">🚀 एक्शन प्लान</div>
+            <div class="ia-pill" onclick="sendQuickAction('कुल लागत कितनी आएगी और प्रॉफिट मार्जिन क्या है?')">💰 लागत-गणित</div>
         </div>
         
         <div class="chat-input-wrapper">
@@ -256,37 +263,36 @@
 <div id="vasoolModal" class="modal">
     <div class="modal-content">
         <h3>🔥 ₹500 'पैसा वसूल' पावर किट</h3>
-        <p style="font-size:12px; color:#a1a1aa; margin-bottom:6px;">हर एक्टिव पैकेज के साथ आपको तुरंत ये 4 तगड़े फायदे मिलते हैं:</p>
+        <p style="font-size:12px; color:#a1a1aa; margin-bottom:6px;">हर पैकेज के साथ ये 4 फायदे मुफ्त मिलते हैं:</p>
         
         <div class="vasool-card">
-            <h4>1. 🛒 डायरेक्ट सप्लायर लिस्ट (Direct Vendors)</h4>
-            <p>बिना बिचौलियों के सीधे होलसेलर्स के फोन नंबर और पत्ते ताकि माल सबसे सस्ते रेट में मिले।</p>
+            <h4>1. 🛒 डायरेक्ट सप्लायर लिस्ट</h4>
+            <p>बिना बिचौलियों के सीधे होलसेलर्स के फोन नंबर और पते।</p>
         </div>
 
         <div class="vasool-card">
-            <h4>2. 📄 लीगल इनवॉइस & एग्रीमेंट फॉर्मेट</h4>
-            <p>कस्टमर बिलिंग और वेंडर कॉन्ट्रैक्ट के लिए रेडीमेड प्रोफेशनल PDF/टेक्स्ट फॉर्मेट।</p>
+            <h4>2. 📄 लीगल इनवॉइस & एग्रीमेंट</h4>
+            <p>कस्टमर बिलिंग और वेंडर कॉन्ट्रैक्ट के लिए रेडीमेड फॉर्मेट।</p>
         </div>
 
         <div class="vasool-card">
-            <h4>3. 📢 10 वायरल WhatsApp मार्केटिंग स्क्रिप्ट्स</h4>
-            <p>पहले दिन से ग्राहक खींचने के लिए रेडीमेड मैसेज और विज्ञापन लाइनें।</p>
+            <h4>3. 📢 10 वायरल WhatsApp स्क्रिप्ट्स</h4>
+            <p>पहले दिन से ग्राहक खींचने के लिए रेडीमेड विज्ञापन लाइनें।</p>
         </div>
 
         <div class="vasool-card">
             <h4>4. 🎁 ₹500 वॉलेट कैशबैक बोनस</h4>
-            <p>अगला कोई भी एडवांस टूल या पैकेज खरीदने पर पूरे ₹500 की छूट।</p>
+            <p>अगला कोई भी टूल खरीदने पर पूरे ₹500 की छूट।</p>
         </div>
 
-        <button class="modal-btn" style="background:#f59e0b; color:#000;" onclick="claimVasoolKit()">🎁 अभी अपनी किट अनलॉक करें</button>
-        <button class="modal-btn close-btn" onclick="closeVasoolModal()">बंद करें</button>
+        <button class="modal-btn" style="background:#f59e0b; color:#000;" onclick="closeVasoolModal()">समझ आ गया</button>
     </div>
 </div>
 
 <!-- Packages Modal -->
 <div id="pkgModal" class="modal">
     <div class="modal-content">
-        <h3>📦 2026 के टॉप 100 बिजनेस पैकेजेस (₹500)</h3>
+        <h3>📦 टॉप 100 बिजनेस पैकेजेस (₹500)</h3>
         <input type="text" id="pkgSearch" class="modal-input" placeholder="🔍 पैकेज खोजें..." onkeyup="filterPackages()">
         <div class="package-list" id="packageListContainer"></div>
         <button class="modal-btn close-btn" onclick="closePkgModal()">बंद करें</button>
@@ -296,10 +302,11 @@
 <!-- Settings Modal -->
 <div id="settingsModal" class="modal">
     <div class="modal-content">
-        <h3>⚙️ सेटिंग्स</h3>
+        <h3>⚙️ सेटिंग्स & कंट्रोल्स</h3>
         <label>🔑 Groq API Key:</label>
         <input type="password" id="grokKey" class="modal-input" placeholder="API key यहाँ डालें...">
         <button class="modal-btn" onclick="saveSettings()">सेव करें</button>
+        <button class="modal-btn clear-chat-btn" onclick="clearChatHistory()">🗑️ चैट इतिहास साफ़ करें (Clear Chat)</button>
         <button class="modal-btn close-btn" onclick="closeSettings()">बंद करें</button>
     </div>
 </div>
@@ -342,9 +349,10 @@
         "100. मास्टर बिजनेस ऑटोमेशन कंसल्टेंसी"
     ];
 
-    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v35')) || {
+    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v36')) || {
         grokKey: "",
         activePackage: null,
+        chatHistory: [],
         autoModel: "openai/gpt-oss-120b"
     };
 
@@ -372,7 +380,7 @@
     function speakText(text) {
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
-            let cleanText = text.replace(/<[^>]*>/g, '').replace(/\*\*/g, '');
+            let cleanText = text.replace(/<[^>]*>/g, '').replace(/\*\*/g, '').replace(/###/g, '');
             let utterance = new SpeechSynthesisUtterance(cleanText);
             utterance.lang = 'hi-IN';
             utterance.rate = 1.0;
@@ -383,10 +391,13 @@
     window.onload = function() {
         renderPackageList(TOP_PACKAGES);
         updateUIState();
-        if(!db.activePackage) {
-            appendMessage(`राम-राम भाई! **Paisa Vasool OS v35.0** तैयार है। ऊपर **'🔥 पैसा वसूल किट'** बटन दबाकर देख ले कि ग्राहक को ₹500 में क्या-क्या तगड़ा माल मिलेगा!`, 'bot-msg', true);
-        } else {
-            appendMessage(`🔥 एक्टिव पैकेज: **${db.activePackage}**<br>बता भाई, आज कौन सा एक्शन लेना है?`, 'bot-msg', true);
+        loadChatHistoryUI();
+        if(db.chatHistory.length === 0) {
+            if(!db.activePackage) {
+                appendMessage(`राम-राम भाई! **Clean OS v36.0** तैयार है। अब कोई फालतू सिंबल या हैश नहीं दिखेगा। ऊपर से पैकेज सिलेक्ट कर ले!`, 'bot-msg', false);
+            } else {
+                appendMessage(`🔥 एक्टिव पैकेज: **${db.activePackage}**<br>बता भाई, आज क्या काम करना है?`, 'bot-msg', false);
+            }
         }
         if(db.grokKey) fetchBestModel(db.grokKey);
     };
@@ -407,7 +418,7 @@
         list.forEach(pkg => {
             let div = document.createElement('div');
             div.className = 'pkg-item';
-            div.innerHTML = `<span class="pkg-name">${pkg}</span> <span class="pkg-price">₹500 खरीदें</span>`;
+            div.innerHTML = `<span class="pkg-name">${pkg}</span> <span class="pkg-price">₹500 चुनें</span>`;
             div.onclick = () => selectPackage(pkg);
             container.appendChild(div);
         });
@@ -421,29 +432,15 @@
 
     function openPkgModal() { document.getElementById('pkgModal').style.display = 'block'; }
     function closePkgModal() { document.getElementById('pkgModal').style.display = 'none'; }
-
     function openVasoolModal() { document.getElementById('vasoolModal').style.display = 'block'; }
     function closeVasoolModal() { document.getElementById('vasoolModal').style.display = 'none'; }
 
-    function claimVasoolKit() {
-        closeVasoolModal();
-        if(!db.activePackage) {
-            openPkgModal();
-            alert("पहले ऊपर से अपना बिजनेस पैकेज चुनें ताकि उसकी 'पैसा वसूल किट' अनलॉक हो सके!");
-        } else {
-            alert("बधाई हो! आपकी पैसा वसूल किट आपके अकाउंट में जोड़ दी गई है।");
-        }
-    }
-
     function selectPackage(pkgName) {
-        let confirmBuy = confirm(`क्या आप "${pkgName}" का पैकेज ₹500 में खरीदना चाहते हैं? (साथ में पैसा वसूल पावर किट फ्री मिलेगी)`);
-        if(confirmBuy) {
-            db.activePackage = pkgName;
-            saveData();
-            updateUIState();
-            closePkgModal();
-            appendMessage(`🎉 बधाई हो भाई! **${pkgName}** और उसकी **'पैसा वसूल पावर किट'** सफलतापूर्वक एक्टिव हो गई है। अब सप्लायर, बिलिंग और मार्केटिंग की सारी जानकारी नीचे से ले ले!`, 'bot-msg', true);
-        }
+        db.activePackage = pkgName;
+        saveData();
+        updateUIState();
+        closePkgModal();
+        appendMessage(`🎉 पैकेज एक्टिव: **${pkgName}**। अब बता भाई, क्या जानकारी चाहिए?`, 'bot-msg', true);
     }
 
     function openSettings() {
@@ -460,8 +457,26 @@
         alert("सेटिंग सेव हो गई!");
     }
 
+    function clearChatHistory() {
+        if(confirm("क्या आप चैट का पूरा इतिहास (Clear Chat) साफ़ करना चाहते हैं?")) {
+            db.chatHistory = [];
+            saveData();
+            document.getElementById('chatBox').innerHTML = '';
+            closeSettings();
+            appendMessage("🗑️ चैट पूरी तरह साफ़ कर दी गई है!", 'bot-msg', false);
+        }
+    }
+
     function saveData() {
-        localStorage.setItem('indian_biz_hub_v35', JSON.stringify(db));
+        localStorage.setItem('indian_biz_hub_v36', JSON.stringify(db));
+    }
+
+    function loadChatHistoryUI() {
+        let chatBox = document.getElementById('chatBox');
+        chatBox.innerHTML = '';
+        db.chatHistory.forEach(item => {
+            appendMessageRaw(item.text, item.sender === 'user' ? 'user-container' : 'bot-container', item.sender === 'user' ? 'user-msg' : 'bot-msg', false);
+        });
     }
 
     async function fetchBestModel(apiKey) {
@@ -485,8 +500,7 @@
             openPkgModal();
             return;
         }
-        appendUserMessage(actionText);
-        triggerAIResponse(actionText);
+        processUserQuery(actionText);
     }
 
     async function sendMessage() {
@@ -498,75 +512,91 @@
             openPkgModal();
             return;
         }
-        appendUserMessage(text);
         inputField.value = "";
-        await triggerAIResponse(text);
+        processUserQuery(text);
     }
 
-    function appendUserMessage(text) {
+    function processUserQuery(text) {
+        appendMessageRaw(text, 'user-container', 'user-msg', true);
+        db.chatHistory.push({ sender: 'user', text: text });
+        saveData();
+        triggerAIResponse(text);
+    }
+
+    function appendMessageRaw(content, containerClass, msgClass, scrollToBottom = true) {
         let chatBox = document.getElementById('chatBox');
         let container = document.createElement('div');
-        container.className = 'message-container user-container';
+        container.className = `message-container ${containerClass}`;
         let div = document.createElement('div');
-        div.className = 'message user-msg';
-        div.innerText = text;
-        container.appendChild(div);
+        div.className = `message ${msgClass}`;
+        
+        if(msgClass === 'user-msg') {
+            div.innerText = content;
+        } else {
+            div.innerHTML = formatCleanOutput(content);
+            let speakBtn = document.createElement('button');
+            speakBtn.className = 'speak-btn';
+            speakBtn.innerHTML = '🔊 बोलकर सुनो';
+            speakBtn.onclick = () => speakText(content);
+            container.appendChild(speakBtn);
+        }
+        container.insertBefore(div, container.firstChild);
         chatBox.appendChild(container);
-        chatBox.scrollTop = chatBox.scrollHeight;
+        if(scrollToBottom) chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     function appendMessage(fullText, className, autoSpeak = false) {
-        let chatBox = document.getElementById('chatBox');
-        let container = document.createElement('div');
-        container.className = 'message-container bot-container';
-        let div = document.createElement('div');
-        div.className = 'message bot-msg';
-        div.innerHTML = fullText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
-        container.appendChild(div);
-        
-        let speakBtn = document.createElement('button');
-        speakBtn.className = 'speak-btn';
-        speakBtn.innerHTML = '🔊 बोलकर सुनो';
-        speakBtn.onclick = () => speakText(fullText);
-        container.appendChild(speakBtn);
-
-        chatBox.appendChild(container);
-        chatBox.scrollTop = chatBox.scrollHeight;
-
+        db.chatHistory.push({ sender: 'bot', text: fullText });
+        saveData();
+        appendMessageRaw(fullText, 'bot-container', 'bot-msg', true);
         if (autoSpeak) setTimeout(() => speakText(fullText), 300);
     }
 
-    function typeWriterEffect(fullText, elementId) {
-        let chatBox = document.getElementById('chatBox');
-        let container = document.createElement('div');
-        container.className = 'message-container bot-container';
-        let div = document.createElement('div');
-        div.className = 'message bot-msg';
-        div.id = elementId;
-        container.appendChild(div);
-        chatBox.appendChild(container);
+    // Clean formatting to remove markdown hashes and convert tables properly
+    function formatCleanOutput(text) {
+        // Clean markdown hashes and raw dashes
+        let clean = text.replace(/#{1,6}\s?/g, '').replace(/---+/g, '');
+        // Convert bold
+        clean = clean.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>');
+        
+        // Simple Markdown table parser to HTML table
+        if (clean.includes('|')) {
+            let lines = clean.split('\n');
+            let htmlTable = '<table>';
+            let isHeader = true;
+            let hasTableStarted = false;
 
-        let i = 0;
-        function typing() {
-            if (i < fullText.length) {
-                let char = fullText.charAt(i);
-                div.innerHTML += char === '\n' ? '<br>' : char;
-                if (char !== ' ' && char !== '\n') playKeyClickSound();
-                i++;
-                chatBox.scrollTop = chatBox.scrollHeight;
-                setTimeout(typing, 15);
-            } else {
-                div.innerHTML = fullText.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
-                let speakBtn = document.createElement('button');
-                speakBtn.className = 'speak-btn';
-                speakBtn.innerHTML = '🔊 बोलकर सुनो';
-                speakBtn.onclick = () => speakText(fullText);
-                container.appendChild(speakBtn);
-                chatBox.scrollTop = chatBox.scrollHeight;
-                speakText(fullText);
+            let nonTableContent = '';
+
+            for(let line of lines) {
+                if(line.trim().startsWith('|')) {
+                    hasTableStarted = true;
+                    let cols = line.split('|').filter(c => c.trim() !== '');
+                    if(cols.length > 0 && cols[0].includes('---')) continue; // skip divider row
+                    htmlTable += '<tr>';
+                    for(let col of cols) {
+                        if(isHeader) {
+                            htmlTable += `<th>${col.trim()}</th>`;
+                        } else {
+                            htmlTable += `<td>${col.trim()}</td>`;
+                        }
+                    }
+                    htmlTable += '</tr>';
+                    isHeader = false;
+                } else {
+                    if(hasTableStarted) {
+                        htmlTable += '</table>';
+                        hasTableStarted = false;
+                        isHeader = true;
+                    }
+                    nonTableContent += line + '<br>';
+                }
             }
+            if(hasTableStarted) htmlTable += '</table>';
+            return nonTableContent + (hasTableStarted || htmlTable !== '<table></table>' ? htmlTable : '');
         }
-        typing();
+
+        return clean.replace(/\n/g, '<br>');
     }
 
     async function triggerAIResponse(query) {
@@ -576,8 +606,11 @@
             return;
         }
 
-        let systemPromptContent = `तू एक सीनियर और प्रोफेशनल बिजनेस ऑपरेटर / कंसलटेंट है। यूजर ने ₹500 देकर यह पैकेज और 'पैसा वसूल पावर किट' ली है: '${db.activePackage}'.
-        नियम: यूजर को एक असली बिजनेस एक्सपर्ट की तरह पूरी गहराई से, स्टेप-बाय-स्टेप, सप्लायर कांटेक्ट, लीगल, और प्रॉफिट मार्जिन का पूरा गणित समझा। बिल्कुल प्रैक्टिकल और जमीनी बातें बता ताकि उसे लगे कि ₹500 सौ गुना वसूल हो गए। हिंग्लिश में बात कर।`;
+        let systemPromptContent = `तू एक सीनियर बिजनेस कंसलटेंट है। यूजर का एक्टिव पैकेज है: '${db.activePackage}'.
+        CRITICAL RULES:
+        1. Never use markdown hashes like #, ##, ### or separator lines like ---.
+        2. Give clean output in Hinglish with bold text and clean HTML tables if needed.
+        3. Be extremely practical, direct, and professional. No unnecessary symbols.`;
 
         let chatBox = document.getElementById('chatBox');
         let loadingContainer = document.createElement('div');
@@ -585,12 +618,13 @@
         let loadingDiv = document.createElement('div');
         loadingDiv.className = 'message bot-msg';
         loadingDiv.id = 'loadingMsg';
-        loadingDiv.innerText = "पैसा वसूल मास्टर प्लान तैयार हो रहा है...";
+        loadingDiv.innerText = "जवाब तैयार हो रहा है...";
         loadingContainer.appendChild(loadingDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
 
         try {
-            let res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            let res = "https://api.groq.com/openai/v1/chat/completions";
+            let req = await fetch(res, {
                 method: "POST",
                 headers: { "Authorization": `Bearer ${db.grokKey}`, "Content-Type": "application/json" },
                 body: JSON.stringify({
@@ -604,12 +638,12 @@
                 })
             });
             
-            let data = await res.json();
+            let data = await req.json();
             if(document.getElementById('loadingMsg')) chatBox.removeChild(loadingContainer);
 
-            if(res.ok && data.choices) {
+            if(req.ok && data.choices) {
                 let reply = data.choices[0].message.content.trim();
-                typeWriterEffect(reply, 'msg_' + Date.now());
+                appendMessage(reply, 'bot-msg', true);
             } else {
                 appendMessage("⚠️ API एरर आ गया भाई.", 'bot-msg', true);
             }
