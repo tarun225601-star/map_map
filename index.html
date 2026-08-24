@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Business Partner | Pro Operator v32.0</title>
+    <title>AI Business Partner | Paisa Vasool OS v35.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,7 +28,7 @@
         }
         /* Top Header */
         .header {
-            padding: 12px 16px;
+            padding: 10px 16px;
             background: #18181b;
             border-bottom: 1px solid #27272a;
             display: flex;
@@ -38,27 +38,37 @@
             flex-shrink: 0;
         }
         .header-title { display: flex; align-items: center; gap: 8px; }
-        h2 { color: #f4f4f5; font-size: 16px; font-weight: 700; }
-        .mode-badge { font-size: 11px; background: #27272a; color: #38bdf8; padding: 4px 8px; border-radius: 6px; font-weight: 600; }
+        h2 { color: #f4f4f5; font-size: 15px; font-weight: 700; }
+        .mode-badge { font-size: 11px; background: #27272a; color: #10b981; padding: 4px 8px; border-radius: 6px; font-weight: 600; cursor: pointer; }
         
-        .header-btns { display: flex; gap: 8px; align-items: center; }
+        .header-btns { display: flex; gap: 5px; align-items: center; }
+        .vasool-btn {
+            background: #f59e0b;
+            color: #000;
+            border: none;
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            cursor: pointer;
+        }
         .pkg-btn {
             background: #0284c7;
             color: #fff;
             border: none;
-            padding: 6px 10px;
+            padding: 5px 8px;
             border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
             cursor: pointer;
         }
         .action-btn { 
             background: #27272a; 
             border: none; 
-            font-size: 14px; 
+            font-size: 13px; 
             cursor: pointer; 
             color: #a1a1aa; 
-            padding: 6px 10px;
+            padding: 5px 8px;
             border-radius: 6px;
         }
 
@@ -117,11 +127,34 @@
         }
         .speak-btn:hover { background: #3f3f46; color: #fff; }
 
+        /* Instant Action Bar */
+        .instant-action-bar {
+            background: #1f1f23;
+            border-top: 1px solid #27272a;
+            padding: 8px 12px;
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            flex-shrink: 0;
+        }
+        .ia-pill {
+            background: #27272a;
+            color: #38bdf8;
+            border: 1px solid #334155;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .ia-pill:hover { background: #38bdf8; color: #000; }
+
         /* Fixed Bottom Input Bar */
         .chat-input-wrapper {
             background: #18181b;
             border-top: 1px solid #27272a;
-            padding: 12px 16px;
+            padding: 10px 16px;
             display: flex;
             flex-direction: column;
             gap: 6px;
@@ -162,16 +195,15 @@
 
         /* Modal */
         .modal { 
-            display: none; background: rgba(0,0,0,0.8); position: fixed; top:0; left:0; width:100%; height:100%; 
+            display: none; background: rgba(0,0,0,0.85); position: fixed; top:0; left:0; width:100%; height:100%; 
             padding: 15px; box-sizing: border-box; z-index: 100; overflow-y: auto; 
         }
         .modal-content { background: #18181b; max-width: 420px; margin: 20px auto; padding: 20px; border-radius: 12px; border: 1px solid #27272a; }
-        .modal-content h3 { color: #f4f4f5; margin-bottom: 12px; font-size: 16px; }
+        .modal-content h3 { color: #f4f4f5; margin-bottom: 10px; font-size: 16px; }
         label { font-size: 12px; color: #a1a1aa; display: block; margin-top: 10px; }
         .modal-input { width:100%; padding: 10px; margin-top: 4px; background:#27272a; border:1px solid #3f3f46; color:#fff; border-radius:6px; font-size:14px; outline: none; }
         
-        /* Package Selector Grid */
-        .package-list { max-height: 280px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin-top: 8px; padding-right: 4px; }
+        .package-list { max-height: 250px; overflow-y: auto; display: flex; flex-direction: column; gap: 6px; margin-top: 8px; padding-right: 4px; }
         .pkg-item { background: #27272a; padding: 10px; border-radius: 8px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; border: 1px solid transparent; }
         .pkg-item:hover { border-color: #38bdf8; background: #2f2f35; }
         .pkg-name { font-size: 13px; font-weight: 600; color: #f4f4f5; }
@@ -179,6 +211,11 @@
 
         .modal-btn { width: 100%; padding: 10px; margin-top: 14px; border-radius: 6px; border: none; background: #0284c7; color: #fff; font-weight: 600; cursor: pointer; font-size: 14px; }
         .close-btn { background: #27272a; color: #a1a1aa; margin-top: 6px; }
+
+        /* Vasool Kit Styles */
+        .vasool-card { background: #211e12; border: 1px solid #f59e0b; padding: 12px; border-radius: 8px; margin-top: 10px; }
+        .vasool-card h4 { color: #f59e0b; font-size: 14px; margin-bottom: 6px; }
+        .vasool-card p { font-size: 12px; color: #d4d4d8; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -187,16 +224,24 @@
     <div class="header">
         <div class="header-title">
             <h2>AI पार्टनर</h2>
-            <span class="mode-badge" id="activeModeBadge">फ्री मोड</span>
+            <span class="mode-badge" id="activeModeBadge" onclick="openPkgModal()">📦 पैकेज चुनें</span>
         </div>
         <div class="header-btns">
-            <button class="pkg-btn" onclick="openPkgModal()">📦 100 पैकेजेस</button>
+            <button class="vasool-btn" onclick="openVasoolModal()">🔥 पैसा वसूल किट</button>
+            <button class="pkg-btn" onclick="openPkgModal()">⚡ 100 पैकेजेस</button>
             <button class="action-btn" onclick="openSettings()">⚙️</button>
         </div>
     </div>
 
     <div class="workspace">
         <div class="chat-box" id="chatBox"></div>
+
+        <div class="instant-action-bar">
+            <div class="ia-pill" onclick="sendQuickAction('मुझे इस बिजनेस का रॉ-मटेरियल सप्लायर और होलसेलर का पता बता')">🛒 रॉ-मटेरियल सोर्सिंग</div>
+            <div class="ia-pill" onclick="sendQuickAction('इस बिजनेस के लिए WhatsApp मार्केटिंग मैसेज और पंपलेट टेक्स्ट बना कर दे')">📢 इंस्टेंट मार्केटिंग</div>
+            <div class="ia-pill" onclick="sendQuickAction('आज जमीन पर उतरने के लिए मुझे 3 कड़े और पक्के एक्शन स्टेप्स बता')">🚀 आज का एक्शन प्लान</div>
+            <div class="ia-pill" onclick="sendQuickAction('इस बिजनेस में कुल लागत कितनी आएगी और प्रॉफिट मार्जिन क्या है?')">💰 लागत और प्रॉफिट गणित</div>
+        </div>
         
         <div class="chat-input-wrapper">
             <div class="chat-input-row">
@@ -207,11 +252,41 @@
     </div>
 </div>
 
-<!-- Packages Modal (100 Top 2026 Business Models) -->
+<!-- Paisa Vasool Power Kit Modal -->
+<div id="vasoolModal" class="modal">
+    <div class="modal-content">
+        <h3>🔥 ₹500 'पैसा वसूल' पावर किट</h3>
+        <p style="font-size:12px; color:#a1a1aa; margin-bottom:6px;">हर एक्टिव पैकेज के साथ आपको तुरंत ये 4 तगड़े फायदे मिलते हैं:</p>
+        
+        <div class="vasool-card">
+            <h4>1. 🛒 डायरेक्ट सप्लायर लिस्ट (Direct Vendors)</h4>
+            <p>बिना बिचौलियों के सीधे होलसेलर्स के फोन नंबर और पत्ते ताकि माल सबसे सस्ते रेट में मिले।</p>
+        </div>
+
+        <div class="vasool-card">
+            <h4>2. 📄 लीगल इनवॉइस & एग्रीमेंट फॉर्मेट</h4>
+            <p>कस्टमर बिलिंग और वेंडर कॉन्ट्रैक्ट के लिए रेडीमेड प्रोफेशनल PDF/टेक्स्ट फॉर्मेट।</p>
+        </div>
+
+        <div class="vasool-card">
+            <h4>3. 📢 10 वायरल WhatsApp मार्केटिंग स्क्रिप्ट्स</h4>
+            <p>पहले दिन से ग्राहक खींचने के लिए रेडीमेड मैसेज और विज्ञापन लाइनें।</p>
+        </div>
+
+        <div class="vasool-card">
+            <h4>4. 🎁 ₹500 वॉलेट कैशबैक बोनस</h4>
+            <p>अगला कोई भी एडवांस टूल या पैकेज खरीदने पर पूरे ₹500 की छूट।</p>
+        </div>
+
+        <button class="modal-btn" style="background:#f59e0b; color:#000;" onclick="claimVasoolKit()">🎁 अभी अपनी किट अनलॉक करें</button>
+        <button class="modal-btn close-btn" onclick="closeVasoolModal()">बंद करें</button>
+    </div>
+</div>
+
+<!-- Packages Modal -->
 <div id="pkgModal" class="modal">
     <div class="modal-content">
-        <h3>📦 2026 के टॉप 100 बिजनेस पैकेजेस (₹500 प्रत्येक)</h3>
-        <p style="font-size:12px; color:#a1a1aa; margin-bottom:8px;">कोई भी पैकेज चुनें और फुल ऑपरेटर गाइडेंस पाएं:</p>
+        <h3>📦 2026 के टॉप 100 बिजनेस पैकेजेस (₹500)</h3>
         <input type="text" id="pkgSearch" class="modal-input" placeholder="🔍 पैकेज खोजें..." onkeyup="filterPackages()">
         <div class="package-list" id="packageListContainer"></div>
         <button class="modal-btn close-btn" onclick="closePkgModal()">बंद करें</button>
@@ -230,9 +305,8 @@
 </div>
 
 <script>
-    // 2026 के टॉप 100 ट्रेंडिंग बिजनेस पैकेजेस की मास्टर लिस्ट
     const TOP_PACKAGES = [
-        "1. AI वीडियो एडिटिंग & अपस्केलिंग एजेंसी", "2. ऑटोमोटिव नैनो पॉलिश & केमिकल मैन्युफैक्चरिंग", "3. डीप क्लीनिंग &प्रॉपर्टी मेंटेनेंस सर्विस",
+        "1. AI वीडियो एडिटिंग & अपस्केलिंग एजेंसी", "2. ऑटोमोटिव नैनो पॉलिश & केमिकल मैन्युफैक्चरिंग", "3. डीप क्लीनिंग & प्रॉपर्टी मेंटेनेंस सर्विस",
         "4. मोबाइल ऐप और सॉफ्टवेयर ऑटोमेशन", "5. फ्रूट होलसेल & कोल्ड स्टोरेज सप्लाई", "6. कस्टम मर्चेंडाइज & प्रिंट-ऑन-डिपैंड",
         "7. स्मार्ट होम ऑटोमेशन & IoT गैजेट्स असेंबली", "8. डिजिटल सिक्योरिटी & फ्रॉड स्कैनिंग ऐप", "9. ड्रोन वीडियोग्राफी & मैपिंग सर्विस",
         "10. ऑर्गेनिक कॉस्मेटिक्स & पर्सनल केयर ब्रांड", "11. सोलर रूफटॉप इंस्टॉलेशन कंसल्टेंसी", "12. क्लाउड किचन & हेल्दी टिफिन सर्विस",
@@ -252,7 +326,7 @@
         "52. मोबाइल स्क्रीन रिपेयर कियोस्क", "53. कस्टमाइज्ड जिम वियर ब्रांड", "54. स्मार्ट लॉक & बायोमेट्रिक सेटअप",
         "55. सोलर वाटर हीटर मेंटेनेंस", "56. ऑर्गेनिक हनी & बी-कीपिंग वेंचर", "57. बांबू हैंडीक्राफ्ट्स एक्सपोर्ट",
         "58. टेराकोटा & आर्टिजन पॉटरी", "59. हैंडमेड सोप & बाथ बॉम्ब्स", "60. होम सैनिटाइजेशन & पेस्ट कंट्रोल",
-        "61. पैट फूड & ऑर्गेनिक ट्रीट्स", "62. सेकंड-हैंड बुक स्टोर & केफे", "63. सोलर स्ट्रीट लाइट प्रोजेक्ट्स",
+        "61. पेट फूड & ऑर्गेनिक ट्रीट्स", "62. सेकंड-हैंड बुक स्टोर & केफे", "63. सोलर स्ट्रीट लाइट प्रोजेक्ट्स",
         "64. अर्बन फार्मिंग कंसल्टेंसी", "65. स्मार्ट ग्लासेस & ऑप्टिकल स्टोर", "66. आर्मर्ड कार & सिक्योरिटी मॉडिफिकेशन",
         "67. ड्रोन स्पेयर पार्ट्स डिस्ट्रीब्यूशन", "68. ई-बाइक असेंबली & रेंटल", "69. पॉडकास्ट स्टूडियो रेंटल",
         "70. 3D प्रिंटिंग सर्विस ब्यूरो", "71. कस्टमाइज्ड मेटल वॉल आर्ट", "72. आटोमोटिव लेदर सीट कवर मेकिंग",
@@ -268,7 +342,7 @@
         "100. मास्टर बिजनेस ऑटोमेशन कंसल्टेंसी"
     ];
 
-    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v32')) || {
+    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v35')) || {
         grokKey: "",
         activePackage: null,
         autoModel: "openai/gpt-oss-120b"
@@ -310,19 +384,19 @@
         renderPackageList(TOP_PACKAGES);
         updateUIState();
         if(!db.activePackage) {
-            appendMessage(`राम-राम भाई! चैट बॉक्स तैयार है। तू फ्री में कुछ भी पूछ सकता है। <br><br>और अगर किसी खास बिजनेस को गहराई से खड़ा करना है, तो ऊपर **'100 पैकेजेस'** वाले बटन पर क्लिक करके मात्र **₹500** में कोई भी पैकेज चुन ले!`, 'bot-msg', true);
+            appendMessage(`राम-राम भाई! **Paisa Vasool OS v35.0** तैयार है। ऊपर **'🔥 पैसा वसूल किट'** बटन दबाकर देख ले कि ग्राहक को ₹500 में क्या-क्या तगड़ा माल मिलेगा!`, 'bot-msg', true);
         } else {
-            appendMessage(`🔥 एक्टिव पैकेज: **${db.activePackage}** (₹500)<br>बता भाई, इस बिजनेस को जमीन पर उतारने के लिए क्या जानना है—पूरी ऑपरेटर स्टाइल में डीटेल समझाता हूँ!`, 'bot-msg', true);
+            appendMessage(`🔥 एक्टिव पैकेज: **${db.activePackage}**<br>बता भाई, आज कौन सा एक्शन लेना है?`, 'bot-msg', true);
         }
         if(db.grokKey) fetchBestModel(db.grokKey);
     };
 
     function updateUIState() {
         if(db.activePackage) {
-            document.getElementById('activeModeBadge').innerText = "प्रो ऑपरेटर मोड";
+            document.getElementById('activeModeBadge').innerText = "✅ " + db.activePackage.substring(0, 14) + "...";
             document.getElementById('activeModeBadge').style.color = "#10b981";
         } else {
-            document.getElementById('activeModeBadge').innerText = "फ्री मोड";
+            document.getElementById('activeModeBadge').innerText = "📦 पैकेज चुनें";
             document.getElementById('activeModeBadge').style.color = "#38bdf8";
         }
     }
@@ -348,14 +422,27 @@
     function openPkgModal() { document.getElementById('pkgModal').style.display = 'block'; }
     function closePkgModal() { document.getElementById('pkgModal').style.display = 'none'; }
 
+    function openVasoolModal() { document.getElementById('vasoolModal').style.display = 'block'; }
+    function closeVasoolModal() { document.getElementById('vasoolModal').style.display = 'none'; }
+
+    function claimVasoolKit() {
+        closeVasoolModal();
+        if(!db.activePackage) {
+            openPkgModal();
+            alert("पहले ऊपर से अपना बिजनेस पैकेज चुनें ताकि उसकी 'पैसा वसूल किट' अनलॉक हो सके!");
+        } else {
+            alert("बधाई हो! आपकी पैसा वसूल किट आपके अकाउंट में जोड़ दी गई है।");
+        }
+    }
+
     function selectPackage(pkgName) {
-        let confirmBuy = confirm(`क्या आप "${pkgName}" का पैकेज ₹500 में खरीदना चाहते हैं?`);
+        let confirmBuy = confirm(`क्या आप "${pkgName}" का पैकेज ₹500 में खरीदना चाहते हैं? (साथ में पैसा वसूल पावर किट फ्री मिलेगी)`);
         if(confirmBuy) {
             db.activePackage = pkgName;
             saveData();
             updateUIState();
             closePkgModal();
-            appendMessage(`🎉 बधाई हो भाई! तेरा **${pkgName}** का पैकेज (₹500) सफलतापूर्वक एक्टिवेट हो गया है। अब पूछ, इसमें माल कहां से लाएं, लागत कितनी लगेगी और प्रॉफिट कैसे होगा?`, 'bot-msg', true);
+            appendMessage(`🎉 बधाई हो भाई! **${pkgName}** और उसकी **'पैसा वसूल पावर किट'** सफलतापूर्वक एक्टिव हो गई है। अब सप्लायर, बिलिंग और मार्केटिंग की सारी जानकारी नीचे से ले ले!`, 'bot-msg', true);
         }
     }
 
@@ -374,7 +461,7 @@
     }
 
     function saveData() {
-        localStorage.setItem('indian_biz_hub_v32', JSON.stringify(db));
+        localStorage.setItem('indian_biz_hub_v35', JSON.stringify(db));
     }
 
     async function fetchBestModel(apiKey) {
@@ -392,10 +479,25 @@
 
     function handleKeyPress(e) { if(e.key === 'Enter') sendMessage(); }
 
+    function sendQuickAction(actionText) {
+        if(!db.activePackage) {
+            alert("पहले ऊपर से कोई बिजनेस पैकेज चुनें!");
+            openPkgModal();
+            return;
+        }
+        appendUserMessage(actionText);
+        triggerAIResponse(actionText);
+    }
+
     async function sendMessage() {
         let inputField = document.getElementById('userInput');
         let text = inputField.value.trim();
         if(!text) return;
+        if(!db.activePackage) {
+            alert("पहले ऊपर से कोई बिजनेस पैकेज चुनें!");
+            openPkgModal();
+            return;
+        }
         appendUserMessage(text);
         inputField.value = "";
         await triggerAIResponse(text);
@@ -474,18 +576,8 @@
             return;
         }
 
-        let systemPromptContent = "";
-        let maxTokensVal = 150;
-
-        if (db.activePackage) {
-            systemPromptContent = `तू एक सीनियर और प्रोफेशनल बिजनेस ऑपरेटर / कंसलटेंट है। यूजर ने ₹500 देकर यह पैकेज लिया है: '${db.activePackage}'.
-            नियम: यूजर को एक असली बिजनेस एक्सपर्ट की तरह पूरी गहराई से, स्टेप-बाय-स्टेप, लीगल, सप्लाई-चेन, मार्केटिंग, मैन्युफैक्चरिंग और प्रॉफिट मार्जिन का पूरा गणित समझा। लंबी और डीटेल चैट लिख ताकि उसे सब कुछ अच्छे से समझ आ जाए। हिंग्लिश में बात कर।`;
-            maxTokensVal = 800;
-        } else {
-            systemPromptContent = `तू एक डायरेक्ट और प्रैक्टिकल बिजनेस पार्टनर है। यूजर अभी फ्री नॉर्मल मोड में है।
-            नियम: लंबी रामायण मत लिख। एकदम छोटा, 1 या 2 लाइन का क्रिस्प जवाब दे—सिर्फ अगला एक्शन बता। हिंग्लिश में बात कर।`;
-            maxTokensVal = 150;
-        }
+        let systemPromptContent = `तू एक सीनियर और प्रोफेशनल बिजनेस ऑपरेटर / कंसलटेंट है। यूजर ने ₹500 देकर यह पैकेज और 'पैसा वसूल पावर किट' ली है: '${db.activePackage}'.
+        नियम: यूजर को एक असली बिजनेस एक्सपर्ट की तरह पूरी गहराई से, स्टेप-बाय-स्टेप, सप्लायर कांटेक्ट, लीगल, और प्रॉफिट मार्जिन का पूरा गणित समझा। बिल्कुल प्रैक्टिकल और जमीनी बातें बता ताकि उसे लगे कि ₹500 सौ गुना वसूल हो गए। हिंग्लिश में बात कर।`;
 
         let chatBox = document.getElementById('chatBox');
         let loadingContainer = document.createElement('div');
@@ -493,7 +585,7 @@
         let loadingDiv = document.createElement('div');
         loadingDiv.className = 'message bot-msg';
         loadingDiv.id = 'loadingMsg';
-        loadingDiv.innerText = db.activePackage ? "प्रोफेशनल ऑपरेटर गाइड तैयार हो रही है..." : "सोच रहा हूँ...";
+        loadingDiv.innerText = "पैसा वसूल मास्टर प्लान तैयार हो रहा है...";
         loadingContainer.appendChild(loadingDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -508,7 +600,7 @@
                         { role: "user", content: query }
                     ],
                     temperature: 0.7,
-                    max_tokens: maxTokensVal
+                    max_tokens: 800
                 })
             });
             
