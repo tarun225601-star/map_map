@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Indian Business Hub | Desi Bro Agent v18.0</title>
+    <title>Indian Business Hub | Desi Bro Agent v21.0</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; }
@@ -85,7 +85,7 @@
             position: relative;
         }
 
-        /* Gift Package Card Dashboard Section */
+        /* Dashboard Section */
         .dashboard-section {
             padding: 8px 12px;
             border-bottom: 1px solid #1e293b;
@@ -125,7 +125,7 @@
             text-align: right;
         }
 
-        /* Chat Messages Container */
+        /* Chat Box */
         .chat-box { 
             flex: 1;
             overflow-y: auto; 
@@ -159,6 +159,11 @@
         .yesno-buttons { display: flex; gap: 8px; }
         .yes-btn { background: #10b981; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; flex: 1; text-align: center; }
         .no-btn { background: #ef4444; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-size: 11px; font-weight: 800; cursor: pointer; flex: 1; text-align: center; }
+        
+        .yesno-buttons button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
 
         /* Fixed Bottom Input Bar */
         .chat-input-wrapper {
@@ -223,8 +228,8 @@
 <div class="container">
     <div class="header">
         <div>
-            <h2>🪜 देसी ब्रो एजेंट <span style="font-size:9px; color:#10b981;">v18.0</span></h2>
-            <div class="subtitle">🛡️ सुरक्षित बिजनेस रोडमैप</div>
+            <h2>🪜 देसी ब्रो एजेंट <span style="font-size:9px; color:#10b981;">v21.0</span></h2>
+            <div class="subtitle">🛡️ ऑटो-टाइम्स डे-वाइज प्लानर</div>
         </div>
         <div class="header-btns">
             <div class="wallet-badge" onclick="openSettings()">💳 बजट: ₹<span id="walletBalance">0</span></div>
@@ -244,7 +249,7 @@
     </div>
 
     <div class="workspace">
-        <!-- Gift Package Card Dashboard Section -->
+        <!-- Dashboard Section -->
         <div class="dashboard-section" id="giftSection" style="display:none;">
             <div class="gift-package-card" onclick="openSettings()">
                 <div class="gift-left">
@@ -275,7 +280,7 @@
 <!-- Settings & Business Goal Modal -->
 <div id="settingsModal" class="modal">
     <div class="modal-content">
-        <h3>🛡️ सुरक्षित बिजनेस सेटअप और भाषा</h3>
+        <h3>🛡️ ऑटो-टारगेट और दिन-ब-दिन सेटअप</h3>
 
         <label>🌐 भाषा चुनें (Select Language):</label>
         <select id="inputLang" class="modal-input">
@@ -284,31 +289,31 @@
             <option value="english">English</option>
         </select>
 
-        <label>💳 1. सुरक्षित बजट कितना है? (₹):</label>
-        <input type="number" id="inputWallet" class="modal-input" placeholder="जैसे: 5000">
+        <label>💳 1. कुल सुरक्षित बजट कितना है? (₹):</label>
+        <input type="number" id="inputWallet" class="modal-input" placeholder="जैसे: 10000">
 
-        <label>🎯 2. कमाई का लक्ष्य कितना है? (₹):</label>
-        <input type="number" id="inputGoal" class="modal-input" placeholder="जैसे: 25000">
+        <label>🎯 2. कमाई का कुल लक्ष्य कितना है? (₹):</label>
+        <input type="number" id="inputGoal" class="modal-input" placeholder="जैसे: 100000">
 
         <label>💡 3. कौन सा बिजनेस करना चाहते हैं? (विचार):</label>
-        <textarea id="inputDesire" class="modal-input" rows="3" placeholder="जैसे: मुझे लोकल मार्केट में टिफिन सर्विस या डिजिटल डिजाइनिंग का काम शुरू करना है..."></textarea>
+        <textarea id="inputDesire" class="modal-input" rows="3" placeholder="जैसे: मुझे फ्रूट का ठेला या दुकान लगानी है..."></textarea>
 
         <label>🔑 Groq API Key:</label>
         <input type="password" id="grokKey" class="modal-input" placeholder="अपनी API key यहाँ डालें...">
         
         <div id="modelStatus" style="font-size: 10px; color: #38bdf8; margin-top: 6px; font-weight: 700;"></div>
 
-        <button class="modal-btn" onclick="saveSettings()">💾 सुरक्षित रोडमैप सहेजें</button>
+        <button class="modal-btn" onclick="saveSettings()">💾 ऑटो-प्लान जनरेट करें</button>
         <button class="modal-btn close-btn" onclick="closeSettings()">बंद करें</button>
     </div>
 </div>
 
 <script>
-    const APP_VERSION = "18.0_hindi_lang";
+    const APP_VERSION = "21.0_auto_timeline";
     
-    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v18')) || {
+    let db = JSON.parse(localStorage.getItem('indian_biz_hub_v21')) || {
         grokKey: "",
-        language: "hindi", // Default language
+        language: "hindi",
         packageData: null, 
         autoModel: "openai/gpt-oss-120b"
     };
@@ -316,7 +321,7 @@
     window.onload = function() {
         if(!db.packageData) {
             openSettings();
-            appendMessage(`अरे भाई! <b>v18.0</b> तैयार है। अब भाषा चुनने का ऑप्शन भी मिल गया है!<br><br>ऊपर कोने में <b>⚙️ सेटिंग</b> पर क्लिक करके अपनी भाषा, बजट, लक्ष्य और बिजनेस का विचार भर दें। फिर देखें, आपका भाई आपको एकदम सुरक्षित और सही रास्ता दिखाएगा!`, 'bot-msg');
+            appendMessage(`अरे भाई! <b>v21.0</b> तैयार है। अब एजेंट खुद दिमाग लगाकर तय करेगा कि पूरा लक्ष्य कितने दिन में पूरा होगा और किस दिन कितने पैसे खर्च करने हैं!<br><br>ऊपर कोने में <b>⚙️ सेटिंग</b> पर क्लिक करके अपना बजट, लक्ष्य और बिजनेस भर दें।`, 'bot-msg');
         } else {
             updateUIStats();
             let langWelcome = getLangWelcomeMessage(db.packageData.desire);
@@ -328,11 +333,11 @@
     function getLangWelcomeMessage(desire) {
         let lang = db.language || 'hindi';
         if(lang === 'english') {
-            return `Hello brother! Your business plan <b>"${desire}"</b> is fully set. Tell me, what step should we take today?`;
+            return `Hello brother! Your business <b>"${desire}"</b> is loaded. I am ready to calculate the total timeline, daily expenses, and step-by-step tasks automatically. Shall we start with Day 1?`;
         } else if(lang === 'hinglish') {
-            return `राम-राम भाई! तेरा बिजनेस प्लान <b>"${desire}"</b> पूरी तरह सेट है। बता फिर, आज पहली सीढ़ी पर क्या एक्शन लिया जाए?`;
+            return `राम-राम भाई! तेरा बिजनेस <b>"${desire}"</b> लोड हो गया है। अब मैं खुद हिसाब लगाऊंगा कि ये टारगेट कुल कितने दिन में अचीव होगा और किस दिन कितना पैसा कहाँ खर्च करना है। बता, **Day 1** का प्लान शुरू करें?`;
         } else {
-            return `नमस्ते भाई! आपका व्यापार प्लान <b>"${desire}"</b> पूरी तरह तैयार है। बताइए, आज लक्ष्य की ओर कौन सा सुरक्षित कदम उठाया जाए?`;
+            return `नमस्ते भाई! आपका व्यापार <b>"${desire}"</b> तैयार है। अब मैं कुल दिनों की समय-सीमा (Timeline) और प्रत्येक दिन के सटीक खर्च का हिसाब खुद तय करूँगा। आइए **पहले दिन (Day 1)** से शुरुआत करते हैं।`;
         }
     }
 
@@ -356,7 +361,7 @@
     }
 
     function openSettings() {
-        let p = db.packageData || { budget: 5000, goal: 25000, desire: "" };
+        let p = db.packageData || { budget: 10000, goal: 100000, desire: "" };
         document.getElementById('inputLang').value = db.language || 'hindi';
         document.getElementById('inputWallet').value = p.budget;
         document.getElementById('inputGoal').value = p.goal;
@@ -374,11 +379,11 @@
         let langVal = document.getElementById('inputLang').value;
         let walletVal = parseInt(document.getElementById('inputWallet').value) || 0;
         let goalVal = parseInt(document.getElementById('inputGoal').value) || 0;
-        let desireVal = document.getElementById('inputDesire').value.trim() || "शानदार बिजनेस प्रोजेक्ट";
+        let desireVal = document.getElementById('inputDesire').value.trim() || "शानदार बिजनेस";
         let key = document.getElementById('grokKey').value.trim();
 
         if(goalVal <= 0) {
-            alert("⚠️ कृपया कमाई का सही लक्ष्य (Target) दर्ज करें!");
+            alert("⚠️ कृपया कमाई का सही लक्ष्य दर्ज करें!");
             return;
         }
 
@@ -397,24 +402,26 @@
         updateUIStats();
         closeSettings();
 
-        appendMessage(`बढ़िया भाई! सेटिंग सहेज ली गई है:<br>• भाषा: <b>${langVal.toUpperCase()}</b><br>• बिजनेस: <b>${desireVal}</b><br>• बजट: <b>₹${walletVal.toLocaleString()}</b><br>• लक्ष्य: <b>₹${goalVal.toLocaleString()}</b><br><br>चलो अब बिना ₹1 डुबोए, सीढ़ी-दर-सीढ़ी आगे बढ़ते हैं!`, 'bot-msg');
+        appendMessage(`बढ़िया भाई! सेटिंग सेव हो गई है:<br>• बिजनेस: <b>${desireVal}</b><br>• कुल बजट: <b>₹${walletVal.toLocaleString()}</b><br>• लक्ष्य: <b>₹${goalVal.toLocaleString()}</b><br><br>अब एजेंट खुद दिमाग लगाकर कुल दिन और डे-वाइज खर्च तय कर रहा है!`, 'bot-msg');
 
         if(key) {
             await fetchBestModel(key);
+            await triggerAIResponse("कृपया इस बिजनेस के लिए कुल कितने दिन लगेंगे (Timeline) यह तय करें और 'Day 1' का पक्का टास्क और खर्च कहाँ करना है, उसकी पूरी डिटेल दें।");
         }
     }
 
     function saveData() {
-        localStorage.setItem('indian_biz_hub_v18', JSON.stringify(db));
+        localStorage.setItem('indian_biz_hub_v21', JSON.stringify(db));
     }
 
     async function fetchBestModel(apiKey) {
         try {
-            let res = await fetch("https://api.groq.com/openai/v1/models", {
+            let res = "https://api.groq.com/openai/v1/models";
+            let req = await fetch(res, {
                 headers: { "Authorization": `Bearer ${apiKey}` }
             });
-            let data = await res.json();
-            if(res.ok && data.data) {
+            let data = await req.json();
+            if(req.ok && data.data) {
                 let models = data.data.filter(m => (m.id.includes('gpt-oss') || m.id.includes('llama')) && !m.id.includes('guard'));
                 if(models.length > 0) db.autoModel = models[0].id;
                 saveData();
@@ -462,20 +469,22 @@
         
         let systemPromptContent = "";
         if(currentLang === 'hindi') {
-            systemPromptContent = `तू एक समझदार और मददगार बिजनेस कोच है। यूजर का बिजनेस: '${p.desire}', बजट: ₹${p.budget}, लक्ष्य: ₹${p.goal}, प्रगति: ₹${p.current || 0}. 
-            भाषा पूरी तरह से **शुद्ध और स्पष्ट हिंदी** होनी चाहिए। कोई सट्टा या ट्रेडिंग नहीं। हमेशा 100% सुरक्षित, व्यावहारिक और शून्य-नुकसान वाला 'स्टेप-बाय-स्टेप' (सीढ़ी दर सीढ़ी) रास्ता बता। 
-            छोटा सा सटीक सवाल पूछ जिसके नीचे हाँ/ना कार्ड आए।`;
+            systemPromptContent = `तू एक सुपर इंटेलिजेंट और अनुभवी बिजनेस कोच है। यूजर का बिजनेस: '${p.desire}', कुल बजट: ₹${p.budget}, कमाई का लक्ष्य: ₹${p.goal}, अभी तक प्रगति: ₹${p.current || 0}.
+            तुझे खुद यह तय करना है कि इस बजट और लक्ष्य को हासिल करने में कुल कितने दिन (जैसे 30 दिन, 45 दिन आदि) लगेंगे। 
+            जब भी मैं पूछूँ या अगला स्टेप आए, तो स्पष्ट रूप से बता कि **कुल कितने दिनों का प्लान है**, आज कौन सा **Day (जैसे Day 1, Day 2)** है, उस दिन का टास्क क्या है, और उस दिन के पैसे को ठीक-ठीक कहाँ और कितने रुपए खर्च करना है। कोई तुक्का नहीं, बिल्कुल प्रैक्टिकल और गणितीय हिसाब हो। शुद्ध हिंदी भाषा का प्रयोग कर।`;
         } else if(currentLang === 'hinglish') {
-            systemPromptContent = `तू एक समझदार और देसी बिजनेस पार्टनर (Desi Bro Coach) है। यूजर का बिजनेस: '${p.desire}', बजट: ₹${p.budget}, गोल: ₹${p.goal}, प्रोग्रेस: ₹${p.current || 0}. भाषा हिंग्लिश और भाई जैसी होनी चाहिए। शून्य-नुकसान वाला 'स्टेप-बाय-स्टेप' रास्ता बता।`;
+            systemPromptContent = `तू एक स्मार्ट देसी बिजनेस ब्रो है। यूजर का बिजनेस: '${p.desire}', बजट: ₹${p.budget}, गोल: ₹${p.goal}, प्रोग्रेस: ₹${p.current || 0}.
+            तुझे खुद दिमाग लगाकर डिसाइड करना है कि पूरा गोल अचीव करने में कुल कितने दिन लगेंगे। हर रिप्लाई में बता कि आज कौन सा Day है, उस दिन क्या काम करना है, और पैसे को ठीक-ठीक कहाँ और कितने रुपए खर्च करना है। हिंग्लिश में जवाब दे।`;
         } else {
-            systemPromptContent = `You are a smart business coach. User's business: '${p.desire}', Budget: ₹${p.budget}, Goal: ₹${p.goal}, Progress: ₹${p.current || 0}. Respond in English with a 100% safe, zero-loss step-by-step roadmap.`;
+            systemPromptContent = `You are an expert business planner. User's business: '${p.desire}', Budget: ₹${p.budget}, Goal: ₹${p.goal}, Progress: ₹${p.current || 0}.
+            You must autonomously determine the total timeline (total days required) to achieve this goal. For each step, clearly specify the current Day, the exact task, and precisely where and how much money to spend.`;
         }
 
         let chatBox = document.getElementById('chatBox');
         let loadingDiv = document.createElement('div');
         loadingDiv.className = 'message bot-msg';
         loadingDiv.id = 'loadingMsg';
-        loadingDiv.innerText = currentLang === 'english' ? "Thinking of the next safe step..." : "अगला सुरक्षित कदम सोचा जा रहा है...";
+        loadingDiv.innerText = currentLang === 'english' ? "Agent is calculating total timeline and daily expenses..." : "एंट्री टाइमलाइन और दैनिक खर्च का हिसाब खुद लगाया जा रहा है...";
         chatBox.appendChild(loadingDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -492,7 +501,7 @@
                         { role: "system", content: systemPromptContent },
                         { role: "user", content: query }
                     ],
-                    temperature: 0.75
+                    temperature: 0.7
                 })
             });
             
@@ -505,25 +514,26 @@
                 
                 let finalHTML = reply.replace(/\n/g, '<br>');
                 
-                let yesText = currentLang === 'english' ? 'Yes, Step Done! ✅' : (currentLang === 'hinglish' ? 'हाँ, चढ़ गए सीढ़ी! ✅' : 'हाँ, सीढ़ी पूरी हुई! ✅');
-                let noText = currentLang === 'english' ? 'No, Stop! ❌' : (currentLang === 'hinglish' ? 'ना, रोक भाई! ❌' : 'ना, रोकें! ❌');
-                let cardTitle = currentLang === 'english' ? 'Safe Action Approval' : (currentLang === 'hinglish' ? 'भाई का सेफ अप्रूवल कार्ड' : 'सुरक्षित कदम स्वीकृति कार्ड');
-                let cardDesc = currentLang === 'english' ? 'Should we proceed with this safe step?' : 'क्या इस सुरक्षित कदम को आगे बढ़ाएं?';
+                let yesText = currentLang === 'english' ? 'Yes, Next Day Task! ✅' : (currentLang === 'hinglish' ? 'हाँ, अगले दिन का टास्क! ✅' : 'हाँ, अगले दिन का कार्य! ✅');
+                let noText = currentLang === 'english' ? 'No, Adjust! ❌' : (currentLang === 'hinglish' ? 'ना, बदलो! ❌' : 'ना, सुधार करें! ❌');
+                let cardTitle = currentLang === 'english' ? 'Timeline & Daily Expense Approval' : (currentLang === 'hinglish' ? 'टाइमलाइन और खर्च अप्रूवल कार्ड' : 'समय-सीमा और दैनिक व्यय स्वीकृति कार्ड');
+                let cardDesc = currentLang === 'english' ? 'Approve this timeline day task and expense?' : 'क्या इस दिन के ऑटो-टारगेट और खर्च को आगे बढ़ाएं?';
 
+                let cardId = 'card_' + Date.now();
                 finalHTML += `
-                    <div class="yesno-card">
+                    <div class="yesno-card" id="${cardId}">
                         <div class="yesno-title">🛡️ ${cardTitle}</div>
                         <div class="yesno-desc">${cardDesc}</div>
                         <div class="yesno-buttons">
-                            <button class="yes-btn" onclick="handleYesAction()">${yesText}</button>
-                            <button class="no-btn" onclick="handleNoAction()">${noText}</button>
+                            <button class="yes-btn" onclick="handleYesAction('${cardId}')">${yesText}</button>
+                            <button class="no-btn" onclick="handleNoAction('${cardId}')">${noText}</button>
                         </div>
                     </div>
                 `;
 
                 appendMessage(finalHTML, 'bot-msg');
             } else {
-                appendMessage(`⚠️ API में कुछ गड़बड़ हो गई: ${data.error ? data.error.message : "फेल"}`, 'bot-msg');
+                appendMessage(`⚠️ API में गड़बड़ हो गई: ${data.error ? data.error.message : "फेल"}`, 'bot-msg');
             }
         } catch(e) {
             if(document.getElementById('loadingMsg')) chatBox.removeChild(document.getElementById('loadingMsg'));
@@ -531,7 +541,13 @@
         }
     }
 
-    function handleYesAction() {
+    async function handleYesAction(cardId) {
+        let card = document.getElementById(cardId);
+        if(card) {
+            let btns = card.querySelectorAll('button');
+            btns.forEach(b => b.disabled = true);
+        }
+
         if(!db.packageData) return;
         let p = db.packageData;
         let increment = Math.round(p.goal * 0.15); 
@@ -540,28 +556,38 @@
         updateUIStats();
         
         let currentLang = db.language || 'hindi';
-        let successMsg = "";
+        let promptText = "";
         if(currentLang === 'english') {
-            successMsg = `Great job! Another step completed successfully! 🚀<br>Progress is now <b>₹${p.current.toLocaleString()} / ₹${p.goal.toLocaleString()}</b>. What's the next step?`;
+            promptText = `I have completed this day's task. Progress is now ₹${p.current} of ₹${p.goal}. Please provide the next day's schedule, task, and exact spending details based on the timeline.`;
         } else if(currentLang === 'hinglish') {
-            successMsg = `बढ़िया भाई! एक और सीढ़ी पार कर ली तूने! 🚀<br>प्रोग्रेस बढ़कर <b>₹${p.current.toLocaleString()} / ₹${p.goal.toLocaleString()}</b> हो गई है। बता भाई, अब अगली सीढ़ी पर क्या करना है?`;
+            promptText = `भाई इस दिन का काम पूरा हो गया है! प्रोग्रेस ₹${p.current} / ₹${p.goal} हो गई है। अब टाइमलाइन के हिसाब से अगले दिन का टास्क और खर्च का हिसाब बता।`;
         } else {
-            successMsg = `बहुत बढ़िया! आपने एक और सीढ़ी सफलतापूर्वक पार कर ली है! 🚀<br>प्रगति बढ़कर <b>₹${p.current.toLocaleString()} / ₹${p.goal.toLocaleString()}</b> हो गई है। बताइए, अब अगला सुरक्षित कदम क्या होगा?`;
+            promptText = `इस दिन का कार्य पूरा हो गया है। प्रगति अब ₹${p.current} / ₹${p.goal} है। अब निर्धारित समय-सीमा के अनुसार अगले दिन का कार्य और व्यय बताइए।`;
         }
-        appendMessage(successMsg, 'bot-msg');
+
+        appendMessage(promptText, 'user-msg');
+        await triggerAIResponse(promptText);
     }
 
-    function handleNoAction() {
-        let currentLang = db.language || 'hindi';
-        let cancelMsg = "";
-        if(currentLang === 'english') {
-            cancelMsg = `Alright, step halted! Safety first, no unnecessary risks. What should we change?`;
-        } else if(currentLang === 'hinglish') {
-            cancelMsg = `ठीक है भाई, स्टेप रोक दिया! बिना सोचे-समझे पैसा या रिस्क नहीं लेना है। बता, इसमें क्या चेंज करना है?`;
-        } else {
-            cancelMsg = `ठीक है, इस कदम को रोक दिया गया है! बिना सोचे-समझे कोई जोखिम नहीं लेना है। बताइए, इसमें क्या सुधार करना है?`;
+    async function handleNoAction(cardId) {
+        let card = document.getElementById(cardId);
+        if(card) {
+            let btns = card.querySelectorAll('button');
+            btns.forEach(b => b.disabled = true);
         }
-        appendMessage(cancelMsg, 'bot-msg');
+
+        let currentLang = db.language || 'hindi';
+        let promptText = "";
+        if(currentLang === 'english') {
+            promptText = `I want to adjust this timeline day task. Let's recalculate the expenses and steps safely.`;
+        } else if(currentLang === 'hinglish') {
+            promptText = `भाई इस दिन की टाइमलाइन या खर्चे में बदलाव करना है। दोबारा सही से कैलकुलेट करके बता।`;
+        } else {
+            promptText = `इस दिन के कार्य और व्यय की योजना में बदलाव करना है। इसे दोबारा सही से सुझाइए।`;
+        }
+
+        appendMessage(promptText, 'user-msg');
+        await triggerAIResponse(promptText);
     }
 </script>
 
